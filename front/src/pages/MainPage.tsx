@@ -1,35 +1,22 @@
 import styled from "styled-components";
 import LogoImg from "@/assets/images/seenearIcon.svg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { currentTimer } from "@/utils/timerUtils";
 
 const MainPage = () => {
-  const [timer, setTimer] = useState("00시 00분 00초");
+  const [timer, setTimer] = useState("0000년 00월 00일 00시 00분 00초");
 
-  const currentTimer = () => {
-    const date = new Date();
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    const seconds = String(date.getSeconds()).padStart(2, "0");
-    setTimer(`${hours}시 ${minutes}분 ${seconds}초`);
-  };
-
-  const startTimer = () => {
-    setInterval(currentTimer, 1000);
-  };
-
-  const today = new Date();
-
-  const formattedDate = `${today.getFullYear()}년 ${
-    today.getMonth() + 1
-  }월 ${today.getDate()}일`;
-
-  startTimer();
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const newTime = currentTimer();
+      setTimer(newTime);
+    }, 1000);
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <MainPageStyled>
-      <CurrentTimeStyled>
-        {formattedDate} {timer}
-      </CurrentTimeStyled>
+      <CurrentTimeStyled>{timer}</CurrentTimeStyled>
       <ConstantBoxWapped>
         <ContentBoxStyled>
           <LogoImgStyled src={LogoImg} />
