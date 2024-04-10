@@ -5,5 +5,18 @@ module.exports = {
     alias: {
       "@": path.resolve(__dirname, "src/"),
     },
+    module: {
+      rules: [
+        {
+          test: /\.svg$/,
+          use: [
+            {
+              loader: "@svgr/webpack",
+            },
+            "url-loader",
+          ],
+        },
+      ],
+    },
   },
 };
