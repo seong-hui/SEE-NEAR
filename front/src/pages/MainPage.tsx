@@ -129,13 +129,13 @@ const ContentBoxStyled = styled.div.withConfig({
     props.active &&
     `
     width: 90%;
-    height: 600px;
+    height: 450px;
   `}
   ${(props) =>
     !props.active &&
     `
     width: 50%;
-    height: 600px;
+    height: 450px;
   `}
 `;
 

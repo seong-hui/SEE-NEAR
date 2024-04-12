@@ -32,8 +32,8 @@ const LeftNav = () => {
 };
 
 const LeftNavStyled = styled.nav`
+  width: 230px;
   height: 100%;
-  width: 250px;
   border-right: 1px solid var(--light-grey-color);
   padding: 20px;
 `;
@@ -54,15 +54,19 @@ const TopLavTitleStyled = styled.div`
   font-size: 30px;
 `;
 
-const NavSectionStyled = styled.section``;
+const NavSectionStyled = styled.section`
+  height: 80%;
+`;
 
 const NavBtnsStyled = styled.ul`
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   list-style: none;
   padding: 0;
 `;
+
 const NavBtnStyled = styled.li`
   width: 85%;
   height: 50px;
@@ -72,7 +76,7 @@ const NavBtnStyled = styled.li`
   align-items: center;
   padding-left: 30px;
   &:last-child {
-    margin-bottom: 0;
+    margin-top: auto;
   }
   &:hover {
     color: white;
@@ -85,4 +89,5 @@ const NavBtnStyled = styled.li`
     margin-right: 10px;
   }
 `;
+
 export default LeftNav;
