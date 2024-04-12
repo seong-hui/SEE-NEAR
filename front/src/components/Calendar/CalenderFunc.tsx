@@ -26,37 +26,36 @@ const CalendarFunc = () => {
 
   const test2Day = ["2024-04-14", "2024-04-01", "2024-04-22", "2024-04-17"];
   const test3Day = ["2024-04-19"];
-  const test4Day = ["2024-04-04"];
+  const test4Day = ["2024-04-04", "2024-04-16"];
   const test5Day = ["2024-04-10"];
 
   return (
-    <>
-      <StyleCalendar
-        onChange={onChangeDay}
-        value={value}
-        minDetail="year" // 10년단위 년도 숨기기
-        next2Label={null} // +1년 & +10년 이동 버튼 숨기기
-        prev2Label={null} // -1년 & -10년 이동 버튼 숨기기
-        showNeighboringMonth={false}
-        tileContent={({ date }) => {
-          const html = [];
-          if (test1Day.find((x) => x === formatDate(date))) {
-            html.push(<EmotionImg src={Emotion1Img} key={formatDate(date)} />);
-          } else if (test2Day.find((x) => x === formatDate(date))) {
-            html.push(<EmotionImg src={Emotion2Img} key={formatDate(date)} />);
-          } else if (test3Day.find((x) => x === formatDate(date))) {
-            html.push(<EmotionImg src={Emotion3Img} key={formatDate(date)} />);
-          } else if (test4Day.find((x) => x === formatDate(date))) {
-            html.push(<EmotionImg src={Emotion4Img} key={formatDate(date)} />);
-          } else if (test5Day.find((x) => x === formatDate(date))) {
-            html.push(<EmotionImg src={Emotion5Img} key={formatDate(date)} />);
-          } else {
-            html.push(<BasicDotStyled key={formatDate(date)} />);
-          }
-          return <>{html}</>;
-        }}
-      />
-    </>
+    <StyleCalendar
+      onChange={onChangeDay}
+      value={value}
+      formatDay={(locale, date) => date.getDate().toString()} //날짜에서 "일"빼고 숫자만 보여주기
+      minDetail="year" // 10년단위 년도 숨기기
+      next2Label={null} // +1년 & +10년 이동 버튼 숨기기
+      prev2Label={null} // -1년 & -10년 이동 버튼 숨기기
+      showNeighboringMonth={false} //앞뒤 달의 이어지는 날짜 보여주기 여부
+      tileContent={({ date }) => {
+        const html = [];
+        if (test1Day.find((x) => x === formatDate(date))) {
+          html.push(<EmotionImg src={Emotion1Img} key={formatDate(date)} />);
+        } else if (test2Day.find((x) => x === formatDate(date))) {
+          html.push(<EmotionImg src={Emotion2Img} key={formatDate(date)} />);
+        } else if (test3Day.find((x) => x === formatDate(date))) {
+          html.push(<EmotionImg src={Emotion3Img} key={formatDate(date)} />);
+        } else if (test4Day.find((x) => x === formatDate(date))) {
+          html.push(<EmotionImg src={Emotion4Img} key={formatDate(date)} />);
+        } else if (test5Day.find((x) => x === formatDate(date))) {
+          html.push(<EmotionImg src={Emotion5Img} key={formatDate(date)} />);
+        } else {
+          html.push(<BasicDotStyled key={formatDate(date)} />);
+        }
+        return <>{html}</>;
+      }}
+    />
   );
 };
 
