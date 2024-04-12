@@ -19,11 +19,13 @@ const CalendarFunc = () => {
 export const StyleCalendar = styled(Calendar)`
   width: 700px;
   padding: 20px;
+  border: none;
+  background-color: var(--background-color);
+
   .react-calendar {
     width: 500px;
     max-width: 100%;
     background: white;
-    border: 1px solid #a0a096;
     line-height: 1.125em;
   }
 
