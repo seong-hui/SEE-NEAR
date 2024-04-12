@@ -21,10 +21,11 @@ const DailySection = () => {
 const DailySectionStyled = styled.div`
   width: 280px;
   height: 100%;
-  background-color: var(--sub-color);
+  /* background-color: var(--sub-color); */
+  background-color: #cddbed;
   padding: 50px 40px;
   border-left: 1px solid var(--light-grey-color);
-  border-top-left-radius: 20px;
+  border-top-left-radius: 30px;
 `;
 const TodayDateStyled = styled.div`
   font-size: 24px;

@@ -8,22 +8,24 @@ import VerticalSetImg from "@/assets/images/more_vertical.svg";
 
 const Keyword = () => {
   return (
-    <KeywordStyled>
-      <EmojiWapped>
-        <EmojiStyled src={Emotion1Img}></EmojiStyled>
-      </EmojiWapped>
-      <KeywordTextStyeld>
-        <WordTextStyeld>꽃놀이</WordTextStyeld>
-        <TimeTextStyled>13:00 PM - 13:12 PM</TimeTextStyled>
-      </KeywordTextStyeld>
-      <SetimgStyled src={VerticalSetImg}></SetimgStyled>
-    </KeywordStyled>
+    <>
+      <KeywordStyled>
+        <EmojiWapped>
+          <EmojiStyled src={Emotion1Img}></EmojiStyled>
+        </EmojiWapped>
+        <KeywordTextStyeld>
+          <WordTextStyeld>꽃놀이</WordTextStyeld>
+          <TimeTextStyled>13:00 PM - 13:12 PM</TimeTextStyled>
+        </KeywordTextStyeld>
+        <SetimgStyled src={VerticalSetImg}></SetimgStyled>
+      </KeywordStyled>
+    </>
   );
 };
 
 const KeywordStyled = styled.div`
   height: 80px;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.8);
   border-radius: 10px;
   display: flex;
   align-items: center;
