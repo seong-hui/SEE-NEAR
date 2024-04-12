@@ -1,5 +1,6 @@
 import { styled } from "styled-components";
 import TodoContainer from "@/components/Todo/Todo.container";
+import KeywordContainer from "@/components/Keyword/Keyword.container";
 
 const DailySection = () => {
   return (
@@ -11,6 +12,7 @@ const DailySection = () => {
       </TodoBoxStyled>
       <KeywordBoxStyled>
         <BoxTitleStyled>오늘의 키워드</BoxTitleStyled>
+        <KeywordContainer />
       </KeywordBoxStyled>
     </DailySectionStyled>
   );
@@ -31,7 +33,7 @@ const TodayDateStyled = styled.div`
 const TodoBoxStyled = styled.div``;
 const BoxTitleStyled = styled.div`
   font-weight: bold;
-  margin: 30px 0;
+  margin: 30px 0 15px;
 `;
 
 const KeywordBoxStyled = styled.div``;
