@@ -21,18 +21,12 @@ export const StyleCalendar = styled(Calendar)`
   padding: 20px;
   border: none;
   background-color: var(--background-color);
-
-  .react-calendar {
-    width: 500px;
-    max-width: 100%;
-    background: white;
-    line-height: 1.125em;
-  }
+  line-height: 5em;
 
   .react-calendar__tile--now {
     background: var(--main-color);
     color: white;
-    border-radius: 50px;
+    border-radius: 50%;
   }
 
   .react-calendar__tile--now:enabled:hover,

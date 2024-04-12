@@ -1,4 +1,5 @@
 import { styled } from "styled-components";
+import TodoContainer from "@/components/Todo/Todo.container";
 
 const DailySection = () => {
   return (
@@ -6,6 +7,7 @@ const DailySection = () => {
       <TodayDateStyled>4월 12일 금요일</TodayDateStyled>
       <TodoBoxStyled>
         <BoxTitleStyled>오늘의 일정</BoxTitleStyled>
+        <TodoContainer />
       </TodoBoxStyled>
       <KeywordBoxStyled>
         <BoxTitleStyled>오늘의 키워드</BoxTitleStyled>
