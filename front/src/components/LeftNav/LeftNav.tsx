@@ -4,7 +4,11 @@ import { ReactComponent as AnalysisImg } from "@/assets/images/analysis.svg";
 import { ReactComponent as CategoryImg } from "@/assets/images/category.svg";
 import { ReactComponent as SettingImg } from "@/assets/images/setting.svg";
 
-const LeftNav = () => {
+interface ILeftNav {
+  pathname: string;
+}
+
+const LeftNav = ({ pathname }: ILeftNav) => {
   return (
     <LeftNavStyled>
       <TopNavStyled>
@@ -13,15 +17,21 @@ const LeftNav = () => {
       </TopNavStyled>
       <NavSectionStyled>
         <NavBtnsStyled>
-          <NavBtnStyled>
+          <NavBtnStyled
+            className={pathname.includes("family") ? "activeBtn" : ""}
+          >
             <CategoryImg fill="var(--main-color)" />
             감정 기록
           </NavBtnStyled>
-          <NavBtnStyled>
+          <NavBtnStyled
+            className={pathname.includes("family1") ? "activeBtn" : ""}
+          >
             <AnalysisImg fill="var(--main-color)" />
             주간 분석
           </NavBtnStyled>
-          <NavBtnStyled>
+          <NavBtnStyled
+            className={pathname.includes("family2") ? "activeBtn" : ""}
+          >
             <SettingImg fill="var(--main-color)" />
             설정
           </NavBtnStyled>
@@ -75,10 +85,18 @@ const NavBtnStyled = styled.li`
   display: flex;
   align-items: center;
   padding-left: 30px;
+  margin-bottom: 10px;
   &:last-child {
     margin-top: auto;
   }
   &:hover {
+    color: white;
+    background-color: var(--main-color);
+    svg {
+      fill: white;
+    }
+  }
+  &.activeBtn {
     color: white;
     background-color: var(--main-color);
     svg {
