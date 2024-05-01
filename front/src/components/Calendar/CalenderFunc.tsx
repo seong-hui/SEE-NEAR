@@ -8,9 +8,11 @@ import Emotion3Img from "@/assets/images/emoji3.svg";
 import Emotion4Img from "@/assets/images/emoji4.svg";
 import Emotion5Img from "@/assets/images/emoji5.svg";
 import { formatDate } from "@/utils/formatDateUtils";
+import { selectedDateState } from "@/recoil/atom";
+import { useRecoilState } from "recoil";
 
 const CalendarFunc = () => {
-  const [value, setValue] = useState(new Date());
+  const [value, setValue] = useRecoilState(selectedDateState);
   const onClickDay = (date: Date) => {
     setValue(date);
     console.log("Selected date:", formatDate(date));

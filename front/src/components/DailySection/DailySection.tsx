@@ -1,11 +1,16 @@
 import { styled } from "styled-components";
 import TodoContainer from "@/components/Todo/Todo.container";
 import KeywordContainer from "@/components/Keyword/Keyword.container";
+import { useRecoilValue } from "recoil";
+import { selectedDateState } from "@/recoil/atom";
+import { formatDate2 } from "@/utils/formatDateUtils";
 
 const DailySection = () => {
+  const currentDate = useRecoilValue(selectedDateState);
+
   return (
     <DailySectionStyled>
-      <TodayDateStyled>4월 12일 금요일</TodayDateStyled>
+      <TodayDateStyled>{formatDate2(currentDate)}</TodayDateStyled>
       <TodoBoxStyled>
         <BoxTitleStyled>오늘의 일정</BoxTitleStyled>
         <TodoContainer />
@@ -21,7 +26,6 @@ const DailySection = () => {
 const DailySectionStyled = styled.div`
   width: 280px;
   height: 100%;
-  /* background-color: var(--sub-color); */
   background-color: #cddbed;
   padding: 50px 40px;
   border-left: 1px solid var(--light-grey-color);
