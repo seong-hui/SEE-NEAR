@@ -10,10 +10,10 @@ import Emotion5Img from "@/assets/images/emoji5.svg";
 import { formatDate } from "@/utils/formatDateUtils";
 
 const CalendarFunc = () => {
-  const [value, onChange] = useState(new Date());
-  const onChangeDay = () => {
-    onChange(value);
-    console.log(value);
+  const [value, setValue] = useState(new Date());
+  const onClickDay = (date: Date) => {
+    setValue(date);
+    console.log("Selected date:", formatDate(date));
   };
 
   const test1Day = [
@@ -31,7 +31,7 @@ const CalendarFunc = () => {
 
   return (
     <StyleCalendar
-      onChange={onChangeDay}
+      onClickDay={onClickDay}
       value={value}
       formatDay={(locale, date) => date.getDate().toString()} //날짜에서 "일"빼고 숫자만 보여주기
       minDetail="year" // 10년단위 년도 숨기기
