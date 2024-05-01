@@ -14,10 +14,10 @@
     2. git commit -m "commit_message" (파일 커밋)
     3. git push --set-upstream origin <branch_name> (파일 원격저장소로 올림, 현재 branch로)
     4. 
-        -개발 완료 (github)
+        - 개발 완료 (github)
             1. pull request
             2. 피드백 받고
             3. merge
-        -개발 완료 (local)
+        - 개발 완료 (local)
             1. git checkout dev (dev branch로 이동)
             2. git branch -d <branch_name> (생성한 브랜치 삭제)
