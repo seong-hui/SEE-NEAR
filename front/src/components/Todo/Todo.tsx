@@ -2,11 +2,37 @@ import { styled } from "styled-components";
 import AddBtn from "@/assets/images/addbtn.svg";
 import CircleImg from "@/assets/images/circle.svg";
 import VerticalSetImg from "@/assets/images/more_vertical.svg";
+import axios from "axios";
+import { useState, useEffect } from "react";
+
+interface TodoItem {
+  id: number;
+  title: string;
+  time: string;
+}
 
 const Todo = () => {
+  const [todos, setTodos] = useState<TodoItem[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchTodos = async () => {
+      setIsLoading(true);
+      try {
+        const response = await axios.get("https:///todos");
+        setTodos(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+      setIsLoading(false);
+    };
+
+    fetchTodos();
+  }, []);
+
   return (
     <TodoStyled>
-      <TodoBoxStyled>
+      {/* <TodoBoxStyled>
         <CircleImgStyled src={CircleImg}></CircleImgStyled>
         <TodoTitleStyled>브런치 약속</TodoTitleStyled>
         <TimeTextStyled>11:00</TimeTextStyled>
@@ -23,7 +49,15 @@ const Todo = () => {
         <TodoTitleStyled>저녁 식사 약속</TodoTitleStyled>
         <TimeTextStyled>19:00</TimeTextStyled>
         <SetImgStyled src={VerticalSetImg}></SetImgStyled>
-      </TodoBoxStyled>
+      </TodoBoxStyled> */}
+      {todos.map((todo) => (
+        <TodoBoxStyled key={todo.id}>
+          <CircleImgStyled src={CircleImg}></CircleImgStyled>
+          <TodoTitleStyled>{todo.title}</TodoTitleStyled>
+          <TimeTextStyled>{todo.time}</TimeTextStyled>
+          <SetImgStyled src={VerticalSetImg}></SetImgStyled>
+        </TodoBoxStyled>
+      ))}
       <AddBtnStyled>
         일정 추가<AddBtnImgStyled src={AddBtn}></AddBtnImgStyled>
       </AddBtnStyled>
