@@ -19,7 +19,7 @@ const Todo = () => {
     const fetchTodos = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get("https:///todos");
+        const response = await axios.get("BASE_URL/events/2024-05-01/");
         setTodos(response.data);
       } catch (error) {
         console.error(error);

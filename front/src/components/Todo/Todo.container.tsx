@@ -1,5 +1,9 @@
 import Todo from "@/components/Todo/Todo";
-const TodoContainer = () => {
+interface TodoContainerInterface {
+  selectedDate: string;
+}
+
+const TodoContainer = ({ selectedDate }: TodoContainerInterface) => {
   return <Todo />;
 };
 export default TodoContainer;
