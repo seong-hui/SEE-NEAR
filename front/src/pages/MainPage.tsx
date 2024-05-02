@@ -54,12 +54,6 @@ const MainPage = () => {
           <LogoImgStyled src={LogoImg} />
           <ContentTitle>
             {isChatActive ? "대화 종료" : "대화 시작"}
-            <PromptSubmit
-              isloading={isloading}
-              setIsLoading={setIsLoading}
-              setList={setList}
-              list={list}
-            />
           </ContentTitle>
         </ContentBoxStyled>
         {!isChatActive && (
