@@ -24,7 +24,7 @@ def get_ai_response(prompt):
                 "content": prompt
             },
         ],
-        max_tokens=10,
+        max_tokens=200,
         temperature=0.8,
         stop=[' Human:', ' AI:']
         )

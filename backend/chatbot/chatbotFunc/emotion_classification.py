@@ -23,7 +23,7 @@ max_len = 100
 
 #     return model
 
-model = load_model('media/Speech-Emotion-Recognition-Model.h5')
+model = load_model('media/Speech-Emotion-Recognition-Model (2).h5')
 
 def emotion_classification(input_path):
     signal, sample_rate = librosa.load(input_path, sr=SAMPLE_RATE)
