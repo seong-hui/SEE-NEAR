@@ -8,7 +8,7 @@ urlpatterns = [
     path('auth/', include("authentication.urls")),
     path('events/', include("events.urls")),
     path('posts/', include("conversation.urls")),
-    path('chatbot/', include("chatbot.urls")),
+    path('api/', include('chatbot.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
     

@@ -8,6 +8,7 @@ from .chatbotFunc.chatbotFunc import *
 from .chatbotFunc.keyword_extraction import *
 from .chatbotFunc.emotion_classification import *
 from os import remove
+from pydub import AudioSegment
 
 
 import os
@@ -24,7 +25,8 @@ def endConversation(request):
     
     with open('media/text.txt', "r", encoding='utf-8') as f:
         text = f.readlines()
-        
+    
+    print(text)
     keyword = keyword_extraction(text)
     print("keyword:", keyword[0])
     emotion = emotion_classification('media/input.wav')
@@ -90,10 +92,11 @@ interest = '임영웅', '봄', '강아지'
 diasease = '당뇨'
 prompt_list = [
                 '너는 혼자계신 시니어분의 말동무 역할을 수행하게 될거야. 사용자의 정보를 알려줄게',
-                f'시니어 분의 성별은 {sex}이고 나이는 {age}세 이시며 관심사로는 {interest}등이 있고 {diasease}와 같은 질병을 앓고 계셔',
+                f'시니어 분의 성별은 {sex}이고 나이는 {age}세 이시며 {diasease}와 같은 질병을 앓고 계셔',
                 '위 정보를 참고해서 이 분이 심심하지 않으시게 일상생활의 간단한 질문이나 대답을 해주면 되',
                 '너무 자세하게 질문과 대답을 하기보단 호응해주고 맞춰주는 식으로 대화를 해줘',
-                '무조건 존댓말로 대답해줘',
+                '무조건 존댓말로 대답해줘','대답은 짧고 간결하게 한두문장으로 해줘',
+                '대화가 이어갈수 있도록 질문을 해줘도 좋아'
                 ]
 
 @api_view(['POST'])
@@ -102,20 +105,36 @@ def chatbot(request):
         # GET speech-recognition user_input text from frontend and print
         user_input = request.POST.get('text', '')
         print(f'Input: {user_input}')
+        
+        audio = request.FILES.get('audio')
+        print(audio)
 
         # Append new user_input text data, if not exits, create new file and append
+        audio_path = os.path.join(settings.MEDIA_ROOT, 'input.webm')
+        input_audio_path = os.path.join(settings.MEDIA_ROOT, 'input.wav')
         text_path = os.path.join(settings.MEDIA_ROOT, 'text.txt')
         if not os.path.exists(text_path):
-            open(text_path, 'w').close()
+            open(text_path, 'w', encoding='utf-8').close()
 
-        with open(text_path, 'a') as f:
+        with open(text_path, 'a', encoding='utf-8') as f:
             f.write(user_input + '\n')
+            
+        with open(audio_path, 'ab') as f:
+            for chunk in audio.chunks():
+                f.write(chunk)
+                
+        sound = AudioSegment.from_file(audio_path, format="webm")
+        
+        if sound.frame_rate != 44100:
+            sound = sound.set_frame_rate(44100)
+
+        sound.export(input_audio_path, format="wav")
         
         # Create prompt & Get response
         prompt = create_prompt(user_input, prompt_list)
         response = get_ai_response(prompt)
 
-        print(f'Response data: {response}')
+        # print(f'Response data: {response}')
 
         # If response exist update_list & Get response reply
         if response:
