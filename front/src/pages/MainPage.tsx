@@ -3,6 +3,7 @@ import LogoImg from "@/assets/images/seenearIcon.svg";
 import { useState, useEffect } from "react";
 import { currentTimer } from "@/utils/timerUtils";
 import PromptSubmit from "@/components/PromptSubmit";
+import Chatbot from "@/test";
 
 const initialSchedules = [
   { id: 1, title: "아침 약속", time: "09:00" },
@@ -44,7 +45,7 @@ const MainPage = () => {
 
   //챗봇
   const [list, setList] = useState<PromptData[]>([]);
-  const [isloading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   return (
     <MainPageStyled>
@@ -52,9 +53,15 @@ const MainPage = () => {
       <ConstantBoxWapped>
         <ContentBoxStyled onClick={onClickChatBtn} active={isChatActive}>
           <LogoImgStyled src={LogoImg} />
-          <ContentTitle>
+          {/* <ContentTitle>
             {isChatActive ? "대화 종료" : "대화 시작"}
-          </ContentTitle>
+          </ContentTitle> */}
+          <Chatbot
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+            setList={setList}
+            list={list}
+          />
         </ContentBoxStyled>
         {!isChatActive && (
           <ContentBoxStyled>
