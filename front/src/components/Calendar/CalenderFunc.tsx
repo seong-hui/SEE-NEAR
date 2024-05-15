@@ -1,6 +1,5 @@
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { useState } from "react";
 import { styled } from "styled-components";
 import Emotion1Img from "@/assets/images/emoji1.svg";
 import Emotion2Img from "@/assets/images/emoji2.svg";
@@ -8,16 +7,13 @@ import Emotion3Img from "@/assets/images/emoji3.svg";
 import Emotion4Img from "@/assets/images/emoji4.svg";
 import Emotion5Img from "@/assets/images/emoji5.svg";
 import { formatDate } from "@/utils/formatDateUtils";
-import { selectedDateState } from "@/recoil/atom";
-import { useRecoilState } from "recoil";
 
-const CalendarFunc = () => {
-  const [value, setValue] = useRecoilState(selectedDateState);
-  const onClickDay = (date: Date) => {
-    setValue(date);
-    console.log("Selected date:", formatDate(date));
-  };
+interface CalendarFuncProps {
+  onClickDay: (date: Date) => void;
+  selectedDate: Date;
+}
 
+const CalendarFunc = ({ onClickDay, selectedDate }: CalendarFuncProps) => {
   const test1Day = [
     "2024-05-11",
     "2024-05-29",
@@ -34,7 +30,7 @@ const CalendarFunc = () => {
   return (
     <StyleCalendar
       onClickDay={onClickDay}
-      value={value}
+      value={selectedDate}
       formatDay={(locale, date) => date.getDate().toString()} //날짜에서 "일"빼고 숫자만 보여주기
       minDetail="year" // 10년단위 년도 숨기기
       next2Label={null} // +1년 & +10년 이동 버튼 숨기기

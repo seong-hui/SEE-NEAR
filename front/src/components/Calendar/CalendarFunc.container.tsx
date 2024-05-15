@@ -1,14 +1,13 @@
 import CalendarFunc from "@/components/Calendar/CalenderFunc";
-import { useState } from "react";
-import { formatDate } from "@/utils/formatDateUtils";
+import { selectedDateState } from "@/recoil/atom";
+import { useRecoilState } from "recoil";
 
 const CalendarFuncContainer = () => {
-  // const [value, setValue] = useState(new Date());
-  // const onClickDay = (date: Date) => {
-  //   setValue(date);
-  //   console.log("Selected date:", formatDate(date));
-  // };
-  return <CalendarFunc />;
+  const [selectedDate, setSelectedDate] = useRecoilState(selectedDateState);
+  const onClickDay = (date: Date) => {
+    setSelectedDate(date);
+  };
+  return <CalendarFunc onClickDay={onClickDay} selectedDate={selectedDate} />;
 };
 
 export default CalendarFuncContainer;

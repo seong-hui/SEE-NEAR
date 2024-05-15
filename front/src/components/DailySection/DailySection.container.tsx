@@ -1,6 +1,9 @@
 import DailySection from "@/components/DailySection/DailySection";
+import { useRecoilValue } from "recoil";
+import { selectedDateState } from "@/recoil/atom";
 
 const DailySectionContainer = () => {
-  return <DailySection />;
+  const currentDate = useRecoilValue(selectedDateState);
+  return <DailySection currentDate={currentDate} />;
 };
 export default DailySectionContainer;
