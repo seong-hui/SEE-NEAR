@@ -2,34 +2,27 @@ import Todo from "@/components/Todo/Todo";
 import { useState, useEffect } from "react";
 import { axiosEventsCheck } from "@/api/axios/axiosCustom";
 import dummyTodos from "@/assets/data/dummyTodos";
+import { EventDto } from "@/dto/dto";
 interface TodoContainerProps {
   selectedDate: string;
 }
 
-interface EventsCheckResponse {
-  id: number;
-  title: string;
-  location: string;
-  datetime: string;
-}
-
 const TodoContainer = ({ selectedDate }: TodoContainerProps) => {
-  // const [todos, setTodos] = useState<EventsCheckResponse[]>([]);
+  // const [todos, setTodos] = useState<EventDto[]>([]);
   const [todos, setTodos] = useState(dummyTodos);
   const [showAddModal, setShowAddModal] = useState(false);
 
   useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axiosEventsCheck(selectedDate);
+        setTodos(response);
+      } catch (error) {
+        console.error(error);
+      }
+    };
     fetchEvents();
   }, [selectedDate]);
-
-  const fetchEvents = async () => {
-    try {
-      const response = await axiosEventsCheck(selectedDate);
-      setTodos(response);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const handleAddClick = () => {
     setShowAddModal(true);
@@ -39,9 +32,7 @@ const TodoContainer = ({ selectedDate }: TodoContainerProps) => {
     setShowAddModal(false);
   };
 
-  const [selectedTodo, setSelectedTodo] = useState<EventsCheckResponse | null>(
-    null
-  );
+  const [selectedTodo, setSelectedTodo] = useState<EventDto | null>(null);
   const [showDetailModal, setShowDetailModal] = useState(false);
 
   const handleCloseDetailModal = () => {
@@ -49,7 +40,7 @@ const TodoContainer = ({ selectedDate }: TodoContainerProps) => {
     setSelectedTodo(null);
   };
 
-  const handleTodoClick = (todo: EventsCheckResponse) => {
+  const handleTodoClick = (todo: EventDto) => {
     setSelectedTodo(todo);
     setShowDetailModal(true);
   };

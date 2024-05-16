@@ -2,42 +2,32 @@ import Keyword from "@/components/Keyword/Keyword";
 import { useState, useEffect } from "react";
 import { axiosConvList } from "@/api/axios/axiosCustom";
 import { dummyKeywords } from "@/assets/data/dummyKeywords";
+import { ConversationDto } from "@/dto/dto";
 
-interface ConvResponse {
-  id: number;
-  content: string;
-  start: string;
-  end: string;
-  keyword: string;
-  emotion: number;
-}
 interface KeywordContainerProps {
   selectedDate: string;
 }
 
 const KeywordContainer = ({ selectedDate }: KeywordContainerProps) => {
-  useEffect(() => {
-    fetchConv();
-  }, []);
-
   // const [keywords, setKeywords] = useState<ConvResponse[]>([]);
   const [keywords, setKeywords] = useState(dummyKeywords);
+  useEffect(() => {
+    const fetchConv = async () => {
+      try {
+        const response = await axiosConvList(selectedDate);
+        setKeywords(response);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchConv();
+  }, [selectedDate]);
 
-  const fetchConv = async () => {
-    try {
-      const response = await axiosConvList(selectedDate);
-      setKeywords(response);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const [selectedKeyword, setSelectedKeyword] = useState<ConvResponse | null>(
-    null
-  );
+  const [selectedKeyword, setSelectedKeyword] =
+    useState<ConversationDto | null>(null);
   const [showModal, setShowModal] = useState(false);
 
-  const handleKeywordClick = (keyword: ConvResponse) => {
+  const handleKeywordClick = (keyword: ConversationDto) => {
     setSelectedKeyword(keyword);
     setShowModal(true);
   };

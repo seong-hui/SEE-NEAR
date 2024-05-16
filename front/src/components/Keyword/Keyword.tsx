@@ -7,22 +7,14 @@ import Emotion5Img from "@/assets/images/emoji5.svg";
 import VerticalSetImg from "@/assets/images/more_vertical.svg";
 import { formatTime } from "@/utils/formatTime";
 import KeywordModal from "../modal/KeywordModal";
-
-interface ConvResponse {
-  id: number;
-  content: string;
-  start: string;
-  end: string;
-  keyword: string;
-  emotion: number;
-}
+import { ConversationDto } from "@/dto/dto";
 
 interface KeywordProps {
-  keywords: ConvResponse[];
+  keywords: ConversationDto[];
   showModal: boolean;
-  handleKeywordClick: (keyword: ConvResponse) => void;
+  handleKeywordClick: (keyword: ConversationDto) => void;
   handleCloseModal: () => void;
-  selectedKeyword: ConvResponse | null;
+  selectedKeyword: ConversationDto | null;
 }
 
 const Keyword = ({

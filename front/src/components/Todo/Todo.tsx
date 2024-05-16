@@ -5,22 +5,16 @@ import VerticalSetImg from "@/assets/images/more_vertical.svg";
 import AddModal from "@/components/modal/Modal";
 import DetailModal from "../modal/DetailModal";
 import { extractTime } from "@/utils/extractTime";
-
-interface EventsCheckResponse {
-  id: number;
-  title: string;
-  location: string;
-  datetime: string;
-}
+import { EventDto } from "@/dto/dto";
 
 interface TodoProps {
-  todos: EventsCheckResponse[];
+  todos: EventDto[];
   handleAddClick: () => void;
   handleCloseModal: () => void;
   showAddModal: boolean;
-  selectedTodo: EventsCheckResponse | null;
+  selectedTodo: EventDto | null;
   handleCloseDetailModal: () => void;
-  handleTodoClick: (todo: EventsCheckResponse) => void;
+  handleTodoClick: (todo: EventDto) => void;
   showDetailModal: boolean;
 }
 const Todo = ({

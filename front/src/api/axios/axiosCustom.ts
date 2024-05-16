@@ -1,18 +1,12 @@
 import instance from "@/api/axios/axiosInstance";
-
-interface EventsResponse {
-  title: string;
-  location: string;
-  datetime: string;
-  id: number;
-}
+import { EventDto, ConversationDto } from "@/dto/dto";
 
 export const axiosEventsCreate = async (
   title: string,
   location: string,
   datetime: string
-): Promise<EventsResponse> => {
-  const response = await instance.post<EventsResponse>("/events/create", {
+): Promise<EventDto> => {
+  const response = await instance.post<EventDto>("/events/create", {
     title,
     location,
     datetime,
@@ -20,29 +14,18 @@ export const axiosEventsCreate = async (
   return response.data;
 };
 
-interface EventsCheckResponse {
-  id: number;
-  title: string;
-  location: string;
-  datetime: string;
-}
-
-export const axiosEventsCheck = async (
-  date: string
-): Promise<EventsCheckResponse[]> => {
+export const axiosEventsCheck = async (date: string): Promise<EventDto[]> => {
   try {
-    const response = await instance.get<EventsCheckResponse[]>(
-      `/events/${date}`
-    );
+    const response = await instance.get<EventDto[]>(`/events/${date}`);
     return response.data;
   } catch (error) {
     throw error;
   }
 };
 
-export const axiosFetchEvent = async (id: number): Promise<EventsResponse> => {
+export const axiosFetchEvent = async (id: number): Promise<EventDto> => {
   try {
-    const response = await instance.get<EventsResponse>(`/events/${id}`);
+    const response = await instance.get<EventDto>(`/events/${id}`);
     return response.data;
   } catch (error) {
     throw error;
@@ -54,10 +37,10 @@ export const axiosUpdateEvent = async (
   title: string,
   location: string,
   datetime: string
-): Promise<EventsResponse> => {
+): Promise<EventDto> => {
   try {
     const body = { title, location, datetime };
-    const response = await instance.put<EventsResponse>(`/events/${id}`, body);
+    const response = await instance.put<EventDto>(`/events/${id}`, body);
     return response.data;
   } catch (error) {
     throw error;
@@ -72,18 +55,11 @@ export const axiosDeleteEvent = async (id: number): Promise<void> => {
   }
 };
 
-interface ConvResponse {
-  id: number;
-  content: string;
-  start: string;
-  end: string;
-  keyword: string;
-  emotion: number;
-}
-
-export const axiosConvList = async (date: string): Promise<ConvResponse[]> => {
+export const axiosConvList = async (
+  date: string
+): Promise<ConversationDto[]> => {
   try {
-    const response = await instance.get<ConvResponse[]>(
+    const response = await instance.get<ConversationDto[]>(
       `/conv/reports/${date}`
     );
     return response.data;
@@ -92,9 +68,9 @@ export const axiosConvList = async (date: string): Promise<ConvResponse[]> => {
   }
 };
 
-export const axiosFetchConv = async (id: number): Promise<ConvResponse> => {
+export const axiosFetchConv = async (id: number): Promise<ConversationDto> => {
   try {
-    const response = await instance.get<ConvResponse>(`/conv/posts/${id}`);
+    const response = await instance.get<ConversationDto>(`/conv/posts/${id}`);
     return response.data;
   } catch (error) {
     throw error;
