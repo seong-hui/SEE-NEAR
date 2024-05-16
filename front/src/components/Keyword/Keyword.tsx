@@ -6,7 +6,6 @@ import Emotion4Img from "@/assets/images/emoji4.svg";
 import Emotion5Img from "@/assets/images/emoji5.svg";
 import VerticalSetImg from "@/assets/images/more_vertical.svg";
 import { formatTime } from "@/utils/formatTime";
-import { useState } from "react";
 import KeywordModal from "../modal/KeywordModal";
 
 interface ConvResponse {
@@ -20,9 +19,19 @@ interface ConvResponse {
 
 interface KeywordProps {
   keywords: ConvResponse[];
+  showModal: boolean;
+  handleKeywordClick: (keyword: ConvResponse) => void;
+  handleCloseModal: () => void;
+  selectedKeyword: ConvResponse | null;
 }
 
-const Keyword = ({ keywords }: KeywordProps) => {
+const Keyword = ({
+  keywords,
+  showModal,
+  handleKeywordClick,
+  handleCloseModal,
+  selectedKeyword,
+}: KeywordProps) => {
   const getEmoji = (mood: number) => {
     if (mood === 1) return Emotion1Img;
     else if (mood === 2) return Emotion2Img;
@@ -31,19 +40,6 @@ const Keyword = ({ keywords }: KeywordProps) => {
     else if (mood === 5) return Emotion5Img;
   };
 
-  const [selectedKeyword, setSelectedKeyword] = useState<ConvResponse | null>(
-    null
-  );
-  const [showModal, setShowModal] = useState(false);
-
-  const handleKeywordClick = (keyword: ConvResponse) => {
-    setSelectedKeyword(keyword);
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
   return (
     <>
       {keywords.map((keyword) => (

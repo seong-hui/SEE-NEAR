@@ -32,6 +32,28 @@ const KeywordContainer = ({ selectedDate }: KeywordContainerProps) => {
     }
   };
 
-  return <Keyword keywords={keywords} />;
+  const [selectedKeyword, setSelectedKeyword] = useState<ConvResponse | null>(
+    null
+  );
+  const [showModal, setShowModal] = useState(false);
+
+  const handleKeywordClick = (keyword: ConvResponse) => {
+    setSelectedKeyword(keyword);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  return (
+    <Keyword
+      keywords={keywords}
+      showModal={showModal}
+      handleKeywordClick={handleKeywordClick}
+      handleCloseModal={handleCloseModal}
+      selectedKeyword={selectedKeyword}
+    />
+  );
 };
 export default KeywordContainer;
