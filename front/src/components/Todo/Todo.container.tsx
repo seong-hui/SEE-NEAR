@@ -39,12 +39,31 @@ const TodoContainer = ({ selectedDate }: TodoContainerProps) => {
     setShowAddModal(false);
   };
 
+  const [selectedTodo, setSelectedTodo] = useState<EventsCheckResponse | null>(
+    null
+  );
+  const [showDetailModal, setShowDetailModal] = useState(false);
+
+  const handleCloseDetailModal = () => {
+    setShowDetailModal(false);
+    setSelectedTodo(null);
+  };
+
+  const handleTodoClick = (todo: EventsCheckResponse) => {
+    setSelectedTodo(todo);
+    setShowDetailModal(true);
+  };
+
   return (
     <Todo
       todos={todos}
       handleAddClick={handleAddClick}
       handleCloseModal={handleCloseModal}
       showAddModal={showAddModal}
+      selectedTodo={selectedTodo}
+      handleCloseDetailModal={handleCloseDetailModal}
+      handleTodoClick={handleTodoClick}
+      showDetailModal={showDetailModal}
     />
   );
 };

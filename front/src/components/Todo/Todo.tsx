@@ -3,7 +3,6 @@ import AddBtn from "@/assets/images/addbtn.svg";
 import CircleImg from "@/assets/images/circle.svg";
 import VerticalSetImg from "@/assets/images/more_vertical.svg";
 import AddModal from "@/components/modal/Modal";
-import { useState } from "react";
 import DetailModal from "../modal/DetailModal";
 import { extractTime } from "@/utils/extractTime";
 
@@ -19,28 +18,21 @@ interface TodoProps {
   handleAddClick: () => void;
   handleCloseModal: () => void;
   showAddModal: boolean;
+  selectedTodo: EventsCheckResponse | null;
+  handleCloseDetailModal: () => void;
+  handleTodoClick: (todo: EventsCheckResponse) => void;
+  showDetailModal: boolean;
 }
 const Todo = ({
   todos,
   handleAddClick,
   handleCloseModal,
   showAddModal,
+  selectedTodo,
+  handleCloseDetailModal,
+  handleTodoClick,
+  showDetailModal,
 }: TodoProps) => {
-  const [selectedTodo, setSelectedTodo] = useState<EventsCheckResponse | null>(
-    null
-  );
-  const [showDetailModal, setShowDetailModal] = useState(false);
-
-  const handleCloseDetailModal = () => {
-    setShowDetailModal(false);
-    setSelectedTodo(null);
-  };
-
-  const handleTodoClick = (todo: EventsCheckResponse) => {
-    setSelectedTodo(todo);
-    setShowDetailModal(true);
-  };
-
   return (
     <>
       <TodoStyled>
