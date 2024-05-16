@@ -2,66 +2,55 @@ import { styled } from "styled-components";
 import AddBtn from "@/assets/images/addbtn.svg";
 import CircleImg from "@/assets/images/circle.svg";
 import VerticalSetImg from "@/assets/images/more_vertical.svg";
-import axios from "axios";
-import { useState, useEffect } from "react";
+import AddModal from "@/components/modal/Modal";
+import DetailModal from "../modal/DetailModal";
+import { extractTime } from "@/utils/extractTime";
+import { EventDto } from "@/dto/dto";
 
-interface TodoItem {
-  id: number;
-  title: string;
-  time: string;
+interface TodoProps {
+  todos: EventDto[];
+  handleAddClick: () => void;
+  handleCloseModal: () => void;
+  showAddModal: boolean;
+  selectedTodo: EventDto | null;
+  handleCloseDetailModal: () => void;
+  handleTodoClick: (todo: EventDto) => void;
+  showDetailModal: boolean;
 }
-
-const Todo = () => {
-  const [todos, setTodos] = useState<TodoItem[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchTodos = async () => {
-      setIsLoading(true);
-      try {
-        const response = await axios.get("BASE_URL/events/2024-05-01/");
-        setTodos(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-      setIsLoading(false);
-    };
-
-    fetchTodos();
-  }, []);
-
+const Todo = ({
+  todos,
+  handleAddClick,
+  handleCloseModal,
+  showAddModal,
+  selectedTodo,
+  handleCloseDetailModal,
+  handleTodoClick,
+  showDetailModal,
+}: TodoProps) => {
   return (
-    <TodoStyled>
-      {/* <TodoBoxStyled>
-        <CircleImgStyled src={CircleImg}></CircleImgStyled>
-        <TodoTitleStyled>브런치 약속</TodoTitleStyled>
-        <TimeTextStyled>11:00</TimeTextStyled>
-        <SetImgStyled src={VerticalSetImg}></SetImgStyled>
-      </TodoBoxStyled>
-      <TodoBoxStyled>
-        <CircleImgStyled src={CircleImg}></CircleImgStyled>
-        <TodoTitleStyled>점심 식사 약속</TodoTitleStyled>
-        <TimeTextStyled>14:00</TimeTextStyled>
-        <SetImgStyled src={VerticalSetImg}></SetImgStyled>
-      </TodoBoxStyled>
-      <TodoBoxStyled>
-        <CircleImgStyled src={CircleImg}></CircleImgStyled>
-        <TodoTitleStyled>저녁 식사 약속</TodoTitleStyled>
-        <TimeTextStyled>19:00</TimeTextStyled>
-        <SetImgStyled src={VerticalSetImg}></SetImgStyled>
-      </TodoBoxStyled> */}
-      {todos.map((todo) => (
-        <TodoBoxStyled key={todo.id}>
-          <CircleImgStyled src={CircleImg}></CircleImgStyled>
-          <TodoTitleStyled>{todo.title}</TodoTitleStyled>
-          <TimeTextStyled>{todo.time}</TimeTextStyled>
-          <SetImgStyled src={VerticalSetImg}></SetImgStyled>
-        </TodoBoxStyled>
-      ))}
-      <AddBtnStyled>
-        일정 추가<AddBtnImgStyled src={AddBtn}></AddBtnImgStyled>
-      </AddBtnStyled>
-    </TodoStyled>
+    <>
+      <TodoStyled>
+        {todos.map((todo) => (
+          <TodoBoxStyled key={todo.id} onClick={() => handleTodoClick(todo)}>
+            <CircleImgStyled src={CircleImg}></CircleImgStyled>
+            <TodoTitleStyled>{todo.title}</TodoTitleStyled>
+            <TimeTextStyled>{extractTime(todo.datetime)}</TimeTextStyled>
+            <SetImgStyled src={VerticalSetImg}></SetImgStyled>
+          </TodoBoxStyled>
+        ))}
+        <AddBtnStyled onClick={handleAddClick}>
+          일정 추가<AddBtnImgStyled src={AddBtn}></AddBtnImgStyled>
+        </AddBtnStyled>
+      </TodoStyled>
+      {showAddModal && (
+        <AddModal show={showAddModal} onClose={handleCloseModal}></AddModal>
+      )}
+      <DetailModal
+        show={showDetailModal}
+        onClose={handleCloseDetailModal}
+        todo={selectedTodo}
+      />
+    </>
   );
 };
 

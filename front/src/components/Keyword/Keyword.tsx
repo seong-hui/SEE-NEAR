@@ -5,74 +5,59 @@ import Emotion3Img from "@/assets/images/emoji3.svg";
 import Emotion4Img from "@/assets/images/emoji4.svg";
 import Emotion5Img from "@/assets/images/emoji5.svg";
 import VerticalSetImg from "@/assets/images/more_vertical.svg";
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { formatTime } from "@/utils/formatTime";
+import KeywordModal from "../modal/KeywordModal";
+import { ConversationDto } from "@/dto/dto";
 
-interface Keyword {
-  id: number;
-  word: string;
-  time: string;
-  mood: number;
+interface KeywordProps {
+  keywords: ConversationDto[];
+  showModal: boolean;
+  handleKeywordClick: (keyword: ConversationDto) => void;
+  handleCloseModal: () => void;
+  selectedKeyword: ConversationDto | null;
 }
 
-const Keyword = () => {
-  const [keywords, setKeywords] = useState<Keyword[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchKeywords = async () => {
-      setIsLoading(true);
-      try {
-        const response = await axios.get("https://api..com/keywords");
-        setKeywords(response.data);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchKeywords();
-    setKeywords(sampleKeywords);
-  }, []);
-
+const Keyword = ({
+  keywords,
+  showModal,
+  handleKeywordClick,
+  handleCloseModal,
+  selectedKeyword,
+}: KeywordProps) => {
   const getEmoji = (mood: number) => {
-    if (mood == 1) return Emotion1Img;
-    else if (mood == 2) return Emotion2Img;
-    else if (mood == 3) return Emotion3Img;
-    else if (mood == 4) return Emotion4Img;
-    else if (mood == 5) return Emotion5Img;
+    if (mood === 1) return Emotion1Img;
+    else if (mood === 2) return Emotion2Img;
+    else if (mood === 3) return Emotion3Img;
+    else if (mood === 4) return Emotion4Img;
+    else if (mood === 5) return Emotion5Img;
   };
-
-  const sampleKeywords = [
-    {
-      id: 1,
-      word: "산책",
-      time: "10:00 AM - 11:00 AM",
-      mood: 2,
-    },
-    {
-      id: 2,
-      word: "점심",
-      time: "01:00 PM - 02:00 PM",
-      mood: 3,
-    },
-  ];
 
   return (
     <>
       {keywords.map((keyword) => (
-        <KeywordStyled key={keyword.id}>
+        <KeywordStyled
+          key={keyword.id}
+          onClick={() => handleKeywordClick(keyword)}
+        >
           <EmojiWrapped>
-            <EmojiStyled src={getEmoji(keyword.mood)} alt="MoodEmoji" />
+            <EmojiStyled src={getEmoji(keyword.emotion)} alt="MoodEmoji" />
           </EmojiWrapped>
           <KeywordTextStyled>
-            <WordTextStyled>{keyword.word}</WordTextStyled>
-            <TimeTextStyled>{keyword.time}</TimeTextStyled>
+            <WordTextStyled>{keyword.keyword}</WordTextStyled>
+            <TimeTextStyled>
+              {formatTime(keyword.start)} - {formatTime(keyword.end)}
+            </TimeTextStyled>
           </KeywordTextStyled>
           <SetImgStyled src={VerticalSetImg} alt="Settings" />
         </KeywordStyled>
       ))}
+      {showModal && selectedKeyword && (
+        <KeywordModal
+          show={showModal}
+          onClose={handleCloseModal}
+          keyword={selectedKeyword}
+        />
+      )}
     </>
   );
 };

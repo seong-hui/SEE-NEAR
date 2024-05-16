@@ -1,14 +1,13 @@
 import { styled } from "styled-components";
 import TodoContainer from "@/components/Todo/Todo.container";
 import KeywordContainer from "@/components/Keyword/Keyword.container";
-import { useRecoilValue } from "recoil";
-import { selectedDateState } from "@/recoil/atom";
 import { formatDate2, formatDate } from "@/utils/formatDateUtils";
 
-const DailySection = () => {
-  const currentDate = useRecoilValue(selectedDateState);
-  console.log(formatDate(currentDate));
+interface DailySectionProps {
+  currentDate: Date;
+}
 
+const DailySection = ({ currentDate }: DailySectionProps) => {
   return (
     <DailySectionStyled>
       <TodayDateStyled>{formatDate2(currentDate)}</TodayDateStyled>
@@ -18,7 +17,7 @@ const DailySection = () => {
       </TodoBoxStyled>
       <KeywordBoxStyled>
         <BoxTitleStyled>오늘의 키워드</BoxTitleStyled>
-        <KeywordContainer />
+        <KeywordContainer selectedDate={formatDate(currentDate)} />
       </KeywordBoxStyled>
     </DailySectionStyled>
   );
