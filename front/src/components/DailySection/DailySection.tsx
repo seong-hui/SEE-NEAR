@@ -17,7 +17,7 @@ const DailySection = ({ currentDate }: DailySectionProps) => {
       </TodoBoxStyled>
       <KeywordBoxStyled>
         <BoxTitleStyled>오늘의 키워드</BoxTitleStyled>
-        <KeywordContainer />
+        <KeywordContainer selectedDate={formatDate(currentDate)} />
       </KeywordBoxStyled>
     </DailySectionStyled>
   );

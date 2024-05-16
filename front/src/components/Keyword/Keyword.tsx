@@ -5,33 +5,24 @@ import Emotion3Img from "@/assets/images/emoji3.svg";
 import Emotion4Img from "@/assets/images/emoji4.svg";
 import Emotion5Img from "@/assets/images/emoji5.svg";
 import VerticalSetImg from "@/assets/images/more_vertical.svg";
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { formatTime } from "@/utils/formatTime";
+import { useState } from "react";
+import KeywordModal from "../modal/KeywordModal";
 
-interface Keyword {
+interface ConvResponse {
   id: number;
-  word: string;
-  time: string;
-  mood: number;
+  content: string;
+  start: string;
+  end: string;
+  keyword: string;
+  emotion: number;
 }
 
-const Keyword = () => {
-  const [keywords, setKeywords] = useState<Keyword[]>([]);
+interface KeywordProps {
+  keywords: ConvResponse[];
+}
 
-  useEffect(() => {
-    const fetchKeywords = async () => {
-      try {
-        const response = await axios.get("https://api..com/keywords");
-        setKeywords(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchKeywords();
-    setKeywords(sampleKeywords);
-  }, []);
-
+const Keyword = ({ keywords }: KeywordProps) => {
   const getEmoji = (mood: number) => {
     if (mood === 1) return Emotion1Img;
     else if (mood === 2) return Emotion2Img;
@@ -40,35 +31,45 @@ const Keyword = () => {
     else if (mood === 5) return Emotion5Img;
   };
 
-  const sampleKeywords = [
-    {
-      id: 1,
-      word: "산책",
-      time: "10:00 AM - 11:00 AM",
-      mood: 2,
-    },
-    {
-      id: 2,
-      word: "점심",
-      time: "01:00 PM - 02:00 PM",
-      mood: 3,
-    },
-  ];
+  const [selectedKeyword, setSelectedKeyword] = useState<ConvResponse | null>(
+    null
+  );
+  const [showModal, setShowModal] = useState(false);
 
+  const handleKeywordClick = (keyword: ConvResponse) => {
+    setSelectedKeyword(keyword);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
   return (
     <>
       {keywords.map((keyword) => (
-        <KeywordStyled key={keyword.id}>
+        <KeywordStyled
+          key={keyword.id}
+          onClick={() => handleKeywordClick(keyword)}
+        >
           <EmojiWrapped>
-            <EmojiStyled src={getEmoji(keyword.mood)} alt="MoodEmoji" />
+            <EmojiStyled src={getEmoji(keyword.emotion)} alt="MoodEmoji" />
           </EmojiWrapped>
           <KeywordTextStyled>
-            <WordTextStyled>{keyword.word}</WordTextStyled>
-            <TimeTextStyled>{keyword.time}</TimeTextStyled>
+            <WordTextStyled>{keyword.keyword}</WordTextStyled>
+            <TimeTextStyled>
+              {formatTime(keyword.start)} - {formatTime(keyword.end)}
+            </TimeTextStyled>
           </KeywordTextStyled>
           <SetImgStyled src={VerticalSetImg} alt="Settings" />
         </KeywordStyled>
       ))}
+      {showModal && selectedKeyword && (
+        <KeywordModal
+          show={showModal}
+          onClose={handleCloseModal}
+          keyword={selectedKeyword}
+        />
+      )}
     </>
   );
 };
