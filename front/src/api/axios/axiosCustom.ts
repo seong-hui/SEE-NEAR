@@ -7,7 +7,7 @@ interface EventsResponse {
   id: number;
 }
 
-export const axioxEventsCreate = async (
+export const axiosEventsCreate = async (
   title: string,
   location: string,
   datetime: string
@@ -27,7 +27,7 @@ interface EventsCheckResponse {
   datetime: string;
 }
 
-export const axioxEventsCheck = async (
+export const axiosEventsCheck = async (
   date: string
 ): Promise<EventsCheckResponse[]> => {
   try {
