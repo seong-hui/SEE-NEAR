@@ -71,3 +71,40 @@ export const axiosDeleteEvent = async (id: number): Promise<void> => {
     throw error;
   }
 };
+
+interface ConvResponse {
+  id: number;
+  content: string;
+  start: string;
+  end: string;
+  keyword: string;
+  emotion: number;
+}
+
+export const axiosConvList = async (date: string): Promise<ConvResponse[]> => {
+  try {
+    const response = await instance.get<ConvResponse[]>(
+      `/conv/reports/${date}`
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const axiosFetchConv = async (id: number): Promise<ConvResponse> => {
+  try {
+    const response = await instance.get<ConvResponse>(`/conv/posts/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const axiosDeleteConv = async (id: number): Promise<void> => {
+  try {
+    await instance.delete(`/conv/posts/${id}`);
+  } catch (error) {
+    throw error;
+  }
+};

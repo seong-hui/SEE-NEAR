@@ -17,18 +17,14 @@ interface Keyword {
 
 const Keyword = () => {
   const [keywords, setKeywords] = useState<Keyword[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchKeywords = async () => {
-      setIsLoading(true);
       try {
         const response = await axios.get("https://api..com/keywords");
         setKeywords(response.data);
       } catch (error) {
         console.error(error);
-      } finally {
-        setIsLoading(false);
       }
     };
 
@@ -37,11 +33,11 @@ const Keyword = () => {
   }, []);
 
   const getEmoji = (mood: number) => {
-    if (mood == 1) return Emotion1Img;
-    else if (mood == 2) return Emotion2Img;
-    else if (mood == 3) return Emotion3Img;
-    else if (mood == 4) return Emotion4Img;
-    else if (mood == 5) return Emotion5Img;
+    if (mood === 1) return Emotion1Img;
+    else if (mood === 2) return Emotion2Img;
+    else if (mood === 3) return Emotion3Img;
+    else if (mood === 4) return Emotion4Img;
+    else if (mood === 5) return Emotion5Img;
   };
 
   const sampleKeywords = [
