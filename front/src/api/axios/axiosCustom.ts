@@ -1,5 +1,5 @@
-import instance from "@/api/axios/axiosInstance";
-import { EventDto, ConversationDto } from "@/dto/dto";
+import { instance, signupInstance } from "@/api/axios/axiosInstance";
+import { EventDto, ConversationDto, UsetInfoDto } from "@/dto/dto";
 
 export const axiosEventsCreate = async (
   title: string,
@@ -83,4 +83,53 @@ export const axiosDeleteConv = async (id: number): Promise<void> => {
   } catch (error) {
     throw error;
   }
+};
+
+interface ApiResponse {
+  token: string;
+}
+export const axiosLogin = async (
+  username: string,
+  password: string
+): Promise<ApiResponse> => {
+  const response = await signupInstance.post<ApiResponse>("/auth/user/login", {
+    username,
+    password,
+  });
+  return response.data;
+};
+
+interface ApiJoinResponse {
+  token: string;
+  user: UsetInfoDto;
+}
+
+export const axiosJoin = async (
+  username: string,
+  password: string,
+  email: string,
+  first_name: string,
+  last_name: string,
+  phone_number: string,
+  birth: string,
+  is_senior: boolean,
+  family_id?: string,
+  role?: string
+): Promise<ApiJoinResponse> => {
+  const response = await signupInstance.post<ApiJoinResponse>(
+    "/auth/user/signup",
+    {
+      username,
+      password,
+      email,
+      first_name,
+      phone_number,
+      birth,
+      is_senior,
+      last_name,
+      family_id,
+      role,
+    }
+  );
+  return response.data;
 };
