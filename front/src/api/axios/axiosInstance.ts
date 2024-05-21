@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API_URL = `${process.env.REACT_APP_URL}`;
-const token = {};
+const token = localStorage.getItem("token");
 
 const instance = axios.create({
   baseURL: API_URL,
@@ -11,4 +11,8 @@ const instance = axios.create({
   },
 });
 
-export default instance;
+const signupInstance = axios.create({
+  baseURL: API_URL,
+});
+
+export { instance, signupInstance };
