@@ -1,11 +1,14 @@
 import LeftNav from "./LeftNav";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const LeftNavContainer = () => {
   const { pathname } = useLocation();
+  const navigator = useNavigate();
+  const handleClick = (path: string) => {
+    navigator(path);
+  };
 
-  // eslint-disable-next-line no-restricted-globals
-  return <LeftNav pathname={pathname} />;
+  return <LeftNav pathname={pathname} handleClick={handleClick} />;
 };
 
 export default LeftNavContainer;

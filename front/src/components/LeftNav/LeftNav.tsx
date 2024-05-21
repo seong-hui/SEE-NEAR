@@ -3,34 +3,39 @@ import LogoImg from "@/assets/images/seenearIcon.svg";
 import { ReactComponent as AnalysisImg } from "@/assets/images/analysis.svg";
 import { ReactComponent as CategoryImg } from "@/assets/images/category.svg";
 import { ReactComponent as SettingImg } from "@/assets/images/setting.svg";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface ILeftNav {
   pathname: string;
+  handleClick: (path: string) => void;
 }
 
-const LeftNav = ({ pathname }: ILeftNav) => {
+const LeftNav = ({ pathname, handleClick }: ILeftNav) => {
   return (
     <LeftNavStyled>
       <TopNavStyled>
-        <img src={LogoImg}></img>
+        <img src={LogoImg} alt="logo_image" />
         <TopLavTitleStyled>SEE NEAR</TopLavTitleStyled>
       </TopNavStyled>
       <NavSectionStyled>
         <NavBtnsStyled>
           <NavBtnStyled
-            className={pathname.includes("family") ? "activeBtn" : ""}
+            className={pathname.includes("family/main") ? "activeBtn" : ""}
+            onClick={() => handleClick("/family/main")}
           >
             <CategoryImg fill="var(--main-color)" />
             감정 기록
           </NavBtnStyled>
           <NavBtnStyled
-            className={pathname.includes("family1") ? "activeBtn" : ""}
+            className={pathname.includes("family/analyze") ? "activeBtn" : ""}
+            onClick={() => handleClick("/family/analyze")}
           >
             <AnalysisImg fill="var(--main-color)" />
             주간 분석
           </NavBtnStyled>
           <NavBtnStyled
-            className={pathname.includes("family2") ? "activeBtn" : ""}
+            className={pathname.includes("family/setting") ? "activeBtn" : ""}
+            onClick={() => handleClick("/family/setting")}
           >
             <SettingImg fill="var(--main-color)" />
             설정
