@@ -3,7 +3,6 @@ import LogoImg from "@/assets/images/seenearIcon.svg";
 import { ReactComponent as AnalysisImg } from "@/assets/images/analysis.svg";
 import { ReactComponent as CategoryImg } from "@/assets/images/category.svg";
 import { ReactComponent as SettingImg } from "@/assets/images/setting.svg";
-import { useLocation, useNavigate } from "react-router-dom";
 
 interface ILeftNav {
   pathname: string;
@@ -47,7 +46,7 @@ const LeftNav = ({ pathname, handleClick }: ILeftNav) => {
 };
 
 const LeftNavStyled = styled.nav`
-  width: 230px;
+  min-width: 230px;
   height: 100%;
   border-right: 1px solid var(--light-grey-color);
   padding: 20px;
