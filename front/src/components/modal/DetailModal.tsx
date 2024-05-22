@@ -33,7 +33,7 @@ const DetailModal = ({ show, onClose, todo }: DetailModalProps) => {
         <p>
           <strong>시간 : </strong> {extractTime(todo.datetime)}
         </p>
-        <CloseButton onClick={onClose}>Close</CloseButton>
+        <CloseButton onClick={onClose}>닫기</CloseButton>
       </ModalContent>
     </ModalBackdrop>
   );

@@ -24,7 +24,7 @@ const DailySection = ({ currentDate }: DailySectionProps) => {
 };
 
 const DailySectionStyled = styled.div`
-  width: 280px;
+  min-width: 250px;
   height: 100%;
   background-color: #cddbed;
   padding: 50px 40px;

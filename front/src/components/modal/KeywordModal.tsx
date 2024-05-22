@@ -28,7 +28,7 @@ const KeywordModal = ({ show, onClose, keyword }: DetailModalProps) => {
         </div>
         <p>대화 내용: {keyword.content}</p>
 
-        <CloseButton onClick={onClose}>Close</CloseButton>
+        <CloseButton onClick={onClose}>닫기</CloseButton>
       </ModalContent>
     </ModalBackdrop>
   );
