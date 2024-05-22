@@ -147,10 +147,22 @@ const Select = styled.select`
 `;
 
 const Button = styled.button`
+  width: 100px;
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
   margin: 10px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+
+  &:first-of-type {
+    margin-right: 10px;
+  }
+
+  &:hover {
+    background-color: #0056b3;
+  }
 `;
 
 const InputBox = styled.div`

@@ -8,7 +8,7 @@ const FMainPage = () => {
     <FMainPageStyled>
       <LeftNavContainer />
       <MainSection>
-        <SectionTitle>설정</SectionTitle>
+        {/* <SectionTitle>감정 기록</SectionTitle> */}
         <CalendarFuncContainer />
       </MainSection>
       <DailySectionContainer />

@@ -96,7 +96,7 @@ const ProfileImg = styled.img`
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  background-color: #b8bfcc;
+  background-color: #eaeaea;
 `;
 
 const UserName = styled.p`

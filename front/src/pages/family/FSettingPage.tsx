@@ -2,6 +2,7 @@ import LeftNavContainer from "@/components/LeftNav/LeftNav.container";
 import styled from "styled-components";
 import RightSectionContainer from "@/components/RightSection/RightSectionContainer";
 import SettingItemContainer from "@/components/settingItem/SettingItemContainer";
+import RoutineSetContainer from "@/components/settingItem/RoutineSetContainer";
 
 const FSettingPage = () => {
   return (
@@ -11,7 +12,7 @@ const FSettingPage = () => {
         <SectionTitle>설정</SectionTitle>
         <SettingContent>
           <SettingItemContainer />
-          <SettingItemContainer />
+          <RoutineSetContainer />
         </SettingContent>
       </SettingSection>
       <RightSectionContainer />
@@ -43,7 +44,7 @@ const SettingContent = styled.section`
   width: 100%;
   display: flex;
   justify-content: space-evenly;
-  margin-top: 100px;
+  margin-top: 60px;
 `;
 
 export default FSettingPage;

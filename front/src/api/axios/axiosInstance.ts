@@ -13,6 +13,10 @@ const instance = axios.create({
 
 const signupInstance = axios.create({
   baseURL: API_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  withCredentials: true,
 });
 
 export { instance, signupInstance };
