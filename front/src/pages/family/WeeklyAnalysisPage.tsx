@@ -8,7 +8,6 @@ const WeeklyAnalysisPage = () => {
     <WeeklyAnalysisPageLayout>
       <LeftNavContainer />
       <AnalysisSection>
-        <SectionTitle>주간 분석</SectionTitle>
         <AnalysisContent>
           <WeeklyPagination />
           <AnalysisContainer />
@@ -26,13 +25,6 @@ const WeeklyAnalysisPageLayout = styled.div`
   justify-content: space-between;
 `;
 
-const SectionTitle = styled.h1`
-  font-size: 32px;
-  display: flex;
-  width: 100%;
-  margin: 0;
-`;
-
 const AnalysisSection = styled.section`
   width: 100%;
   padding: 40px;
@@ -41,7 +33,6 @@ const AnalysisSection = styled.section`
 
 const AnalysisContent = styled.section`
   width: 100%;
-  margin-top: 60px;
 `;
 
 export default WeeklyAnalysisPage;
