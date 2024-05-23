@@ -54,12 +54,13 @@ export const axiosDeleteEvent = async (id: number): Promise<void> => {
     throw error;
   }
 };
+
 export const axiosConvList = async (
   date: string
 ): Promise<ConversationDto[]> => {
   try {
     const response = await instance.get<ConversationDto[]>(
-      `/conv/reports/${date}`
+      `/conv/reports/${date}/`
     );
     return response.data;
   } catch (error) {
@@ -69,13 +70,12 @@ export const axiosConvList = async (
 
 export const axiosFetchConv = async (id: number): Promise<ConversationDto> => {
   try {
-    const response = await instance.get<ConversationDto>(`/conv/posts/${id}/`);
+    const response = await instance.get<ConversationDto>(`/conv/posts/${id}`);
     return response.data;
   } catch (error) {
     throw error;
   }
 };
-
 export const axiosDeleteConv = async (id: number): Promise<void> => {
   try {
     await instance.delete(`/conv/posts/${id}`);
