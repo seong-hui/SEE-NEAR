@@ -6,7 +6,7 @@ export const axiosEventsCreate = async (
   location: string,
   datetime: string
 ): Promise<EventDto> => {
-  const response = await instance.post<EventDto>("/events/create", {
+  const response = await instance.post<EventDto>("/events/create/", {
     title,
     location,
     datetime,
@@ -40,7 +40,7 @@ export const axiosUpdateEvent = async (
 ): Promise<EventDto> => {
   try {
     const body = { title, location, datetime };
-    const response = await instance.put<EventDto>(`/events/${id}`, body);
+    const response = await instance.put<EventDto>(`/events/${id}/`, body);
     return response.data;
   } catch (error) {
     throw error;
@@ -54,7 +54,6 @@ export const axiosDeleteEvent = async (id: number): Promise<void> => {
     throw error;
   }
 };
-
 export const axiosConvList = async (
   date: string
 ): Promise<ConversationDto[]> => {
@@ -70,7 +69,7 @@ export const axiosConvList = async (
 
 export const axiosFetchConv = async (id: number): Promise<ConversationDto> => {
   try {
-    const response = await instance.get<ConversationDto>(`/conv/posts/${id}`);
+    const response = await instance.get<ConversationDto>(`/conv/posts/${id}/`);
     return response.data;
   } catch (error) {
     throw error;
@@ -92,7 +91,7 @@ export const axiosLogin = async (
   username: string,
   password: string
 ): Promise<ApiResponse> => {
-  const response = await signupInstance.post<ApiResponse>("/auth/user/login", {
+  const response = await signupInstance.post<ApiResponse>("/auth/user/login/", {
     username,
     password,
   });

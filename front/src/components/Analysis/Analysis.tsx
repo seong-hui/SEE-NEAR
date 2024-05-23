@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import ApexChart from "apexcharts";
 
 const Analysis = () => {
   return (
@@ -23,20 +24,7 @@ const Analysis = () => {
         </DataBoxWrapper>
         <DataBoxWrapper>
           <DateTitle>주간 감정</DateTitle>
-          <DataBox>
-            <KeywordBox>
-              <NumBox>1</NumBox>
-              <KeywordText>저녁 식사</KeywordText>
-            </KeywordBox>
-            <KeywordBox>
-              <NumBox>2</NumBox>
-              <KeywordText>꽃놀이</KeywordText>
-            </KeywordBox>
-            <KeywordBox>
-              <NumBox>3</NumBox>
-              <KeywordText>임영웅</KeywordText>
-            </KeywordBox>
-          </DataBox>
+          <DataBox>{/* <ApexCharts /> */}</DataBox>
         </DataBoxWrapper>
       </AnalysisColBox>
       <AnalysisColBox>
