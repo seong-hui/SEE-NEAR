@@ -8,7 +8,6 @@ const FMainPage = () => {
     <FMainPageStyled>
       <LeftNavContainer />
       <MainSection>
-        {/* <SectionTitle>감정 기록</SectionTitle> */}
         <CalendarFuncContainer />
       </MainSection>
       <DailySectionContainer />
@@ -30,12 +29,5 @@ const MainSection = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const SectionTitle = styled.h1`
-  font-size: 32px;
-  display: flex;
-  width: 100%;
-  margin: 0;
 `;
 export default FMainPage;

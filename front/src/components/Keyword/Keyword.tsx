@@ -34,23 +34,27 @@ const Keyword = ({
 
   return (
     <>
-      {keywords.map((keyword) => (
-        <KeywordStyled
-          key={keyword.id}
-          onClick={() => handleKeywordClick(keyword)}
-        >
-          <EmojiWrapped>
-            <EmojiStyled src={getEmoji(keyword.emotion)} alt="MoodEmoji" />
-          </EmojiWrapped>
-          <KeywordTextStyled>
-            <WordTextStyled>{keyword.keyword}</WordTextStyled>
-            <TimeTextStyled>
-              {formatTime(keyword.start)} - {formatTime(keyword.end)}
-            </TimeTextStyled>
-          </KeywordTextStyled>
-          <SetImgStyled src={VerticalSetImg} alt="Settings" />
-        </KeywordStyled>
-      ))}
+      {keywords.length > 0 ? (
+        keywords.map((keyword) => (
+          <KeywordStyled
+            key={keyword.id}
+            onClick={() => handleKeywordClick(keyword)}
+          >
+            <EmojiWrapped>
+              <EmojiStyled src={getEmoji(keyword.emotion)} alt="MoodEmoji" />
+            </EmojiWrapped>
+            <KeywordTextStyled>
+              <WordTextStyled>{keyword.keyword}</WordTextStyled>
+              <TimeTextStyled>
+                {formatTime(keyword.start)} - {formatTime(keyword.end)}
+              </TimeTextStyled>
+            </KeywordTextStyled>
+            <SetImgStyled src={VerticalSetImg} alt="Settings" />
+          </KeywordStyled>
+        ))
+      ) : (
+        <KeywordStyled>키워드가 존재하지 않습니다</KeywordStyled>
+      )}
       {showModal && selectedKeyword && (
         <KeywordModal
           show={showModal}
@@ -70,6 +74,7 @@ const KeywordStyled = styled.div`
   align-items: center;
   padding: 0 15px;
   margin-bottom: 10px;
+  justify-content: center;
 `;
 
 const EmojiWrapped = styled.div`
@@ -102,4 +107,5 @@ const TimeTextStyled = styled.div`
 const SetImgStyled = styled.img`
   margin-left: auto;
 `;
+
 export default Keyword;

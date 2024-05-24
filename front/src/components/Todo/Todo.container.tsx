@@ -3,26 +3,31 @@ import { useState, useEffect } from "react";
 import { axiosEventsCheck } from "@/api/axios/axiosCustom";
 import dummyTodos from "@/assets/data/dummyTodos";
 import { EventDto } from "@/dto/dto";
+import { useGetEvents } from "@/api/query/reactQuery";
 interface TodoContainerProps {
   selectedDate: string;
 }
 
 const TodoContainer = ({ selectedDate }: TodoContainerProps) => {
   // const [todos, setTodos] = useState<EventDto[]>([]);
-  const [todos, setTodos] = useState(dummyTodos);
+  // const [todos, setTodos] = useState(dummyTodos);
   const [showAddModal, setShowAddModal] = useState(false);
+  const { data: todos = [], error, isError } = useGetEvents(selectedDate);
+  if (isError) {
+    console.error(error);
+  }
 
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const response = await axiosEventsCheck(selectedDate);
-        setTodos(response);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchEvents();
-  }, [selectedDate]);
+  // useEffect(() => {
+  //   const fetchEvents = async () => {
+  //     try {
+  //       const response = await axiosEventsCheck(selectedDate);
+  //       setTodos(response);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+  //   fetchEvents();
+  // }, [selectedDate]);
 
   const handleAddClick = () => {
     setShowAddModal(true);

@@ -60,14 +60,13 @@ export const axiosConvList = async (
 ): Promise<ConversationDto[]> => {
   try {
     const response = await instance.get<ConversationDto[]>(
-      `/conv/reports/${date}`
+      `/conv/posts/${date}`
     );
     return response.data;
   } catch (error) {
     throw error;
   }
 };
-
 export const axiosFetchConv = async (id: number): Promise<ConversationDto> => {
   try {
     const response = await instance.get<ConversationDto>(`/conv/posts/${id}`);
@@ -76,7 +75,6 @@ export const axiosFetchConv = async (id: number): Promise<ConversationDto> => {
     throw error;
   }
 };
-
 export const axiosDeleteConv = async (id: number): Promise<void> => {
   try {
     await instance.delete(`/conv/posts/${id}`);
@@ -92,7 +90,7 @@ export const axiosLogin = async (
   username: string,
   password: string
 ): Promise<ApiResponse> => {
-  const response = await signupInstance.post<ApiResponse>("/auth/user/login", {
+  const response = await signupInstance.post<ApiResponse>("/auth/user/login/", {
     username,
     password,
   });

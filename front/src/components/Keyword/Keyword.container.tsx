@@ -9,8 +9,8 @@ interface KeywordContainerProps {
 }
 
 const KeywordContainer = ({ selectedDate }: KeywordContainerProps) => {
-  // const [keywords, setKeywords] = useState<ConvResponse[]>([]);
-  const [keywords, setKeywords] = useState(dummyKeywords);
+  const [keywords, setKeywords] = useState<ConversationDto[]>([]);
+  // const [keywords, setKeywords] = useState(dummyKeywords);
   useEffect(() => {
     const fetchConv = async () => {
       try {
