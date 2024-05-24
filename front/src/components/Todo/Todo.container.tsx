@@ -13,6 +13,9 @@ const TodoContainer = ({ selectedDate }: TodoContainerProps) => {
   // const [todos, setTodos] = useState(dummyTodos);
   const [showAddModal, setShowAddModal] = useState(false);
   const { data: todos = [], error, isError } = useGetEvents(selectedDate);
+  if (isError) {
+    console.error(error);
+  }
 
   // useEffect(() => {
   //   const fetchEvents = async () => {

@@ -6,7 +6,7 @@ export const axiosEventsCreate = async (
   location: string,
   datetime: string
 ): Promise<EventDto> => {
-  const response = await instance.post<EventDto>("/events/create/", {
+  const response = await instance.post<EventDto>("/events/create", {
     title,
     location,
     datetime,
@@ -40,7 +40,7 @@ export const axiosUpdateEvent = async (
 ): Promise<EventDto> => {
   try {
     const body = { title, location, datetime };
-    const response = await instance.put<EventDto>(`/events/${id}/`, body);
+    const response = await instance.put<EventDto>(`/events/${id}`, body);
     return response.data;
   } catch (error) {
     throw error;
@@ -60,14 +60,13 @@ export const axiosConvList = async (
 ): Promise<ConversationDto[]> => {
   try {
     const response = await instance.get<ConversationDto[]>(
-      `/conv/reports/${date}/`
+      `/conv/posts/${date}`
     );
     return response.data;
   } catch (error) {
     throw error;
   }
 };
-
 export const axiosFetchConv = async (id: number): Promise<ConversationDto> => {
   try {
     const response = await instance.get<ConversationDto>(`/conv/posts/${id}`);
