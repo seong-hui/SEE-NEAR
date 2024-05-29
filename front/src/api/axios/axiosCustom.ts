@@ -25,7 +25,7 @@ export const axiosEventsCheck = async (date: string): Promise<EventDto[]> => {
 
 export const axiosFetchEvent = async (id: number): Promise<EventDto> => {
   try {
-    const response = await instance.get<EventDto>(`/events/${id}`);
+    const response = await instance.get<EventDto>(`/events/${id}/`);
     return response.data;
   } catch (error) {
     throw error;
