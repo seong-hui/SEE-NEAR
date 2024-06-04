@@ -9,7 +9,6 @@ interface AnalysisProps {
 }
 
 const Analysis = ({ weeklyData }: AnalysisProps) => {
-  console.log(weeklyData.averages);
   return (
     <AnalysisLayout>
       <AnalysisColBox>
@@ -33,19 +32,19 @@ const Analysis = ({ weeklyData }: AnalysisProps) => {
         <DataBoxWrapper>
           <DateTitle>주간 감정</DateTitle>
           <DataBox>
-            <StackedChart />
+            <StackedChart data={weeklyData.counts} />
           </DataBox>
         </DataBoxWrapper>
       </AnalysisColBox>
       <AnalysisColBox>
         <DataBoxWrapper>
-          <DateTitle>주간 키워드</DateTitle>
+          <DateTitle>감정 추이</DateTitle>
           <DataBox>
-            <LineChart />
+            <LineChart data={weeklyData.averages} />
           </DataBox>
         </DataBoxWrapper>
         <DataBoxWrapper>
-          <DateTitle>주간 감정</DateTitle>
+          <DateTitle>감정 기록</DateTitle>
           <DataBox>
             <ColumnChart />
           </DataBox>

@@ -21,7 +21,7 @@ const AnalysisContainer = ({ selectedDate }: AnalysisContainerProps) => {
     averages: [],
     variances: [],
   };
-  return <Analysis weeklyData={weeklyDataTyped} />;
+  return <Analysis weeklyData={dummyData} />;
 };
 
 export default AnalysisContainer;
