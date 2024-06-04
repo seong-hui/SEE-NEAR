@@ -2,15 +2,21 @@ import styled from "styled-components";
 import ColumnChart from "./ColumnChart";
 import LineChart from "./LineChart";
 import StackedChart from "./StackedChart";
+import { WeeklyData } from "@/dto/dto";
 
-const Analysis = () => {
+interface AnalysisProps {
+  weeklyData: WeeklyData;
+}
+
+const Analysis = ({ weeklyData }: AnalysisProps) => {
+  console.log(weeklyData.averages);
   return (
     <AnalysisLayout>
       <AnalysisColBox>
         <DataBoxWrapper>
           <DateTitle>주간 키워드</DateTitle>
           <DataBox>
-            {/* <KeywordBox>
+            <KeywordBox>
               <NumBox>1</NumBox>
               <KeywordText>저녁 식사</KeywordText>
             </KeywordBox>
@@ -21,7 +27,7 @@ const Analysis = () => {
             <KeywordBox>
               <NumBox>3</NumBox>
               <KeywordText>임영웅</KeywordText>
-            </KeywordBox> */}
+            </KeywordBox>
           </DataBox>
         </DataBoxWrapper>
         <DataBoxWrapper>
@@ -79,6 +85,7 @@ const DataBox = styled.div`
   .apexcharts-legend.apx-legend-position-bottom.apexcharts-align-center {
     display: none;
   }
+  flex-direction: column;
 `;
 
 const DateTitle = styled.h3`

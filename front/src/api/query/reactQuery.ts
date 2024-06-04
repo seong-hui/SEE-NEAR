@@ -1,13 +1,14 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient } from "./queryClient";
 
-import { EventDto, ConversationDto, EmotionDto } from "@/dto/dto";
+import { EventDto, ConversationDto, EmotionDto, WeeklyData } from "@/dto/dto";
 import {
   axiosEventsCheck,
   axiosConvList,
   axiosGetEmotion,
   axiosEventsCreate,
   axiosDeleteEvent,
+  axiosGetWeekly,
 } from "@/api/axios/axiosCustom";
 
 import { AxiosError, isAxiosError } from "axios";
@@ -48,6 +49,15 @@ export const useGetEvent = (date: string) => {
     onError: (error) => {
       console.error(error);
     },
+  });
+
+  return { data, error, isError };
+};
+
+export const useGetWeeklyData = (date: string) => {
+  const { data, error, isError } = useQuery<WeeklyData, Error>({
+    queryKey: ["weekly", date],
+    queryFn: () => axiosGetWeekly(date),
   });
 
   return { data, error, isError };

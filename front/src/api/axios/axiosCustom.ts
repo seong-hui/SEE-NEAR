@@ -1,5 +1,11 @@
 import { instance, signupInstance } from "@/api/axios/axiosInstance";
-import { EventDto, ConversationDto, UsetInfoDto, EmotionDto } from "@/dto/dto";
+import {
+  EventDto,
+  ConversationDto,
+  UsetInfoDto,
+  EmotionDto,
+  WeeklyData,
+} from "@/dto/dto";
 
 export const axiosEventsCreate = async (
   title: string,
@@ -141,6 +147,15 @@ export const axiosJoin = async (
 export const axiosGetEmotion = async (date: string): Promise<EmotionDto[]> => {
   try {
     const response = await instance.get<EmotionDto[]>(`/conv/day/${date}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const axiosGetWeekly = async (date: string): Promise<WeeklyData> => {
+  try {
+    const response = await instance.get<WeeklyData>(`/conv/week/${date}`);
     return response.data;
   } catch (error) {
     throw error;
