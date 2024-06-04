@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import ColumnChart from "./ColumnChart";
+import LineChart from "./LineChart";
 
 const Analysis = () => {
   return (
@@ -24,19 +25,21 @@ const Analysis = () => {
         </DataBoxWrapper>
         <DataBoxWrapper>
           <DateTitle>주간 감정</DateTitle>
-          <DataBox>
-            <ColumnChart />
-          </DataBox>
+          <DataBox></DataBox>
         </DataBoxWrapper>
       </AnalysisColBox>
       <AnalysisColBox>
         <DataBoxWrapper>
           <DateTitle>주간 키워드</DateTitle>
-          <DataBox></DataBox>
+          <DataBox>
+            <LineChart />
+          </DataBox>
         </DataBoxWrapper>
         <DataBoxWrapper>
           <DateTitle>주간 감정</DateTitle>
-          <DataBox></DataBox>
+          <DataBox>
+            <ColumnChart />
+          </DataBox>
         </DataBoxWrapper>
       </AnalysisColBox>
     </AnalysisLayout>
@@ -63,7 +66,7 @@ const DataBox = styled.div`
   background-color: white;
   height: 240px;
   border-radius: 15px;
-  padding: 20px;
+  padding: 10px;
   display: flex;
   align-items: center;
   .apexcharts-toolbar {
