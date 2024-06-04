@@ -52,7 +52,7 @@ export const axiosDeleteEvent = async (
   title: string,
   location: string,
   datetime: string
-) => {
+): Promise<any> => {
   try {
     const body = { title, location, datetime };
     await instance.delete(`/events/${id}`, { data: body });
@@ -146,5 +146,3 @@ export const axiosGetEmotion = async (date: string): Promise<EmotionDto[]> => {
     throw error;
   }
 };
-
-// BASE_URL/conv/day/<string:YYYY-MM>/

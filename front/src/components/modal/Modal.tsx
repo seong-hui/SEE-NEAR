@@ -12,13 +12,12 @@ const AddModal = ({ show, onClose, selectedDate }: ModalProps) => {
   const [title, setTitle] = useState("");
   const [location, setLocation] = useState("");
   const [time, setDatetime] = useState("");
-  const id = 0;
 
   const { mutate: createEvent } = useEventsCreate(onClose);
 
   const handleCreateEvent = () => {
     const datetime = selectedDate + " " + time;
-    createEvent({ title, location, datetime, id });
+    createEvent({ title, location, datetime });
   };
 
   if (!show) {

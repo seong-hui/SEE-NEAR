@@ -7,6 +7,7 @@ import {
   axiosConvList,
   axiosGetEmotion,
   axiosEventsCreate,
+  axiosDeleteEvent,
 } from "@/api/axios/axiosCustom";
 
 import { AxiosError, isAxiosError } from "axios";
@@ -59,7 +60,7 @@ interface EventData {
 }
 
 export const useEventsCreate = (onSuccessCallback: () => void) => {
-  const mutation = useMutation<EventData, AxiosError, EventDto>({
+  const mutation = useMutation<EventData, AxiosError, EventData>({
     mutationFn: (eventData) =>
       axiosEventsCreate(
         eventData.title,
@@ -73,8 +74,32 @@ export const useEventsCreate = (onSuccessCallback: () => void) => {
       onSuccessCallback();
     },
     onError: (e) => {
-      if (isAxiosError(e)) alert(e);
-      else alert(e);
+      if (isAxiosError(e)) console.log(e);
+      else console.log(e);
+    },
+  });
+
+  return mutation;
+};
+
+export const useEventsDelete = (onSuccessCallback: () => void) => {
+  const mutation = useMutation<EventDto, AxiosError, EventDto>({
+    mutationFn: (eventData) =>
+      axiosDeleteEvent(
+        eventData.id,
+        eventData.title,
+        eventData.location,
+        eventData.datetime
+      ),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["events"],
+      });
+      onSuccessCallback();
+    },
+    onError: (e: AxiosError) => {
+      if (isAxiosError(e)) console.log(e);
+      else console.log(e);
     },
   });
 
