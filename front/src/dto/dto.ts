@@ -84,3 +84,11 @@ export interface RoutineDto {
   time: string;
   is_active: boolean;
 }
+
+export interface MemberDto {
+  id: number;
+  username: string;
+  last_name: string;
+  first_name: string;
+  role: string;
+}

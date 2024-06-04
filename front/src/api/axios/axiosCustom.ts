@@ -8,6 +8,7 @@ import {
   SeniorInfoDto,
   SeniorPostInfo,
   RoutineDto,
+  MemberDto,
 } from "@/dto/dto";
 
 export const axiosEventsCreate = async (
@@ -214,4 +215,13 @@ export const axiosRoutineCreate = async (
     is_active,
   });
   return response.data;
+};
+
+export const axiosGetMember = async (): Promise<MemberDto[]> => {
+  try {
+    const response = await instance.get<MemberDto[]>(`/auth/family/member`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 };

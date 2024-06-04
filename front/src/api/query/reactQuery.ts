@@ -9,6 +9,7 @@ import {
   SeniorInfoDto,
   SeniorPostInfo,
   RoutineDto,
+  MemberDto,
 } from "@/dto/dto";
 import {
   axiosEventsCheck,
@@ -21,6 +22,7 @@ import {
   axiosUpdateSenior,
   axiosGeRoutine,
   axiosRoutineCreate,
+  axiosGetMember,
 } from "@/api/axios/axiosCustom";
 
 import { AxiosError, isAxiosError } from "axios";
@@ -187,4 +189,13 @@ export const useRoutineCreate = (onSuccessCallback: () => void) => {
   });
 
   return mutation;
+};
+
+export const useGetMember = () => {
+  const { data, error, isError } = useQuery<MemberDto[], Error>({
+    queryKey: ["members"],
+    queryFn: axiosGetMember,
+  });
+
+  return { data, error, isError };
 };
