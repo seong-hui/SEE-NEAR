@@ -37,6 +37,7 @@ const TodoContainer = ({ selectedDate }: TodoContainerProps) => {
 
   const handleDeleteEvent = (data: EventDto) => {
     axiosDeleteEvent(data.id, data.title, data.location, data.datetime);
+    setShowDetailModal(false);
   };
 
   return (

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { axiosEventsCreate } from "@/api/axios/axiosCustom";
+import { useEventsCreate } from "@/api/query/reactQuery";
 
 interface ModalProps {
   show: boolean;
@@ -12,15 +12,13 @@ const AddModal = ({ show, onClose, selectedDate }: ModalProps) => {
   const [title, setTitle] = useState("");
   const [location, setLocation] = useState("");
   const [time, setDatetime] = useState("");
+  const id = 0;
 
-  const handleEventSubmit = async () => {
+  const { mutate: createEvent } = useEventsCreate(onClose);
+
+  const handleCreateEvent = () => {
     const datetime = selectedDate + " " + time;
-    try {
-      await axiosEventsCreate(title, location, datetime);
-      onClose();
-    } catch (error) {
-      console.error(error);
-    }
+    createEvent({ title, location, datetime, id });
   };
 
   if (!show) {
@@ -33,7 +31,7 @@ const AddModal = ({ show, onClose, selectedDate }: ModalProps) => {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            handleEventSubmit();
+            handleCreateEvent();
           }}
         >
           <label htmlFor="title">제목:</label>
