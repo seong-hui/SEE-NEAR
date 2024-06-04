@@ -77,3 +77,10 @@ export interface SeniorPostInfo {
   senior_diseases: string;
   senior_interests: string;
 }
+
+export interface RoutineDto {
+  id?: number;
+  name: string;
+  time: string;
+  is_active: boolean;
+}

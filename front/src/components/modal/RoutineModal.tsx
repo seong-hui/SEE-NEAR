@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { RoutineDto } from "@/dto/dto";
 
 interface Routine {
   name: string;
@@ -8,16 +9,17 @@ interface Routine {
 
 interface RoutineModalProps {
   onClose: () => void;
-  onSave: (routine: Routine) => void;
+  onSave: (data: RoutineDto) => void;
 }
 
 const RoutineModal = ({ onClose, onSave }: RoutineModalProps) => {
   const [name, setName] = useState("");
   const [time, setTime] = useState("");
+  const [is_active, setIs_active] = useState(true);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSave({ name, time });
+    onSave({ name, time, is_active });
   };
   return (
     <ModalOverlay>

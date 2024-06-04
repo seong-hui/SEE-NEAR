@@ -2,6 +2,8 @@ import styled from "styled-components";
 import EditButtonImg from "@/assets/images/edit.svg";
 import { useState } from "react";
 import RoutineModal from "../modal/RoutineModal";
+import { useRoutineCreate } from "@/api/query/reactQuery";
+import { RoutineDto } from "@/dto/dto";
 
 interface Routine {
   name: string;
@@ -35,6 +37,12 @@ const RoutineSet = () => {
     setRoutines(newRoutines);
   };
 
+  const { mutate: updateRoutine } = useRoutineCreate(handleCloseModal);
+
+  const handleUpDateRoutine = (data: RoutineDto) => {
+    updateRoutine(data);
+  };
+
   return (
     <SettingItemLayout>
       <BoxTitle>대화 루틴</BoxTitle>
@@ -57,7 +65,10 @@ const RoutineSet = () => {
           </tbody>
         </Table>
         {isModalOpen && (
-          <RoutineModal onClose={handleCloseModal} onSave={handleAddRoutine} />
+          <RoutineModal
+            onClose={handleCloseModal}
+            onSave={handleUpDateRoutine}
+          />
         )}
       </SettingBox>
     </SettingItemLayout>

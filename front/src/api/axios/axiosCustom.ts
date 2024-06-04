@@ -7,6 +7,7 @@ import {
   WeeklyData,
   SeniorInfoDto,
   SeniorPostInfo,
+  RoutineDto,
 } from "@/dto/dto";
 
 export const axiosEventsCreate = async (
@@ -190,4 +191,26 @@ export const axiosUpdateSenior = async (
   } catch (error) {
     throw error;
   }
+};
+
+export const axiosGeRoutine = async (): Promise<RoutineDto[]> => {
+  try {
+    const response = await instance.get<RoutineDto[]>(`/auth/routine`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const axiosRoutineCreate = async (
+  name: string,
+  time: string,
+  is_active: boolean
+) => {
+  const response = await instance.post("/auth/routine/create", {
+    name,
+    time,
+    is_active,
+  });
+  return response.data;
 };

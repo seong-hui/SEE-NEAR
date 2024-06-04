@@ -8,6 +8,7 @@ import {
   WeeklyData,
   SeniorInfoDto,
   SeniorPostInfo,
+  RoutineDto,
 } from "@/dto/dto";
 import {
   axiosEventsCheck,
@@ -18,6 +19,8 @@ import {
   axiosGetWeekly,
   axiosGetSeniorInfo,
   axiosUpdateSenior,
+  axiosGeRoutine,
+  axiosRoutineCreate,
 } from "@/api/axios/axiosCustom";
 
 import { AxiosError, isAxiosError } from "axios";
@@ -146,6 +149,34 @@ export const usePutSenior = (onSuccessCallback: () => void) => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["senior"],
+      });
+      onSuccessCallback();
+    },
+    onError: (e) => {
+      if (isAxiosError(e)) console.log(e);
+      else console.log(e);
+    },
+  });
+
+  return mutation;
+};
+
+export const useGetRoutine = () => {
+  const { data, error, isError } = useQuery<RoutineDto[], Error>({
+    queryKey: ["routines"],
+    queryFn: axiosGeRoutine,
+  });
+
+  return { data, error, isError };
+};
+
+export const useRoutineCreate = (onSuccessCallback: () => void) => {
+  const mutation = useMutation<RoutineDto, AxiosError, RoutineDto>({
+    mutationFn: (data) =>
+      axiosRoutineCreate(data.name, data.time, data.is_active),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["routines"],
       });
       onSuccessCallback();
     },
