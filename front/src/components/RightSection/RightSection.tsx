@@ -67,10 +67,10 @@ const MemberStyled = styled.div`
 
 const MemberNameStyled = styled.div`
   margin: 0 10px;
+  font-weight: bold;
 `;
 
 const RoleStyled = styled.div`
-  font-size: 14px;
   color: gray;
 `;
 
@@ -86,5 +86,6 @@ const MemberInfoText = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 5px;
+  margin-left: 15px;
 `;
 export default RightSection;

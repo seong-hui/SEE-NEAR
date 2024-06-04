@@ -4,18 +4,29 @@ import { useState } from "react";
 import RoutineModal from "../modal/RoutineModal";
 import { useRoutineCreate } from "@/api/query/reactQuery";
 import { RoutineDto } from "@/dto/dto";
-
-interface Routine {
-  name: string;
-  time: string;
-}
+import RoutineEditModal from "../modal/RoutineEditModal";
 
 const RoutineSet = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [routines, setRoutines] = useState([
-    { name: "아침 식사", time: "08:30" },
-    { name: "점심 식사", time: "13:30" },
-    { name: "저녁 식사", time: "18:30" },
+    {
+      id: 1,
+      name: "조식",
+      time: "08:00:00",
+      is_active: true,
+    },
+    {
+      id: 2,
+      name: "중식",
+      time: "12:00:00",
+      is_active: true,
+    },
+    {
+      id: 3,
+      name: "석식",
+      time: "19:00:00",
+      is_active: true,
+    },
   ]);
 
   const handleOpenModal = () => {
@@ -26,10 +37,10 @@ const RoutineSet = () => {
     setModalOpen(false);
   };
 
-  const handleAddRoutine = (routine: Routine) => {
-    setRoutines([...routines, routine]);
-    handleCloseModal();
-  };
+  // const handleAddRoutine = (routine: Routine) => {
+  //   setRoutines([...routines, routine]);
+  //   handleCloseModal();
+  // };
 
   const handleDeleteRoutine = (index: number) => {
     const newRoutines = [...routines];
@@ -41,6 +52,18 @@ const RoutineSet = () => {
 
   const handleUpDateRoutine = (data: RoutineDto) => {
     updateRoutine(data);
+  };
+
+  const [isModalEditOpen, setModalEditOpen] = useState(false);
+  const [selectedRoutine, setSelectedRoutine] = useState<RoutineDto>();
+
+  const handleRoutineClick = (routine: RoutineDto) => {
+    setSelectedRoutine(routine);
+    setModalEditOpen(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setModalEditOpen(false);
   };
 
   return (
@@ -57,7 +80,7 @@ const RoutineSet = () => {
           </thead>
           <tbody>
             {routines.map((routine, index) => (
-              <tr key={index}>
+              <tr key={index} onClick={() => handleRoutineClick(routine)}>
                 <Td>{routine.name}</Td>
                 <Td>{routine.time}</Td>
               </tr>
@@ -68,6 +91,13 @@ const RoutineSet = () => {
           <RoutineModal
             onClose={handleCloseModal}
             onSave={handleUpDateRoutine}
+          />
+        )}
+        {isModalEditOpen && (
+          <RoutineEditModal
+            onClose={handleCloseEditModal}
+            onSave={handleUpDateRoutine}
+            selectedRoutine={selectedRoutine}
           />
         )}
       </SettingBox>
@@ -123,5 +153,6 @@ const Th = styled.th`
 const Td = styled.td`
   text-align: center;
   padding: 12px;
+  cursor: pointer;
 `;
 export default RoutineSet;
