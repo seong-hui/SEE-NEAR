@@ -47,9 +47,15 @@ export const axiosUpdateEvent = async (
   }
 };
 
-export const axiosDeleteEvent = async (id: number): Promise<void> => {
+export const axiosDeleteEvent = async (
+  id: number,
+  title: string,
+  location: string,
+  datetime: string
+) => {
   try {
-    await instance.delete(`/events/${id}`);
+    const body = { title, location, datetime };
+    await instance.delete(`/events/${id}`, { data: body });
   } catch (error) {
     throw error;
   }

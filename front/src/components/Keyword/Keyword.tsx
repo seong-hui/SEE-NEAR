@@ -3,7 +3,7 @@ import VerticalSetImg from "@/assets/images/more_vertical.svg";
 import { formatTime } from "@/utils/formatTime";
 import KeywordModal from "../modal/KeywordModal";
 import { ConversationDto } from "@/dto/dto";
-import { getEmoji } from "@/hooks/getEmotionImgaes";
+import { getEmotionImage } from "@/hooks/getEmotionImgaes";
 
 interface KeywordProps {
   keywords: ConversationDto[];
@@ -29,7 +29,10 @@ const Keyword = ({
             onClick={() => handleKeywordClick(keyword)}
           >
             <EmojiWrapped>
-              <EmojiStyled src={getEmoji(keyword.emotion)} alt="MoodEmoji" />
+              <EmojiStyled
+                src={getEmotionImage(keyword.emotion)}
+                alt="MoodEmoji"
+              />
             </EmojiWrapped>
             <KeywordTextStyled>
               <WordTextStyled>{keyword.keyword}</WordTextStyled>

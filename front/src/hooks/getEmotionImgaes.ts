@@ -18,11 +18,3 @@ export const getEmotionImage = (emotion: number) => {
       return;
   }
 };
-
-export const getEmoji = (mood: number) => {
-  if (mood === 0) return Emotion1Img;
-  else if (mood === 1) return Emotion2Img;
-  else if (mood === 2) return Emotion3Img;
-  else if (mood === 3) return Emotion4Img;
-  else if (mood === 4) return Emotion5Img;
-};

@@ -16,6 +16,8 @@ interface TodoProps {
   handleCloseDetailModal: () => void;
   handleTodoClick: (todo: EventDto) => void;
   showDetailModal: boolean;
+  selectedDate: string;
+  handleDeleteEvent: (data: EventDto) => void;
 }
 const Todo = ({
   todos,
@@ -26,6 +28,8 @@ const Todo = ({
   handleCloseDetailModal,
   handleTodoClick,
   showDetailModal,
+  selectedDate,
+  handleDeleteEvent,
 }: TodoProps) => {
   return (
     <>
@@ -43,12 +47,17 @@ const Todo = ({
         </AddBtnStyled>
       </TodoStyled>
       {showAddModal && (
-        <AddModal show={showAddModal} onClose={handleCloseModal}></AddModal>
+        <AddModal
+          show={showAddModal}
+          onClose={handleCloseModal}
+          selectedDate={selectedDate}
+        ></AddModal>
       )}
       <DetailModal
         show={showDetailModal}
         onClose={handleCloseDetailModal}
         todo={selectedTodo}
+        handleDeleteEvent={handleDeleteEvent}
       />
     </>
   );
@@ -59,6 +68,15 @@ const TodoStyled = styled.div`
   background-color: rgba(255, 255, 255, 0.5);
   border-radius: 10px;
   padding: 20px;
+  max-height: 240px;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background: var(--main-color);
+  }
 `;
 
 const TodoBoxStyled = styled.div`

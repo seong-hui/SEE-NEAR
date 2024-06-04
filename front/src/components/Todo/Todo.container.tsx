@@ -2,6 +2,7 @@ import Todo from "@/components/Todo/Todo";
 import { useState } from "react";
 import { EventDto } from "@/dto/dto";
 import { useGetEvents } from "@/api/query/reactQuery";
+import { axiosDeleteEvent } from "@/api/axios/axiosCustom";
 interface TodoContainerProps {
   selectedDate: string;
 }
@@ -34,6 +35,10 @@ const TodoContainer = ({ selectedDate }: TodoContainerProps) => {
     setShowDetailModal(true);
   };
 
+  const handleDeleteEvent = (data: EventDto) => {
+    axiosDeleteEvent(data.id, data.title, data.location, data.datetime);
+  };
+
   return (
     <Todo
       todos={todos}
@@ -44,6 +49,8 @@ const TodoContainer = ({ selectedDate }: TodoContainerProps) => {
       handleCloseDetailModal={handleCloseDetailModal}
       handleTodoClick={handleTodoClick}
       showDetailModal={showDetailModal}
+      selectedDate={selectedDate}
+      handleDeleteEvent={handleDeleteEvent}
     />
   );
 };
