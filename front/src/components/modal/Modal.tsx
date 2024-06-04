@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { axiosEventsCreate } from "@/api/axios/axiosCustom";
 
@@ -17,7 +17,7 @@ const AddModal = ({ show, onClose }: ModalProps) => {
       await axiosEventsCreate(title, location, datetime);
       onClose();
     } catch (error) {
-      console.error("Failed to add event:", error);
+      console.error(error);
     }
   };
 

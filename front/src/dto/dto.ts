@@ -24,3 +24,9 @@ export interface UsetInfoDto {
   birth: string;
   is_senior: boolean;
 }
+
+export interface EmotionDto {
+  id: number;
+  emotion: number;
+  date: string;
+}

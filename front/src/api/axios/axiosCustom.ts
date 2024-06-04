@@ -1,5 +1,5 @@
 import { instance, signupInstance } from "@/api/axios/axiosInstance";
-import { EventDto, ConversationDto, UsetInfoDto } from "@/dto/dto";
+import { EventDto, ConversationDto, UsetInfoDto, EmotionDto } from "@/dto/dto";
 
 export const axiosEventsCreate = async (
   title: string,
@@ -131,3 +131,14 @@ export const axiosJoin = async (
   );
   return response.data;
 };
+
+export const axiosGetEmotion = async (date: string): Promise<EmotionDto[]> => {
+  try {
+    const response = await instance.get<EmotionDto[]>(`/conv/day/${date}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// BASE_URL/conv/day/<string:YYYY-MM>/
