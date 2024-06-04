@@ -61,3 +61,19 @@ export interface TransformedData {
   name: string;
   data: number[];
 }
+
+export interface SeniorInfoDto {
+  id: string;
+  senior_birth: string;
+  senior_gender: number;
+  senior_diseases: string;
+  senior_interests: string;
+  senior_id: number;
+}
+
+export interface SeniorPostInfo {
+  senior_gender: number;
+  senior_birth: string;
+  senior_diseases: string;
+  senior_interests: string;
+}

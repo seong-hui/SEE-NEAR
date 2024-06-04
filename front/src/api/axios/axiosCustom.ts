@@ -5,6 +5,8 @@ import {
   UsetInfoDto,
   EmotionDto,
   WeeklyData,
+  SeniorInfoDto,
+  SeniorPostInfo,
 } from "@/dto/dto";
 
 export const axiosEventsCreate = async (
@@ -157,6 +159,34 @@ export const axiosGetWeekly = async (date: string): Promise<WeeklyData> => {
   try {
     const response = await instance.get<WeeklyData>(`/conv/week/${date}`);
     return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const axiosGetSeniorInfo = async (): Promise<SeniorInfoDto> => {
+  try {
+    const response = await instance.get<SeniorInfoDto>(`/auth/family`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const axiosUpdateSenior = async (
+  senior_gender: number,
+  senior_birth: string,
+  senior_diseases: string,
+  senior_interests: string
+): Promise<any> => {
+  try {
+    const body = {
+      senior_gender,
+      senior_birth,
+      senior_diseases,
+      senior_interests,
+    };
+    await instance.put<SeniorPostInfo>(`/auth/family/update`, body);
   } catch (error) {
     throw error;
   }

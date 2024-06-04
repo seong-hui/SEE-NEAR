@@ -1,7 +1,14 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient } from "./queryClient";
 
-import { EventDto, ConversationDto, EmotionDto, WeeklyData } from "@/dto/dto";
+import {
+  EventDto,
+  ConversationDto,
+  EmotionDto,
+  WeeklyData,
+  SeniorInfoDto,
+  SeniorPostInfo,
+} from "@/dto/dto";
 import {
   axiosEventsCheck,
   axiosConvList,
@@ -9,6 +16,8 @@ import {
   axiosEventsCreate,
   axiosDeleteEvent,
   axiosGetWeekly,
+  axiosGetSeniorInfo,
+  axiosUpdateSenior,
 } from "@/api/axios/axiosCustom";
 
 import { AxiosError, isAxiosError } from "axios";
@@ -108,6 +117,39 @@ export const useEventsDelete = (onSuccessCallback: () => void) => {
       onSuccessCallback();
     },
     onError: (e: AxiosError) => {
+      if (isAxiosError(e)) console.log(e);
+      else console.log(e);
+    },
+  });
+
+  return mutation;
+};
+
+export const useGetSenior = () => {
+  const { data, error, isError } = useQuery<SeniorInfoDto, Error>({
+    queryKey: ["senior"],
+    queryFn: axiosGetSeniorInfo,
+  });
+
+  return { data, error, isError };
+};
+
+export const usePutSenior = (onSuccessCallback: () => void) => {
+  const mutation = useMutation<SeniorPostInfo, AxiosError, SeniorPostInfo>({
+    mutationFn: (data) =>
+      axiosUpdateSenior(
+        data.senior_gender,
+        data.senior_birth,
+        data.senior_diseases,
+        data.senior_interests
+      ),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["senior"],
+      });
+      onSuccessCallback();
+    },
+    onError: (e) => {
       if (isAxiosError(e)) console.log(e);
       else console.log(e);
     },
