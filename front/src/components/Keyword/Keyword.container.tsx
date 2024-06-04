@@ -3,25 +3,17 @@ import { useState, useEffect } from "react";
 import { axiosConvList } from "@/api/axios/axiosCustom";
 import { dummyKeywords } from "@/assets/data/dummyKeywords";
 import { ConversationDto } from "@/dto/dto";
+import { useGetConv } from "@/api/query/reactQuery";
 
 interface KeywordContainerProps {
   selectedDate: string;
 }
 
 const KeywordContainer = ({ selectedDate }: KeywordContainerProps) => {
-  const [keywords, setKeywords] = useState<ConversationDto[]>([]);
-  // const [keywords, setKeywords] = useState(dummyKeywords);
-  useEffect(() => {
-    const fetchConv = async () => {
-      try {
-        const response = await axiosConvList(selectedDate);
-        setKeywords(response);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchConv();
-  }, [selectedDate]);
+  const { data: keywords = [], error, isError } = useGetConv(selectedDate);
+  if (isError) {
+    console.error(error);
+  }
 
   const [selectedKeyword, setSelectedKeyword] =
     useState<ConversationDto | null>(null);
