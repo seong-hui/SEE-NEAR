@@ -247,22 +247,35 @@
 // export default Chatbot;
 
 import React, { useState, useEffect, useCallback } from "react";
-import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
 import axios from "axios";
 
 interface Props {
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  setList: React.Dispatch<React.SetStateAction<{ prompt: string | null; bot: any; }[]>>;
-  list: { prompt: string | null; bot: any; }[];
+  setList: React.Dispatch<
+    React.SetStateAction<{ prompt: string | null; bot: any }[]>
+  >;
+  list: { prompt: string | null; bot: any }[];
+  isChatActive: boolean;
 }
 
-const Chatbot: React.FC<Props> = ({ isLoading, setIsLoading, setList, list }) => {
+const Chatbot: React.FC<Props> = ({
+  isLoading,
+  setIsLoading,
+  setList,
+  list,
+  isChatActive,
+}) => {
   const { transcript, resetTranscript, listening } = useSpeechRecognition();
   const [stream, setStream] = useState<MediaStream | null>(null);
-  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
+  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(
+    null
+  );
   const [audioUrl, setAudioUrl] = useState<Blob | null>(null);
-  const [return_audioUrl, set_return_AudioUrl] = useState<string>('');
+  const [return_audioUrl, set_return_AudioUrl] = useState<string>("");
   const [count, setCount] = useState<number>(0);
   const [timerId, setTimerId] = useState<number | null>(null); // 타이머 아이디를 상태로 관리
 
@@ -297,11 +310,13 @@ const Chatbot: React.FC<Props> = ({ isLoading, setIsLoading, setList, list }) =>
   const startConversation = async () => {
     startRecording();
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/startConversation/');
+      const response = await axios.get(
+        "http://127.0.0.1:8000/api/startConversation/"
+      );
       const message = response.data.message;
-      console.log(message); 
+      console.log(message);
     } catch (error) {
-      console.error('Error starting conversation:', error);
+      console.error("Error starting conversation:", error);
     }
   };
 
@@ -310,15 +325,18 @@ const Chatbot: React.FC<Props> = ({ isLoading, setIsLoading, setList, list }) =>
     setList([]);
     resetTranscript();
     setCount(0);
-    if (timerId) { // timerId가 존재할 때만 clearInterval 호출
+    if (timerId) {
+      // timerId가 존재할 때만 clearInterval 호출
       clearInterval(timerId);
     }
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/endConversation/');
+      const response = await axios.get(
+        "http://127.0.0.1:8000/api/endConversation/"
+      );
       const message = response.data.message;
       console.log(message);
     } catch (error) {
-      console.error('Error ending conversation:', error);
+      console.error("Error ending conversation:", error);
     }
   }, [resetTranscript, setList, stopRecording, timerId]);
 
@@ -351,27 +369,34 @@ const Chatbot: React.FC<Props> = ({ isLoading, setIsLoading, setList, list }) =>
   }, [listening, transcript, endConversation, stopRecording, timerId]);
 
   useEffect(() => {
-    setCount(0)
-  }, [transcript])
+    setCount(0);
+  }, [transcript]);
 
   useEffect(() => {
     const sendMessage = async () => {
       try {
-        if (audioUrl && transcript && transcript.trim() !== '') {
-          setList(prevList => [...prevList, { prompt: transcript, bot: null }]);
+        if (audioUrl && transcript && transcript.trim() !== "") {
+          setList((prevList) => [
+            ...prevList,
+            { prompt: transcript, bot: null },
+          ]);
           const formData = new FormData();
-          formData.append('text', transcript);
+          formData.append("text", transcript);
           formData.append("audio", audioUrl);
-          const response = await axios.post('http://127.0.0.1:8000/api/chatbot/', formData, { responseType: 'blob' }); 
+          const response = await axios.post(
+            "http://127.0.0.1:8000/api/chatbot/",
+            formData,
+            { responseType: "blob" }
+          );
           if (response.status === 200) {
             set_return_AudioUrl(response.data);
           } else {
-            console.error('Failed to get audio file:', response.statusText);
+            console.error("Failed to get audio file:", response.statusText);
           }
           resetTranscript();
         }
       } catch (error) {
-        console.error('Error sending data:', error);
+        console.error("Error sending data:", error);
       }
     };
 
@@ -390,21 +415,24 @@ const Chatbot: React.FC<Props> = ({ isLoading, setIsLoading, setList, list }) =>
 
   useEffect(() => {
     if (return_audioUrl) {
-      const audioBlob = new Blob([return_audioUrl], { type: 'audio/wav' });
+      const audioBlob = new Blob([return_audioUrl], { type: "audio/wav" });
       const url = URL.createObjectURL(audioBlob);
       const audioElement = new Audio(url);
-      audioElement.setAttribute('crossorigin', 'anonymous');
-      audioElement.addEventListener('canplaythrough', () => {
-        audioElement.play().then(() => {
-          // Playback started successfully
-        }).catch((error) => {
-          console.error('Error playing audio:', error);
-        });
+      audioElement.setAttribute("crossorigin", "anonymous");
+      audioElement.addEventListener("canplaythrough", () => {
+        audioElement
+          .play()
+          .then(() => {
+            // Playback started successfully
+          })
+          .catch((error) => {
+            console.error("Error playing audio:", error);
+          });
       });
-      audioElement.addEventListener('error', (error) => {
-        console.error('Error loading audio:', error);
+      audioElement.addEventListener("error", (error) => {
+        console.error("Error loading audio:", error);
       });
-      audioElement.addEventListener('ended', () => {
+      audioElement.addEventListener("ended", () => {
         setTimeout(() => {
           startRecording();
         }, 3000);
@@ -412,13 +440,29 @@ const Chatbot: React.FC<Props> = ({ isLoading, setIsLoading, setList, list }) =>
     }
   }, [return_audioUrl]);
 
+  useEffect(() => {
+    if (isChatActive) {
+      startConversation();
+    } else if (!isChatActive) {
+      endConversation();
+    }
+  }, [isChatActive]);
+
   return (
-    <div>
-      <p><button onClick={startConversation}>대화 시작</button></p>
-      <p><button onClick={endConversation}>대화 종료</button></p>
-      <p>입력: {transcript}</p>
-      <p>timer: {count}</p>
-    </div>
+    <>
+      {isChatActive && (
+        <div>
+          {/* <p>
+            <button onClick={startConversation}>대화 시작</button>
+          </p>
+          <p>
+            <button onClick={endConversation}>대화 종료</button>
+          </p> */}
+          <p>입력: {transcript}</p>
+          <p>timer: {count}</p>
+        </div>
+      )}
+    </>
   );
 };
 
