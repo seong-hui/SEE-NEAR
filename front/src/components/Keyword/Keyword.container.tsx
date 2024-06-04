@@ -1,7 +1,5 @@
 import Keyword from "@/components/Keyword/Keyword";
-import { useState, useEffect } from "react";
-import { axiosConvList } from "@/api/axios/axiosCustom";
-import { dummyKeywords } from "@/assets/data/dummyKeywords";
+import { useState } from "react";
 import { ConversationDto } from "@/dto/dto";
 import { useGetConv } from "@/api/query/reactQuery";
 

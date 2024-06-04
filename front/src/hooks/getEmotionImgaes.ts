@@ -4,20 +4,20 @@ import Emotion3Img from "@/assets/images/emoji3.svg";
 import Emotion4Img from "@/assets/images/emoji4.svg";
 import Emotion5Img from "@/assets/images/emoji5.svg";
 
-export function getEmotionImage(emotion: number) {
+export const getEmotionImage = (emotion: number) => {
   switch (emotion) {
     case 0:
       return Emotion1Img;
     case 1:
-      return Emotion1Img;
+      return Emotion2Img;
     case 2:
-      return Emotion1Img;
+      return Emotion3Img;
     case 3:
-      return Emotion1Img;
+      return Emotion4Img;
     default:
       return;
   }
-}
+};
 
 export const getEmoji = (mood: number) => {
   if (mood === 0) return Emotion1Img;

@@ -2,9 +2,8 @@ import CalendarFunc from "@/components/Calendar/CalenderFunc";
 import { selectedDateState } from "@/recoil/atom";
 import { useRecoilState } from "recoil";
 import { formatDateToYYYYMM } from "@/utils/formatDateUtils";
-import { useState, useEffect } from "react";
-import { axiosGetEmotion } from "@/api/axios/axiosCustom";
-import { EmotionDto } from "@/dto/dto";
+import { useState } from "react";
+import { useGeEmotions } from "@/api/query/reactQuery";
 
 const CalendarFuncContainer = () => {
   const [selectedDate, setSelectedDate] = useRecoilState(selectedDateState);
@@ -13,24 +12,16 @@ const CalendarFuncContainer = () => {
     setSelectedDate(date);
   };
   const [activeMonth, setActiveMonth] = useState(selectMonth);
-  const [emotionData, setEmotionData] = useState<EmotionDto[]>([]);
 
   const onMonthChange = (startDate: Date) => {
     setActiveMonth(formatDateToYYYYMM(startDate));
   };
 
-  useEffect(() => {
-    console.log(activeMonth);
-    const fetchData = async () => {
-      try {
-        const response = await axiosGetEmotion(activeMonth);
-        setEmotionData(response);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
-  }, [activeMonth]);
+  const { data: emotionData = [], error, isError } = useGeEmotions(activeMonth);
+  if (isError) {
+    console.error(error);
+  }
+
   return (
     <CalendarFunc
       onClickDay={onClickDay}

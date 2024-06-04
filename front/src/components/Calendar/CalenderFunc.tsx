@@ -37,19 +37,26 @@ const CalendarFunc = ({
       showNeighboringMonth={false} //앞뒤 달의 이어지는 날짜 보여주기 여부
       tileContent={({ date, view }) => {
         if (view === "month") {
-          const dateString = formatDate(date);
+          // 월 보기 모드일 때만 실행
+          const dateString = formatDate(date); // 날짜를 'YYYY-MM-DD' 형식으로 포맷
           const emotionEntry = emotionData.find(
             (entry) => entry.date === dateString
           );
-          const emotionComponent = emotionEntry ? (
-            getEmotionImage(emotionEntry.emotion)
-          ) : (
-            <BasicDotStyled />
-          );
 
-          return <>{emotionComponent}</>;
+          return (
+            <>
+              {emotionEntry ? (
+                <EmotionImg
+                  src={getEmotionImage(emotionEntry.emotion)}
+                  key={dateString}
+                />
+              ) : (
+                <BasicDotStyled key={dateString} />
+              )}
+            </>
+          );
         }
-        return null;
+        return null; // 다른 뷰(년, 10년)에서는 아무것도 렌더링하지 않음
       }}
     />
   );
