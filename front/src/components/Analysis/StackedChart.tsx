@@ -1,36 +1,31 @@
 import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 
-const data = [
-  { month: "월", revenue: 12 },
-  { month: "화", revenue: 18 },
-  { month: "수", revenue: 20 },
-  { month: "목", revenue: 15 },
-  { month: "금", revenue: 25 },
-  { month: "토", revenue: 25 },
-  { month: "일", revenue: 25 },
-];
-
 const options: ApexOptions = {
   theme: {
     mode: "light",
   },
   chart: {
     type: "bar",
-  },
-  plotOptions: {
-    bar: {
-      borderRadius: 3,
-    },
+    stacked: true,
   },
   dataLabels: {
     enabled: false,
   },
-  colors: ["#FE9FAB"],
+  plotOptions: {
+    bar: {
+      horizontal: true,
+      borderRadius: 3,
+    },
+  },
+  colors: ["#FE9FAB", "#FEE471", "#39D4C0", "#01AFDA"],
+  yaxis: {
+    title: {
+      text: undefined,
+    },
+  },
   xaxis: {
     categories: ["월", "화", "수", "목", "금", "토", "일"],
-  },
-  yaxis: {
     labels: {
       show: false,
       formatter: function (val) {
@@ -42,12 +37,24 @@ const options: ApexOptions = {
 
 const series = [
   {
-    name: "부정 감정",
-    data: data.map((item) => item.revenue),
+    name: "부정",
+    data: [44, 55, 41, 37, 22, 43, 21],
+  },
+  {
+    name: "행복",
+    data: [53, 32, 33, 52, 13, 43, 32],
+  },
+  {
+    name: "보통",
+    data: [12, 17, 11, 9, 15, 11, 20],
+  },
+  {
+    name: "슬픔",
+    data: [9, 7, 5, 8, 6, 9, 4],
   },
 ];
 
-const ColumnChart = () => {
+const StackedChart = () => {
   return (
     // @ts-ignore
     <ReactApexChart
@@ -55,9 +62,9 @@ const ColumnChart = () => {
       series={series}
       type="bar"
       height="240"
-      width="380"
+      width="600"
     />
   );
 };
 
-export default ColumnChart;
+export default StackedChart;

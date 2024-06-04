@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import ColumnChart from "./ColumnChart";
 import LineChart from "./LineChart";
+import StackedChart from "./StackedChart";
 
 const Analysis = () => {
   return (
@@ -25,7 +26,9 @@ const Analysis = () => {
         </DataBoxWrapper>
         <DataBoxWrapper>
           <DateTitle>주간 감정</DateTitle>
-          <DataBox></DataBox>
+          <DataBox>
+            <StackedChart />
+          </DataBox>
         </DataBoxWrapper>
       </AnalysisColBox>
       <AnalysisColBox>
@@ -70,6 +73,10 @@ const DataBox = styled.div`
   display: flex;
   align-items: center;
   .apexcharts-toolbar {
+    display: none;
+  }
+  //데이터 종류
+  .apexcharts-legend.apx-legend-position-bottom.apexcharts-align-center {
     display: none;
   }
 `;
