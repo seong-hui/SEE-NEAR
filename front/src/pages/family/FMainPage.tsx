@@ -2,8 +2,6 @@ import styled from "styled-components";
 import LeftNavContainer from "@/components/LeftNav/LeftNav.container";
 import CalendarFuncContainer from "@/components/Calendar/CalendarFunc.container";
 import DailySectionContainer from "@/components/DailySection/DailySection.container";
-import { formatDateToYYYYMM } from "@/utils/formatDateUtils";
-
 
 const FMainPage = () => {
   return (

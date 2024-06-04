@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import ApexChart from "apexcharts";
+import ColumnChart from "./ColumnChart";
 
 const Analysis = () => {
   return (
@@ -8,7 +8,7 @@ const Analysis = () => {
         <DataBoxWrapper>
           <DateTitle>주간 키워드</DateTitle>
           <DataBox>
-            <KeywordBox>
+            {/* <KeywordBox>
               <NumBox>1</NumBox>
               <KeywordText>저녁 식사</KeywordText>
             </KeywordBox>
@@ -19,48 +19,24 @@ const Analysis = () => {
             <KeywordBox>
               <NumBox>3</NumBox>
               <KeywordText>임영웅</KeywordText>
-            </KeywordBox>
+            </KeywordBox> */}
           </DataBox>
         </DataBoxWrapper>
         <DataBoxWrapper>
           <DateTitle>주간 감정</DateTitle>
-          <DataBox>{/* <ApexCharts /> */}</DataBox>
+          <DataBox>
+            <ColumnChart />
+          </DataBox>
         </DataBoxWrapper>
       </AnalysisColBox>
       <AnalysisColBox>
         <DataBoxWrapper>
           <DateTitle>주간 키워드</DateTitle>
-          <DataBox>
-            <KeywordBox>
-              <NumBox>1</NumBox>
-              <KeywordText>저녁 식사</KeywordText>
-            </KeywordBox>
-            <KeywordBox>
-              <NumBox>2</NumBox>
-              <KeywordText>꽃놀이</KeywordText>
-            </KeywordBox>
-            <KeywordBox>
-              <NumBox>3</NumBox>
-              <KeywordText>임영웅</KeywordText>
-            </KeywordBox>
-          </DataBox>
+          <DataBox></DataBox>
         </DataBoxWrapper>
         <DataBoxWrapper>
           <DateTitle>주간 감정</DateTitle>
-          <DataBox>
-            <KeywordBox>
-              <NumBox>1</NumBox>
-              <KeywordText>저녁 식사</KeywordText>
-            </KeywordBox>
-            <KeywordBox>
-              <NumBox>2</NumBox>
-              <KeywordText>꽃놀이</KeywordText>
-            </KeywordBox>
-            <KeywordBox>
-              <NumBox>3</NumBox>
-              <KeywordText>임영웅</KeywordText>
-            </KeywordBox>
-          </DataBox>
+          <DataBox></DataBox>
         </DataBoxWrapper>
       </AnalysisColBox>
     </AnalysisLayout>
@@ -87,7 +63,12 @@ const DataBox = styled.div`
   background-color: white;
   height: 240px;
   border-radius: 15px;
-  padding: 0 20px 15px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  .apexcharts-toolbar {
+    display: none;
+  }
 `;
 
 const DateTitle = styled.h3`
