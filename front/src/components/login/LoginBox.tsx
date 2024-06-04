@@ -25,7 +25,8 @@ const LoginBox = () => {
         const response = await axiosLogin(userId, userPw);
         localStorage.setItem("token", response.token);
         alert("로그인이 완료되었습니다.");
-        navigate("/family/main");
+        if (response.is_senior) navigate("/");
+        else navigate("/family/main");
       } catch (error) {
         if (axios.isAxiosError(error) && error.response)
           alert(error.response.data.message);

@@ -100,6 +100,7 @@ export const axiosDeleteConv = async (id: number): Promise<void> => {
 
 interface ApiResponse {
   token: string;
+  is_senior: boolean;
 }
 export const axiosLogin = async (
   username: string,
