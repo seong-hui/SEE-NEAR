@@ -46,7 +46,7 @@ const Analysis = ({ weeklyData }: AnalysisProps) => {
         <DataBoxWrapper>
           <DateTitle>감정 기록</DateTitle>
           <DataBox>
-            <ColumnChart />
+            <ColumnChart data={weeklyData.variances} />
           </DataBox>
         </DataBoxWrapper>
       </AnalysisColBox>

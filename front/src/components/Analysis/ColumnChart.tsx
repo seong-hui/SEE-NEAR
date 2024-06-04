@@ -1,15 +1,6 @@
 import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
-
-const data = [
-  { month: "월", revenue: 12 },
-  { month: "화", revenue: 18 },
-  { month: "수", revenue: 20 },
-  { month: "목", revenue: 15 },
-  { month: "금", revenue: 25 },
-  { month: "토", revenue: 25 },
-  { month: "일", revenue: 25 },
-];
+import { VarianceData } from "@/dto/dto";
 
 const options: ApexOptions = {
   theme: {
@@ -33,21 +24,20 @@ const options: ApexOptions = {
   yaxis: {
     labels: {
       show: false,
-      formatter: function (val) {
-        return val + "개";
-      },
     },
   },
 };
 
-const series = [
-  {
-    name: "부정 감정",
-    data: data.map((item) => item.revenue),
-  },
-];
-
-const ColumnChart = () => {
+interface ColumnChartProps {
+  data: VarianceData[];
+}
+const ColumnChart = ({ data }: ColumnChartProps) => {
+  const series = [
+    {
+      name: "감정 분산",
+      data: data.map((item) => item.variance),
+    },
+  ];
   return (
     // @ts-ignore
     <ReactApexChart
