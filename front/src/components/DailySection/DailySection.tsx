@@ -41,5 +41,7 @@ const BoxTitleStyled = styled.div`
   margin: 30px 0 15px;
 `;
 
-const KeywordBoxStyled = styled.div``;
+const KeywordBoxStyled = styled.div`
+
+`;
 export default DailySection;

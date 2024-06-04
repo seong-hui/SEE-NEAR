@@ -2,6 +2,7 @@ import Keyword from "@/components/Keyword/Keyword";
 import { useState } from "react";
 import { ConversationDto } from "@/dto/dto";
 import { useGetConv } from "@/api/query/reactQuery";
+import styled from "styled-components";
 
 interface KeywordContainerProps {
   selectedDate: string;
@@ -27,13 +28,23 @@ const KeywordContainer = ({ selectedDate }: KeywordContainerProps) => {
   };
 
   return (
-    <Keyword
-      keywords={keywords}
-      showModal={showModal}
-      handleKeywordClick={handleKeywordClick}
-      handleCloseModal={handleCloseModal}
-      selectedKeyword={selectedKeyword}
-    />
+    <KeywordBox>
+      <Keyword
+        keywords={keywords}
+        showModal={showModal}
+        handleKeywordClick={handleKeywordClick}
+        handleCloseModal={handleCloseModal}
+        selectedKeyword={selectedKeyword}
+      />
+    </KeywordBox>
   );
 };
+
+const KeywordBox = styled.div`
+  max-height: 280px;
+  overflow-y: auto;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+`;
 export default KeywordContainer;
