@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { extractTime } from "@/utils/extractTime";
-import Button from "../button/Button";
 import { EventDto } from "@/dto/dto";
 import { formatTimestampToString } from "@/utils/formatDateUtils";
 interface EventsCheckResponse {
@@ -31,20 +30,22 @@ const DetailModal = ({
     <ModalBackdrop onClick={onClose}>
       <ModalContent onClick={(e) => e.stopPropagation()}>
         <h2>{formatTimestampToString(todo.datetime)}의 일정</h2>
-        <p>
-          <strong>일정 제목 :</strong> {todo.title}
-        </p>
-        <p>
-          <strong>장소 :</strong> {todo.location}
-        </p>
-        <p>
-          <strong>시간 : </strong> {extractTime(todo.datetime)}
-        </p>
+        <ModalTextWrapper>
+          <ModalText>
+            <strong>일정 제목 :</strong> {todo.title}
+          </ModalText>
+          <ModalText>
+            <strong>장소 :</strong> {todo.location}
+          </ModalText>
+          <ModalText>
+            <strong>시간 : </strong> {extractTime(todo.datetime)}
+          </ModalText>
+        </ModalTextWrapper>
         <ButtonWrapper>
-          <CloseButton onClick={() => handleDeleteEvent(todo)}>
+          <StyledButton onClick={() => handleDeleteEvent(todo)}>
             삭제
-          </CloseButton>
-          <CloseButton onClick={onClose}>닫기</CloseButton>
+          </StyledButton>
+          <StyledButton onClick={onClose}>닫기</StyledButton>
         </ButtonWrapper>
       </ModalContent>
     </ModalBackdrop>
@@ -75,21 +76,37 @@ const ModalContent = styled.div`
   flex-direction: column;
 `;
 
-const CloseButton = styled.button`
-  padding: 10px;
-  margin-top: 20px;
-  align-self: center;
-  background: gray;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-`;
-
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: space-evenly;
 `;
 
+const StyledButton = styled.button`
+  width: 100px;
+  padding: 10px 20px;
+  margin-top: 10px;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:first-of-type {
+    margin-right: 10px;
+  }
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
+const ModalText = styled.div`
+  font-size: 18px;
+`;
+const ModalTextWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 10px 0 20px 10px;
+`;
 export default DetailModal;
