@@ -250,7 +250,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-import { instance } from "./api/axios/axiosInstance";
+import { localInstance } from "./api/axios/axiosInstance";
 
 interface Props {
   isLoading: boolean;
@@ -311,7 +311,7 @@ const Chatbot: React.FC<Props> = ({
   const startConversation = async () => {
     startRecording();
     try {
-      const response = await instance.get(
+      const response = await localInstance.get(
         "http://127.0.0.1:8000/api/startConversation/"
       );
       // const response = await axios.get('http://127.0.0.1:8000/api/startConversation/');
@@ -333,7 +333,7 @@ const Chatbot: React.FC<Props> = ({
     }
     try {
       const url = 'http://127.0.0.1:8000/conv/posts/update/'
-      const response = await instance.put(url + postId + '/', null,{});
+      const response = await localInstance.put(url + postId + '/', null,{});
       const message = response.data.message;
       console.log(message);
     } catch (error) {
@@ -381,7 +381,11 @@ const Chatbot: React.FC<Props> = ({
           const formData = new FormData();
           formData.append('text', transcript);
           formData.append("audio", audioUrl);
-          const response = await instance.post('http://127.0.0.1:8000/api/chatbot/', formData, { responseType: 'blob' }); 
+          const response = await localInstance.post(
+            "http://127.0.0.1:8000/api/chatbot/",
+            formData,
+            { responseType: "blob" }
+          );
           if (response.status === 200) {
             set_return_AudioUrl(response.data);
           } else {
