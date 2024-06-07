@@ -312,7 +312,7 @@ const Chatbot: React.FC<Props> = ({
     startRecording();
     try {
       const response = await localInstance.get(
-        "http://127.0.0.1:8000/api/startConversation/"
+        "http://127.0.0.1:8000/conv/posts/create/"
       );
       // const response = await axios.get('http://127.0.0.1:8000/api/startConversation/');
       // const message = response.data.message;
@@ -333,7 +333,7 @@ const Chatbot: React.FC<Props> = ({
     }
     try {
       const url = 'http://127.0.0.1:8000/conv/posts/update/'
-      const response = await localInstance.put(url + postId + '/', null,{});
+      const response = await localInstance.put(url + postId);
       const message = response.data.message;
       console.log(message);
     } catch (error) {
@@ -434,28 +434,27 @@ const Chatbot: React.FC<Props> = ({
       });
     }
   }, [return_audioUrl]);
-  useEffect(() => {
-    if (isChatActive) {
-      startConversation();
-    } else if (!isChatActive) {
-      endConversation();
-    }
-  }, [isChatActive]);
+  // useEffect(() => {
+  //   if (isChatActive) {
+  //     startConversation();
+  //   } else if (!isChatActive) {
+  //     endConversation();
+  //   }
+  // }, [isChatActive]);
 
   return (
     <>
-      {isChatActive && (
+    
         <div>
-          {/* <p>
+          <p>
             <button onClick={startConversation}>대화 시작</button>
           </p>
           <p>
             <button onClick={endConversation}>대화 종료</button>
-          </p> */}
+          </p>
           <p>입력: {transcript}</p>
           <p>timer: {count}</p>
         </div>
-      )}
     </>
   );
 };
