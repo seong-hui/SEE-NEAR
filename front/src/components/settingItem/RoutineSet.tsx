@@ -2,19 +2,20 @@ import styled from "styled-components";
 import EditButtonImg from "@/assets/images/edit.svg";
 import { useState } from "react";
 import RoutineModal from "../modal/RoutineModal";
+import {
+  useRoutineCreate,
+  useRoutineUpdate,
+  useRoutineDelete,
+} from "@/api/query/reactQuery";
+import { RoutineDto } from "@/dto/dto";
+import RoutineEditModal from "../modal/RoutineEditModal";
 
-interface Routine {
-  name: string;
-  time: string;
+interface RoutineSetProps {
+  routines: RoutineDto[];
 }
 
-const RoutineSet = () => {
+const RoutineSet = ({ routines }: RoutineSetProps) => {
   const [isModalOpen, setModalOpen] = useState(false);
-  const [routines, setRoutines] = useState([
-    { name: "아침 식사", time: "08:30" },
-    { name: "점심 식사", time: "13:30" },
-    { name: "저녁 식사", time: "18:30" },
-  ]);
 
   const handleOpenModal = () => {
     setModalOpen(true);
@@ -24,16 +25,38 @@ const RoutineSet = () => {
     setModalOpen(false);
   };
 
-  const handleAddRoutine = (routine: Routine) => {
-    setRoutines([...routines, routine]);
-    handleCloseModal();
+  const handleCloseEditModal = () => {
+    setModalEditOpen(false);
   };
 
-  const handleDeleteRoutine = (index: number) => {
-    const newRoutines = [...routines];
-    newRoutines.splice(index, 1);
-    setRoutines(newRoutines);
+  const { mutate: AddRoutine } = useRoutineCreate(handleCloseModal);
+  const { mutate: UpdateRoutine } = useRoutineUpdate(handleCloseEditModal);
+  const { mutate: DeleteRoutine } = useRoutineDelete(handleCloseEditModal);
+
+  const [isModalEditOpen, setModalEditOpen] = useState(false);
+  const [selectedRoutine, setSelectedRoutine] = useState<RoutineDto>();
+
+  const handleAddRoutine = (data: RoutineDto) => {
+    AddRoutine(data);
   };
+
+  const handleUpdateRoutine = (data: RoutineDto) => {
+    UpdateRoutine(data);
+  };
+
+  const handleDeleteRoutine = () => {
+    if (selectedRoutine && selectedRoutine.id)
+      DeleteRoutine(selectedRoutine.id);
+  };
+
+  const handleRoutineClick = (routine: RoutineDto) => {
+    setSelectedRoutine(routine);
+    setModalEditOpen(true);
+  };
+
+  const sortedRoutines = routines.sort((a, b) => {
+    return a.time.localeCompare(b.time);
+  });
 
   return (
     <SettingItemLayout>
@@ -48,8 +71,8 @@ const RoutineSet = () => {
             </tr>
           </thead>
           <tbody>
-            {routines.map((routine, index) => (
-              <tr key={index}>
+            {sortedRoutines.map((routine, index) => (
+              <tr key={index} onClick={() => handleRoutineClick(routine)}>
                 <Td>{routine.name}</Td>
                 <Td>{routine.time}</Td>
               </tr>
@@ -59,6 +82,17 @@ const RoutineSet = () => {
         {isModalOpen && (
           <RoutineModal onClose={handleCloseModal} onSave={handleAddRoutine} />
         )}
+        {isModalEditOpen &&
+          selectedRoutine?.name &&
+          selectedRoutine.time &&
+          selectedRoutine.id && (
+            <RoutineEditModal
+              onClose={handleCloseEditModal}
+              onSave={handleUpdateRoutine}
+              selectedRoutine={selectedRoutine}
+              onDelete={handleDeleteRoutine}
+            />
+          )}
       </SettingBox>
     </SettingItemLayout>
   );
@@ -112,5 +146,6 @@ const Th = styled.th`
 const Td = styled.td`
   text-align: center;
   padding: 12px;
+  cursor: pointer;
 `;
 export default RoutineSet;

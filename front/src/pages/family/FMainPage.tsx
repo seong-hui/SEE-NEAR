@@ -2,15 +2,24 @@ import styled from "styled-components";
 import LeftNavContainer from "@/components/LeftNav/LeftNav.container";
 import CalendarFuncContainer from "@/components/Calendar/CalendarFunc.container";
 import DailySectionContainer from "@/components/DailySection/DailySection.container";
+import { useState } from "react";
 
 const FMainPage = () => {
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+  const changeDate = (date: Date) => {
+    setSelectedDate(date);
+  };
   return (
     <FMainPageStyled>
       <LeftNavContainer />
       <MainSection>
-        <CalendarFuncContainer />
+        <CalendarFuncContainer
+          selectedDate={selectedDate}
+          changeDate={changeDate}
+        />
       </MainSection>
-      <DailySectionContainer />
+      <DailySectionContainer selectedDate={selectedDate}/>
     </FMainPageStyled>
   );
 };

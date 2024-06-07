@@ -2,24 +2,26 @@ import { useState } from "react";
 import styled from "styled-components";
 import { RoutineDto } from "@/dto/dto";
 
-interface Routine {
-  name: string;
-  time: string;
-}
-
-interface RoutineModalProps {
+interface RoutineEditModalProps {
   onClose: () => void;
   onSave: (data: RoutineDto) => void;
+  selectedRoutine: RoutineDto;
+  onDelete: () => void;
 }
 
-const RoutineModal = ({ onClose, onSave }: RoutineModalProps) => {
-  const [name, setName] = useState("");
-  const [time, setTime] = useState("");
-  const [is_active, setIs_active] = useState(true);
+const RoutineEditModal = ({
+  onClose,
+  onSave,
+  selectedRoutine,
+  onDelete,
+}: RoutineEditModalProps) => {
+  const [name, setName] = useState(selectedRoutine.name);
+  const [time, setTime] = useState(selectedRoutine.time);
+  const id = selectedRoutine.id;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSave({ name, time, is_active });
+    onSave({ id, name, time });
   };
   return (
     <ModalOverlay>
@@ -42,9 +44,14 @@ const RoutineModal = ({ onClose, onSave }: RoutineModalProps) => {
             />
           </StyledLabel>
           <ButtonWrapper>
-            <StyledButton type="submit">추가</StyledButton>
+            <StyledButton type="submit" onClick={() => onSave}>
+              수정
+            </StyledButton>
+            <StyledButton type="button" onClick={onDelete}>
+              삭제
+            </StyledButton>
             <StyledButton type="button" onClick={onClose}>
-              취소
+              닫기
             </StyledButton>
           </ButtonWrapper>
         </StyledForm>
@@ -107,10 +114,6 @@ const StyledButton = styled.button`
   border-radius: 4px;
   cursor: pointer;
 
-  &:first-of-type {
-    margin-right: 10px;
-  }
-
   &:hover {
     background-color: #0056b3;
   }
@@ -119,5 +122,6 @@ const StyledButton = styled.button`
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
+  gap: 10px;
 `;
-export default RoutineModal;
+export default RoutineEditModal;

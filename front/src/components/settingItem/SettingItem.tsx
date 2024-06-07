@@ -3,24 +3,15 @@ import ProfileSvg from "@/assets/images/seenearIcon.svg";
 import UserInfoModal from "../modal/UserInfoModal";
 import { useState } from "react";
 import EditButtonImg from "@/assets/images/edit.svg";
+import { SeniorInfoDto, SeniorPostInfo } from "@/dto/dto";
+import { usePutSenior } from "@/api/query/reactQuery";
 
-interface UserInfo {
-  age: number;
-  birthday: string;
-  gender: string;
-  medicalCondition: string;
-  interests: string;
+interface SettingItemProps {
+  seniorInfo: SeniorInfoDto | undefined;
 }
 
-const SettingItem = () => {
+const SettingItem = ({ seniorInfo }: SettingItemProps) => {
   const [isModalOpen, setModalOpen] = useState(false);
-  const [userInfo, setUserInfo] = useState({
-    age: 72,
-    birthday: "1991-03-04",
-    gender: "남성",
-    medicalCondition: "고혈압",
-    interests: "여행, 독서",
-  });
 
   const handleOpenModal = () => {
     setModalOpen(true);
@@ -30,10 +21,25 @@ const SettingItem = () => {
     setModalOpen(false);
   };
 
-  const handleSaveUserInfo = (updatedInfo: UserInfo) => {
-    setUserInfo(updatedInfo);
-    handleCloseModal();
+  const { mutate: updateInfo } = usePutSenior(handleCloseModal);
+
+  const handleUpDateInfo = (data: SeniorPostInfo) => {
+    updateInfo(data);
   };
+
+  const gender =
+    seniorInfo?.senior_gender === 0
+      ? "기타"
+      : seniorInfo?.senior_gender === 1
+      ? "여성"
+      : "남성";
+
+  const today = new Date(),
+    year = today.getFullYear();
+
+  const yearOfBirth = seniorInfo?.senior_birth.slice(0, 4);
+
+  const age = year - Number(yearOfBirth) + 1;
 
   return (
     <SettingItemLayout>
@@ -41,30 +47,32 @@ const SettingItem = () => {
       <SettingBox>
         <EditButton onClick={handleOpenModal} />
         <ProfileImg src={ProfileSvg} />
-        <UserName>홍길동</UserName>
+        <UserName>{`${seniorInfo?.last_nane}${seniorInfo?.first_name}`}</UserName>
         <UserInfoForm onClick={handleOpenModal}>
           <UserInfoItem>
-            <Label>나이 :</Label> 72
+            <Label>나이 :</Label> {age}
           </UserInfoItem>
           <UserInfoItem>
-            <Label>생일 :</Label> 1991-03-04
+            <Label>생일 :</Label> {seniorInfo?.senior_birth}
           </UserInfoItem>
           <UserInfoItem>
-            <Label>성별 :</Label> 남성
+            <Label>성별 : </Label>
+            {gender}
           </UserInfoItem>
           <UserInfoItem>
-            <Label>질병 :</Label> 고혈압
+            <Label>질병 : </Label>
+            {seniorInfo?.senior_diseases}
           </UserInfoItem>
           <UserInfoItem>
-            <Label>관심사 :</Label> 여행, 독서
+            <Label>관심사 : </Label> {seniorInfo?.senior_interests}
           </UserInfoItem>
         </UserInfoForm>
-        {isModalOpen && (
+        {isModalOpen && seniorInfo && (
           <UserInfoModal
             isOpen={isModalOpen}
             onClose={handleCloseModal}
-            userInfo={userInfo}
-            onSave={handleSaveUserInfo}
+            userInfo={seniorInfo}
+            onSave={handleUpDateInfo}
           />
         )}
       </SettingBox>

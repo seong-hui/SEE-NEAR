@@ -1,5 +1,15 @@
 import { instance, signupInstance } from "@/api/axios/axiosInstance";
-import { EventDto, ConversationDto, UsetInfoDto } from "@/dto/dto";
+import {
+  EventDto,
+  ConversationDto,
+  UsetInfoDto,
+  EmotionDto,
+  WeeklyData,
+  SeniorInfoDto,
+  SeniorPostInfo,
+  RoutineDto,
+  MemberDto,
+} from "@/dto/dto";
 
 export const axiosEventsCreate = async (
   title: string,
@@ -22,10 +32,29 @@ export const axiosEventsCheck = async (date: string): Promise<EventDto[]> => {
     throw error;
   }
 };
+export const axiosEventsUpdate = async (
+  id: number,
+  title?: string,
+  location?: string,
+  datetime?: string,
+  is_checked?: boolean
+): Promise<EventDto> => {
+  try {
+    const response = await instance.put<EventDto>(`/events/${id}`, {
+      title,
+      location,
+      datetime,
+      is_checked,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const axiosFetchEvent = async (id: number): Promise<EventDto> => {
   try {
-    const response = await instance.get<EventDto>(`/events/${id}`);
+    const response = await instance.get<EventDto>(`/events/${id}/`);
     return response.data;
   } catch (error) {
     throw error;
@@ -47,9 +76,15 @@ export const axiosUpdateEvent = async (
   }
 };
 
-export const axiosDeleteEvent = async (id: number): Promise<void> => {
+export const axiosDeleteEvent = async (
+  id: number,
+  title: string,
+  location: string,
+  datetime: string
+): Promise<any> => {
   try {
-    await instance.delete(`/events/${id}`);
+    const body = { title, location, datetime };
+    await instance.delete(`/events/${id}`, { data: body });
   } catch (error) {
     throw error;
   }
@@ -85,6 +120,7 @@ export const axiosDeleteConv = async (id: number): Promise<void> => {
 
 interface ApiResponse {
   token: string;
+  is_senior: boolean;
 }
 export const axiosLogin = async (
   username: string,
@@ -130,4 +166,105 @@ export const axiosJoin = async (
     }
   );
   return response.data;
+};
+
+export const axiosGetEmotion = async (date: string): Promise<EmotionDto[]> => {
+  try {
+    const response = await instance.get<EmotionDto[]>(`/conv/day/${date}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const axiosGetWeekly = async (date: string): Promise<WeeklyData> => {
+  try {
+    const response = await instance.get<WeeklyData>(`/conv/week/${date}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const axiosGetSeniorInfo = async (): Promise<SeniorInfoDto> => {
+  try {
+    const response = await instance.get<SeniorInfoDto>(`/auth/family`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const axiosUpdateSenior = async (
+  senior_gender: number,
+  senior_birth: string,
+  senior_diseases: string,
+  senior_interests: string
+): Promise<any> => {
+  try {
+    const body = {
+      senior_gender,
+      senior_birth,
+      senior_diseases,
+      senior_interests,
+    };
+    await instance.put<SeniorPostInfo>(`/auth/family/update`, body);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const axiosGeRoutine = async (): Promise<RoutineDto[]> => {
+  try {
+    const response = await instance.get<RoutineDto[]>(`/auth/routine`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const axiosRoutineCreate = async (name: string, time: string) => {
+  const response = await instance.post("/auth/routine/create", {
+    name,
+    time,
+  });
+  return response.data;
+};
+
+export const axiosRoutineUpdate = async (
+  id: number | undefined,
+  name: string,
+  time: string
+) => {
+  const response = await instance.put(`/auth/routine/${id}`, {
+    name,
+    time,
+  });
+  return response.data;
+};
+
+export const axiosRoutineDelete = async (id: number) => {
+  const response = await instance.delete(`/auth/routine/${id}`, {});
+  return response.data;
+};
+
+export const axiosGetMember = async (): Promise<MemberDto[]> => {
+  try {
+    const response = await instance.get<MemberDto[]>(`/auth/family/member`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const axiosGetKeywordImg = async (date: string): Promise<any> => {
+  try {
+    const response = await instance.get(`/conv/week/keyword/${date}`, {
+      responseType: "blob",
+    });
+    const url = window.URL.createObjectURL(response.data);
+    return url;
+  } catch (error) {
+    throw error;
+  }
 };

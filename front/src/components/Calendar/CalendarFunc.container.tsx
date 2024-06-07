@@ -1,13 +1,37 @@
 import CalendarFunc from "@/components/Calendar/CalenderFunc";
-import { selectedDateState } from "@/recoil/atom";
-import { useRecoilState } from "recoil";
+import { formatDateToYYYYMM } from "@/utils/formatDateUtils";
+import { useState } from "react";
+import { useGeEmotions } from "@/api/query/reactQuery";
 
-const CalendarFuncContainer = () => {
-  const [selectedDate, setSelectedDate] = useRecoilState(selectedDateState);
-  const onClickDay = (date: Date) => {
-    setSelectedDate(date);
+interface CalendarFuncContainerProps {
+  selectedDate: Date;
+  changeDate: (date: Date) => void;
+}
+
+const CalendarFuncContainer = ({
+  selectedDate,
+  changeDate,
+}: CalendarFuncContainerProps) => {
+  const selectMonth = formatDateToYYYYMM(selectedDate);
+  const [activeMonth, setActiveMonth] = useState(selectMonth);
+
+  const onMonthChange = (startDate: Date) => {
+    setActiveMonth(formatDateToYYYYMM(startDate));
   };
-  return <CalendarFunc onClickDay={onClickDay} selectedDate={selectedDate} />;
+
+  const { data: emotionData = [], error, isError } = useGeEmotions(activeMonth);
+  if (isError) {
+    console.error(error);
+  }
+
+  return (
+    <CalendarFunc
+      onClickDay={changeDate}
+      selectedDate={selectedDate}
+      onMonthChange={onMonthChange}
+      emotionData={emotionData}
+    />
+  );
 };
 
 export default CalendarFuncContainer;

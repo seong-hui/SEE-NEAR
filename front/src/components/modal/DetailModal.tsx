@@ -1,6 +1,7 @@
-import React from "react";
 import styled from "styled-components";
 import { extractTime } from "@/utils/extractTime";
+import Button from "../button/Button";
+import { EventDto } from "@/dto/dto";
 
 interface EventsCheckResponse {
   id: number;
@@ -13,9 +14,15 @@ interface DetailModalProps {
   show: boolean;
   onClose: () => void;
   todo: EventsCheckResponse | null;
+  handleDeleteEvent: (data: EventDto) => void;
 }
 
-const DetailModal = ({ show, onClose, todo }: DetailModalProps) => {
+const DetailModal = ({
+  show,
+  onClose,
+  todo,
+  handleDeleteEvent,
+}: DetailModalProps) => {
   if (!show || !todo) {
     return null;
   }
@@ -33,7 +40,12 @@ const DetailModal = ({ show, onClose, todo }: DetailModalProps) => {
         <p>
           <strong>시간 : </strong> {extractTime(todo.datetime)}
         </p>
-        <CloseButton onClick={onClose}>닫기</CloseButton>
+        <ButtonWrapper>
+          <CloseButton onClick={() => handleDeleteEvent(todo)}>
+            삭제
+          </CloseButton>
+          <CloseButton onClick={onClose}>닫기</CloseButton>
+        </ButtonWrapper>
       </ModalContent>
     </ModalBackdrop>
   );
@@ -73,6 +85,11 @@ const CloseButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: space-evenly;
 `;
 
 export default DetailModal;
