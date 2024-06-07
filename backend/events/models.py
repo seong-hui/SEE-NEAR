@@ -6,6 +6,7 @@ class Event(models.Model):
     title = models.CharField(max_length=32)
     location = models.CharField(max_length=32, blank=True)
     datetime = models.DateTimeField()
+    is_checked = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "events"

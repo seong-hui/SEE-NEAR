@@ -5,7 +5,7 @@ from authentication.models import Family
 class EventSerializer(ModelSerializer):
     class Meta:
         model = Event
-        fields = ("id", "title", "location", "datetime")
+        fields = ("id", "title", "location", "datetime", "is_checked")
         read_only_fields = ("id",)
 
     def create(self, family):
@@ -17,4 +17,3 @@ class EventSerializer(ModelSerializer):
             datetime = self.validated_data.get("datetime")
         )
         new_event.save()
-        return new_event
