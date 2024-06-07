@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { extractTime } from "@/utils/extractTime";
 import Button from "../button/Button";
 import { EventDto } from "@/dto/dto";
-
+import { formatTimestampToString } from "@/utils/formatDateUtils";
 interface EventsCheckResponse {
   id: number;
   title: string;
@@ -30,7 +30,7 @@ const DetailModal = ({
   return (
     <ModalBackdrop onClick={onClose}>
       <ModalContent onClick={(e) => e.stopPropagation()}>
-        <h2>오늘의 일정</h2>
+        <h2>{formatTimestampToString(todo.datetime)}의 일정</h2>
         <p>
           <strong>일정 제목 :</strong> {todo.title}
         </p>
