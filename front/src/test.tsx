@@ -250,7 +250,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-import axios from "axios";
+import { instance } from "./api/axios/axiosInstance";
 
 interface Props {
   isLoading: boolean;
