@@ -7,7 +7,7 @@ const RoutineSetContainer = () => {
     console.error(error);
   }
 
-  return <RoutineSet />;
+  return <RoutineSet routines={routines} />;
 };
 
 export default RoutineSetContainer;

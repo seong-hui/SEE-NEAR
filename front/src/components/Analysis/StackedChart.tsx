@@ -36,24 +36,24 @@ const options: ApexOptions = {
   },
 };
 
-// const series = [
-//   {
-//     name: "emotion_0_count",
-//     data: [44, 55, 41, 37, 22, 43, 21],
-//   },
-//   {
-//     name: "emotion_1_count",
-//     data: [53, 32, 33, 52, 13, 43, 32],
-//   },
-//   {
-//     name: "emotion_2_count",
-//     data: [12, 17, 11, 9, 15, 11, 20],
-//   },
-//   {
-//     name: "emotion_3_count",
-//     data: [9, 7, 5, 8, 6, 9, 4],
-//   },
-// ];
+const series = [
+  {
+    name: "emotion_0_count",
+    data: [44, 55, 41, 37, 22, 43, 21],
+  },
+  {
+    name: "emotion_1_count",
+    data: [53, 32, 33, 52, 13, 43, 32],
+  },
+  {
+    name: "emotion_2_count",
+    data: [12, 17, 11, 9, 15, 11, 20],
+  },
+  {
+    name: "emotion_3_count",
+    data: [9, 7, 5, 8, 6, 9, 4],
+  },
+];
 
 type EmotionKeys = keyof CountData;
 
@@ -85,7 +85,7 @@ const StackedChart = ({ data }: StackedChartProps) => {
       series={transformedData}
       type="bar"
       height="240"
-      width="600"
+      width="580"
     />
   );
 };

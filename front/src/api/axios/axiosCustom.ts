@@ -204,16 +204,28 @@ export const axiosGeRoutine = async (): Promise<RoutineDto[]> => {
   }
 };
 
-export const axiosRoutineCreate = async (
-  name: string,
-  time: string,
-  is_active: boolean
-) => {
+export const axiosRoutineCreate = async (name: string, time: string) => {
   const response = await instance.post("/auth/routine/create", {
     name,
     time,
-    is_active,
   });
+  return response.data;
+};
+
+export const axiosRoutineUpdate = async (
+  id: number | undefined,
+  name: string,
+  time: string
+) => {
+  const response = await instance.put(`/auth/routine/${id}`, {
+    name,
+    time,
+  });
+  return response.data;
+};
+
+export const axiosRoutineDelete = async (id: number) => {
+  const response = await instance.delete(`/auth/routine/${id}`, {});
   return response.data;
 };
 

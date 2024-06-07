@@ -4,6 +4,8 @@ import { useState } from "react";
 import Chatbot from "@/test";
 import TimeBox from "@/components/TimeBox/TimeBox";
 import ScheduleBox from "@/components/ScheduleBox/ScheduleBox";
+import { useGetRoutine } from "@/api/query/reactQuery";
+import AletModal from "@/components/modal/AletModal";
 interface PromptData {
   prompt: string | null;
   bot: any;
@@ -29,7 +31,6 @@ const MainPage = () => {
           <ContentTitle>
             {isChatActive ? "대화 종료" : "대화 시작"}
           </ContentTitle>
-
           <Chatbot
             isLoading={isLoading}
             setIsLoading={setIsLoading}
@@ -40,6 +41,7 @@ const MainPage = () => {
         </ContentBoxStyled>
         {!isChatActive && <ScheduleBox />}
       </ConstantBoxWapped>
+      {/* <AletModal /> */}
     </MainPageStyled>
   );
 };

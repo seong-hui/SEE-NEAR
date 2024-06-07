@@ -23,6 +23,8 @@ import {
   axiosGeRoutine,
   axiosRoutineCreate,
   axiosGetMember,
+  axiosRoutineUpdate,
+  axiosRoutineDelete,
 } from "@/api/axios/axiosCustom";
 
 import { AxiosError, isAxiosError } from "axios";
@@ -174,8 +176,43 @@ export const useGetRoutine = () => {
 
 export const useRoutineCreate = (onSuccessCallback: () => void) => {
   const mutation = useMutation<RoutineDto, AxiosError, RoutineDto>({
-    mutationFn: (data) =>
-      axiosRoutineCreate(data.name, data.time, data.is_active),
+    mutationFn: (data) => axiosRoutineCreate(data.name, data.time),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["routines"],
+      });
+      onSuccessCallback();
+    },
+    onError: (e) => {
+      if (isAxiosError(e)) console.log(e);
+      else console.log(e);
+    },
+  });
+
+  return mutation;
+};
+
+export const useRoutineUpdate = (onSuccessCallback: () => void) => {
+  const mutation = useMutation<RoutineDto, AxiosError, RoutineDto>({
+    mutationFn: (data) => axiosRoutineUpdate(data.id, data.name, data.time),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["routines"],
+      });
+      onSuccessCallback();
+    },
+    onError: (e) => {
+      if (isAxiosError(e)) console.log(e);
+      else console.log(e);
+    },
+  });
+
+  return mutation;
+};
+
+export const useRoutineDelete = (onSuccessCallback: () => void) => {
+  const mutation = useMutation<number, AxiosError, number>({
+    mutationFn: (id) => axiosRoutineDelete(id),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["routines"],

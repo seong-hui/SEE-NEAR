@@ -82,7 +82,7 @@ export interface RoutineDto {
   id?: number;
   name: string;
   time: string;
-  is_active: boolean;
+  is_active?: boolean;
 }
 
 export interface MemberDto {
