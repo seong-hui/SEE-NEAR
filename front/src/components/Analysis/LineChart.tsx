@@ -67,7 +67,6 @@ interface LineChartProps {
 
 const LineChart = ({ data }: LineChartProps) => {
   const transformedData: TransformedData[] = transformData(data);
-  console.log(transformedData);
   return (
     // @ts-ignore
     <ReactApexChart

@@ -26,6 +26,7 @@ import {
   axiosRoutineUpdate,
   axiosRoutineDelete,
   axiosEventsUpdate,
+  axiosGetKeywordImg,
 } from "@/api/axios/axiosCustom";
 
 import { AxiosError, isAxiosError } from "axios";
@@ -257,6 +258,15 @@ export const useGetMember = () => {
   const { data, error, isError } = useQuery<MemberDto[], Error>({
     queryKey: ["members"],
     queryFn: axiosGetMember,
+  });
+
+  return { data, error, isError };
+};
+
+export const useGetKeywordImg = (date: string) => {
+  const { data, error, isError } = useQuery<any, Error>({
+    queryKey: ["keywordImg"],
+    queryFn: () => axiosGetKeywordImg(date),
   });
 
   return { data, error, isError };

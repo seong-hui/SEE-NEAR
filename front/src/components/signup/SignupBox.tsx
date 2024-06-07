@@ -75,18 +75,6 @@ const SignupBox = () => {
     }
 
     try {
-      console.log(
-        username,
-        password,
-        email,
-        first_name,
-        last_name,
-        phone_number,
-        birth,
-        isSenior,
-        familyId,
-        familyRelation
-      );
       const response = await axiosJoin(
         username,
         password,

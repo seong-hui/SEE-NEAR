@@ -16,6 +16,7 @@ const Analysis = ({ weeklyData }: AnalysisProps) => {
           <DateTitle>주간 키워드</DateTitle>
           <DataBox>
             <KeywordBox>
+              {/* <KeywordImg src={keywordImg} /> */}
               <NumBox>1</NumBox>
               <KeywordText>저녁 식사</KeywordText>
             </KeywordBox>
@@ -80,7 +81,7 @@ const DataBox = styled.div`
   .apexcharts-toolbar {
     display: none;
   }
-  //데이터 종류
+  /* 데이터종류 */
   .apexcharts-legend.apx-legend-position-bottom.apexcharts-align-center {
     display: none;
   }
@@ -93,10 +94,11 @@ const DateTitle = styled.h3`
 `;
 
 const KeywordBox = styled.div`
+  width: 150px;
   &:not(:last-child) {
     border-bottom: 1px solid #eaeaea;
   }
-  padding: 15px 0;
+  padding: 15px;
   display: flex;
   gap: 16px;
 `;
@@ -117,5 +119,9 @@ const NumBox = styled.div`
 const KeywordText = styled.p`
   font-weight: bold;
   width: 120px;
+`;
+
+const KeywordImg = styled.img`
+  width: 200px;
 `;
 export default Analysis;

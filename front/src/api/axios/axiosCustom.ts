@@ -256,3 +256,15 @@ export const axiosGetMember = async (): Promise<MemberDto[]> => {
     throw error;
   }
 };
+
+export const axiosGetKeywordImg = async (date: string): Promise<any> => {
+  try {
+    const response = await instance.get(`/conv/week/keyword/${date}`, {
+      responseType: "blob",
+    });
+    const url = window.URL.createObjectURL(response.data);
+    return url;
+  } catch (error) {
+    throw error;
+  }
+};
