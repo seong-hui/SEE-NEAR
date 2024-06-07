@@ -3,6 +3,7 @@ export interface EventDto {
   title: string;
   location: string;
   datetime: string;
+  is_checked?: boolean;
 }
 
 export interface ConversationDto {

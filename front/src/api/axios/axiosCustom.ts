@@ -32,6 +32,25 @@ export const axiosEventsCheck = async (date: string): Promise<EventDto[]> => {
     throw error;
   }
 };
+export const axiosEventsUpdate = async (
+  id: number,
+  title?: string,
+  location?: string,
+  datetime?: string,
+  is_checked?: boolean
+): Promise<EventDto> => {
+  try {
+    const response = await instance.put<EventDto>(`/events/${id}`, {
+      title,
+      location,
+      datetime,
+      is_checked,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const axiosFetchEvent = async (id: number): Promise<EventDto> => {
   try {

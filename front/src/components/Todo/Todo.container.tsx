@@ -40,9 +40,13 @@ const TodoContainer = ({ selectedDate }: TodoContainerProps) => {
   const handleDeleteEvent = (data: EventDto) => {
     deleteEvent(data);
   };
+
+  const sortedTodos = todos.sort((a, b) => {
+    return a.datetime.localeCompare(b.datetime);
+  });
   return (
     <Todo
-      todos={todos}
+      todos={sortedTodos}
       handleAddClick={handleAddClick}
       handleCloseModal={handleCloseModal}
       showAddModal={showAddModal}

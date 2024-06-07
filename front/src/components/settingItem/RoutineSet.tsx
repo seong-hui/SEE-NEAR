@@ -54,6 +54,10 @@ const RoutineSet = ({ routines }: RoutineSetProps) => {
     setModalEditOpen(true);
   };
 
+  const sortedRoutines = routines.sort((a, b) => {
+    return a.time.localeCompare(b.time);
+  });
+
   return (
     <SettingItemLayout>
       <BoxTitle>대화 루틴</BoxTitle>
@@ -67,7 +71,7 @@ const RoutineSet = ({ routines }: RoutineSetProps) => {
             </tr>
           </thead>
           <tbody>
-            {routines.map((routine, index) => (
+            {sortedRoutines.map((routine, index) => (
               <tr key={index} onClick={() => handleRoutineClick(routine)}>
                 <Td>{routine.name}</Td>
                 <Td>{routine.time}</Td>

@@ -25,6 +25,7 @@ import {
   axiosGetMember,
   axiosRoutineUpdate,
   axiosRoutineDelete,
+  axiosEventsUpdate,
 } from "@/api/axios/axiosCustom";
 
 import { AxiosError, isAxiosError } from "axios";
@@ -122,6 +123,30 @@ export const useEventsDelete = (onSuccessCallback: () => void) => {
         queryKey: ["events"],
       });
       onSuccessCallback();
+    },
+    onError: (e: AxiosError) => {
+      if (isAxiosError(e)) console.log(e);
+      else console.log(e);
+    },
+  });
+
+  return mutation;
+};
+
+export const useEventsUpdate = () => {
+  const mutation = useMutation<EventDto, AxiosError, EventDto>({
+    mutationFn: (eventData) =>
+      axiosEventsUpdate(
+        eventData.id,
+        eventData?.title,
+        eventData?.location,
+        eventData?.datetime,
+        eventData?.is_checked
+      ),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["events"],
+      });
     },
     onError: (e: AxiosError) => {
       if (isAxiosError(e)) console.log(e);

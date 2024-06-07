@@ -1,44 +1,43 @@
 import styled from "styled-components";
-import { useGetEvents } from "@/api/query/reactQuery";
+import { useGetEvents, useEventsUpdate } from "@/api/query/reactQuery";
 import { formatDate } from "@/utils/formatDateUtils";
-import { useState } from "react";
 import { extractTime } from "@/utils/extractTime";
+import { EventDto } from "@/dto/dto";
 
 const ScheduleBox = () => {
-  const [checkedItems, setCheckedItems] = useState<{ [key: number]: boolean }>(
-    {}
-  );
-
-  const handleCheckboxChange = (id: number) => {
-    setCheckedItems((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
-  };
-
   const today = new Date();
 
   const { data: todos = [], error, isError } = useGetEvents(formatDate(today));
   if (isError) {
     console.error(error);
   }
+
+  const { mutate: updateEvent } = useEventsUpdate();
+
+  const handleCheckboxChange = (todo: EventDto) => {
+    updateEvent({ ...todo, is_checked: !todo.is_checked });
+  };
+
+  const sortedTodos = todos.sort((a, b) => {
+    return a.datetime.localeCompare(b.datetime);
+  });
   return (
     <ContentBoxStyled>
       <ContentTitle>오늘의 일정</ContentTitle>
       <ScheduleList>
-        {todos.map((todos) => (
+        {sortedTodos.map((todos) => (
           <ScheduleItem key={todos.id}>
             <ScheduleCheckbox
               id={`checkbox-${todos.id}`}
               type="checkbox"
-              checked={!!checkedItems[todos.id]}
-              onChange={() => handleCheckboxChange(todos.id)}
+              checked={todos?.is_checked}
+              onChange={() => handleCheckboxChange(todos)}
             />
             <CheckboxLabel
               htmlFor={`checkbox-${todos.id}`}
-              checked={!!checkedItems[todos.id]}
+              checked={todos.is_checked}
             ></CheckboxLabel>
-            <ScheduleTitle checked={!!checkedItems[todos.id]}>
+            <ScheduleTitle checked={todos.is_checked}>
               <div>{todos.title}</div>
               <div>{extractTime(todos.datetime)}</div>
             </ScheduleTitle>
