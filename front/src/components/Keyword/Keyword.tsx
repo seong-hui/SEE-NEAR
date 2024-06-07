@@ -4,6 +4,7 @@ import { formatTime } from "@/utils/formatTime";
 import KeywordModal from "../modal/KeywordModal";
 import { ConversationDto } from "@/dto/dto";
 import { getEmotionImage } from "@/hooks/getEmotionImgaes";
+import { truncateString } from "@/utils/truncateString";
 
 interface KeywordProps {
   keywords: ConversationDto[];
@@ -35,7 +36,9 @@ const Keyword = ({
               />
             </EmojiWrapped>
             <KeywordTextStyled>
-              <WordTextStyled>{keyword.keyword}</WordTextStyled>
+              <WordTextStyled>
+                {truncateString(keyword.keyword, 8)}
+              </WordTextStyled>
               <TimeTextStyled>
                 {formatTime(keyword.start)} - {formatTime(keyword.end)}
               </TimeTextStyled>

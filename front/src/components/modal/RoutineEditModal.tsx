@@ -45,13 +45,13 @@ const RoutineEditModal = ({
           </StyledLabel>
           <ButtonWrapper>
             <StyledButton type="submit" onClick={() => onSave}>
-              저장
+              수정
             </StyledButton>
             <StyledButton type="button" onClick={onDelete}>
               삭제
             </StyledButton>
             <StyledButton type="button" onClick={onClose}>
-              취소
+              닫기
             </StyledButton>
           </ButtonWrapper>
         </StyledForm>
