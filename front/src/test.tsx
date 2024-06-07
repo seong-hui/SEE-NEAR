@@ -250,7 +250,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-import axios from "axios";
+import { localInstance } from "./api/axios/axiosInstance";
 
 interface Props {
   isLoading: boolean;
@@ -310,7 +310,7 @@ const Chatbot: React.FC<Props> = ({
   const startConversation = async () => {
     startRecording();
     try {
-      const response = await axios.get(
+      const response = await localInstance.get(
         "http://127.0.0.1:8000/api/startConversation/"
       );
       const message = response.data.message;
@@ -330,7 +330,7 @@ const Chatbot: React.FC<Props> = ({
       clearInterval(timerId);
     }
     try {
-      const response = await axios.get(
+      const response = await localInstance.get(
         "http://127.0.0.1:8000/api/endConversation/"
       );
       const message = response.data.message;
@@ -383,7 +383,7 @@ const Chatbot: React.FC<Props> = ({
           const formData = new FormData();
           formData.append("text", transcript);
           formData.append("audio", audioUrl);
-          const response = await axios.post(
+          const response = await localInstance.post(
             "http://127.0.0.1:8000/api/chatbot/",
             formData,
             { responseType: "blob" }

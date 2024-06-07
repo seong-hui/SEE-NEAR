@@ -10,8 +10,15 @@ const instance = axios.create({
   },
 });
 
+const localInstance = axios.create({
+  baseURL: API_URL,
+  headers: {
+    Authorization: `Token ${token}`,
+  },
+});
+
 const signupInstance = axios.create({
   baseURL: API_URL,
 });
 
-export { instance, signupInstance };
+export { instance, signupInstance, localInstance };
