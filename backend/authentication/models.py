@@ -6,7 +6,7 @@ class User(AbstractUser):
     is_senior = models.BooleanField(default=False)
     phone_number = models.CharField(max_length=20, null=True)
     birth = models.DateField(null=True)
-    family_id = models.ForeignKey("Family", related_name="family", on_delete=models.SET_NULL, db_column="family_id", null=True)
+    family_id = models.ForeignKey("Family", related_name="user", on_delete=models.SET_NULL, db_column="family_id", null=True)
     role = models.CharField(max_length=20, null=True)
 
 GENDER_CHOICES = [
