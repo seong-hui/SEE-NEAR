@@ -311,12 +311,12 @@ const Chatbot: React.FC<Props> = ({
   const startConversation = async () => {
     startRecording();
     try {
-      const response2 = await axios.get('http://127.0.0.1:8000/conv/posts/create/', {
-        headers: {Authorization: 'Token 94cc26b1f01f90e3f9dc787f634a2c6ec8c67f95'},
-      });
+      const response = await instance.get(
+        "http://127.0.0.1:8000/api/startConversation/"
+      );
       // const response = await axios.get('http://127.0.0.1:8000/api/startConversation/');
       // const message = response.data.message;
-      setPostId(response2.data.id);
+      setPostId(response.data.id);
       // console.log(message); 
     } catch (error) {
       console.error('Error starting conversation:', error);
@@ -333,9 +333,7 @@ const Chatbot: React.FC<Props> = ({
     }
     try {
       const url = 'http://127.0.0.1:8000/conv/posts/update/'
-      const response = await axios.put(url + postId + '/', null, {
-        headers: {Authorization: 'Token 94cc26b1f01f90e3f9dc787f634a2c6ec8c67f95'},
-      });
+      const response = await instance.put(url + postId + '/', null,{});
       const message = response.data.message;
       console.log(message);
     } catch (error) {
@@ -383,7 +381,7 @@ const Chatbot: React.FC<Props> = ({
           const formData = new FormData();
           formData.append('text', transcript);
           formData.append("audio", audioUrl);
-          const response = await axios.post('http://127.0.0.1:8000/api/chatbot/', formData, { responseType: 'blob' }); 
+          const response = await instance.post('http://127.0.0.1:8000/api/chatbot/', formData, { responseType: 'blob' }); 
           if (response.status === 200) {
             set_return_AudioUrl(response.data);
           } else {
