@@ -11,7 +11,6 @@ const instance = axios.create({
 });
 
 const localInstance = axios.create({
-  baseURL: API_URL,
   headers: {
     Authorization: `Token ${token}`,
   },
