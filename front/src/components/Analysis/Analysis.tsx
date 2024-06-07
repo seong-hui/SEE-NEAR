@@ -1,7 +1,14 @@
 import styled from "styled-components";
-import ApexChart from "apexcharts";
+import ColumnChart from "./ColumnChart";
+import LineChart from "./LineChart";
+import StackedChart from "./StackedChart";
+import { WeeklyData } from "@/dto/dto";
 
-const Analysis = () => {
+interface AnalysisProps {
+  weeklyData: WeeklyData;
+}
+
+const Analysis = ({ weeklyData }: AnalysisProps) => {
   return (
     <AnalysisLayout>
       <AnalysisColBox>
@@ -9,6 +16,7 @@ const Analysis = () => {
           <DateTitle>주간 키워드</DateTitle>
           <DataBox>
             <KeywordBox>
+              {/* <KeywordImg src={keywordImg} /> */}
               <NumBox>1</NumBox>
               <KeywordText>저녁 식사</KeywordText>
             </KeywordBox>
@@ -24,42 +32,22 @@ const Analysis = () => {
         </DataBoxWrapper>
         <DataBoxWrapper>
           <DateTitle>주간 감정</DateTitle>
-          <DataBox>{/* <ApexCharts /> */}</DataBox>
+          <DataBox>
+            <StackedChart data={weeklyData.counts} />
+          </DataBox>
         </DataBoxWrapper>
       </AnalysisColBox>
       <AnalysisColBox>
         <DataBoxWrapper>
-          <DateTitle>주간 키워드</DateTitle>
+          <DateTitle>감정 추이</DateTitle>
           <DataBox>
-            <KeywordBox>
-              <NumBox>1</NumBox>
-              <KeywordText>저녁 식사</KeywordText>
-            </KeywordBox>
-            <KeywordBox>
-              <NumBox>2</NumBox>
-              <KeywordText>꽃놀이</KeywordText>
-            </KeywordBox>
-            <KeywordBox>
-              <NumBox>3</NumBox>
-              <KeywordText>임영웅</KeywordText>
-            </KeywordBox>
+            <LineChart data={weeklyData.averages} />
           </DataBox>
         </DataBoxWrapper>
         <DataBoxWrapper>
-          <DateTitle>주간 감정</DateTitle>
+          <DateTitle>감정 기록</DateTitle>
           <DataBox>
-            <KeywordBox>
-              <NumBox>1</NumBox>
-              <KeywordText>저녁 식사</KeywordText>
-            </KeywordBox>
-            <KeywordBox>
-              <NumBox>2</NumBox>
-              <KeywordText>꽃놀이</KeywordText>
-            </KeywordBox>
-            <KeywordBox>
-              <NumBox>3</NumBox>
-              <KeywordText>임영웅</KeywordText>
-            </KeywordBox>
+            <ColumnChart data={weeklyData.variances} />
           </DataBox>
         </DataBoxWrapper>
       </AnalysisColBox>
@@ -87,7 +75,17 @@ const DataBox = styled.div`
   background-color: white;
   height: 240px;
   border-radius: 15px;
-  padding: 0 20px 15px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  .apexcharts-toolbar {
+    display: none;
+  }
+  /* 데이터종류 */
+  .apexcharts-legend.apx-legend-position-bottom.apexcharts-align-center {
+    display: none;
+  }
+  flex-direction: column;
 `;
 
 const DateTitle = styled.h3`
@@ -96,10 +94,11 @@ const DateTitle = styled.h3`
 `;
 
 const KeywordBox = styled.div`
+  width: 150px;
   &:not(:last-child) {
     border-bottom: 1px solid #eaeaea;
   }
-  padding: 15px 0;
+  padding: 15px;
   display: flex;
   gap: 16px;
 `;
@@ -120,5 +119,9 @@ const NumBox = styled.div`
 const KeywordText = styled.p`
   font-weight: bold;
   width: 120px;
+`;
+
+const KeywordImg = styled.img`
+  width: 200px;
 `;
 export default Analysis;

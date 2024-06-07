@@ -1,13 +1,10 @@
 import { styled } from "styled-components";
-import Emotion1Img from "@/assets/images/emoji1.svg";
-import Emotion2Img from "@/assets/images/emoji2.svg";
-import Emotion3Img from "@/assets/images/emoji3.svg";
-import Emotion4Img from "@/assets/images/emoji4.svg";
-import Emotion5Img from "@/assets/images/emoji5.svg";
 import VerticalSetImg from "@/assets/images/more_vertical.svg";
 import { formatTime } from "@/utils/formatTime";
 import KeywordModal from "../modal/KeywordModal";
 import { ConversationDto } from "@/dto/dto";
+import { getEmotionImage } from "@/hooks/getEmotionImgaes";
+import { truncateString } from "@/utils/truncateString";
 
 interface KeywordProps {
   keywords: ConversationDto[];
@@ -24,14 +21,6 @@ const Keyword = ({
   handleCloseModal,
   selectedKeyword,
 }: KeywordProps) => {
-  const getEmoji = (mood: number) => {
-    if (mood === 1) return Emotion1Img;
-    else if (mood === 2) return Emotion2Img;
-    else if (mood === 3) return Emotion3Img;
-    else if (mood === 4) return Emotion4Img;
-    else if (mood === 5) return Emotion5Img;
-  };
-
   return (
     <>
       {keywords.length > 0 ? (
@@ -41,10 +30,15 @@ const Keyword = ({
             onClick={() => handleKeywordClick(keyword)}
           >
             <EmojiWrapped>
-              <EmojiStyled src={getEmoji(keyword.emotion)} alt="MoodEmoji" />
+              <EmojiStyled
+                src={getEmotionImage(keyword.emotion)}
+                alt="MoodEmoji"
+              />
             </EmojiWrapped>
             <KeywordTextStyled>
-              <WordTextStyled>{keyword.keyword}</WordTextStyled>
+              <WordTextStyled>
+                {truncateString(keyword.keyword, 8)}
+              </WordTextStyled>
               <TimeTextStyled>
                 {formatTime(keyword.start)} - {formatTime(keyword.end)}
               </TimeTextStyled>

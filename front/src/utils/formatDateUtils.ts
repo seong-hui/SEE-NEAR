@@ -41,3 +41,11 @@ export const formatDate2 = (date: Date) => {
 
   return `${month} ${day}일 ${dayOfWeek}`;
 };
+
+export function formatDateToYYYYMM(date: Date): string {
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const formattedMonth = month < 10 ? `0${month}` : `${month}`;
+
+  return `${year}-${formattedMonth}`;
+}

@@ -1,24 +1,23 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { axiosEventsCreate } from "@/api/axios/axiosCustom";
+import { useEventsCreate } from "@/api/query/reactQuery";
 
 interface ModalProps {
   show: boolean;
   onClose: () => void;
+  selectedDate: string;
 }
 
-const AddModal = ({ show, onClose }: ModalProps) => {
+const AddModal = ({ show, onClose, selectedDate }: ModalProps) => {
   const [title, setTitle] = useState("");
   const [location, setLocation] = useState("");
-  const [datetime, setDatetime] = useState("");
+  const [time, setDatetime] = useState("");
 
-  const handleEventSubmit = async () => {
-    try {
-      await axiosEventsCreate(title, location, datetime);
-      onClose();
-    } catch (error) {
-      console.error("Failed to add event:", error);
-    }
+  const { mutate: createEvent } = useEventsCreate(onClose);
+
+  const handleCreateEvent = () => {
+    const datetime = selectedDate + " " + time;
+    createEvent({ title, location, datetime });
   };
 
   if (!show) {
@@ -31,7 +30,7 @@ const AddModal = ({ show, onClose }: ModalProps) => {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            handleEventSubmit();
+            handleCreateEvent();
           }}
         >
           <label htmlFor="title">제목:</label>
@@ -50,11 +49,11 @@ const AddModal = ({ show, onClose }: ModalProps) => {
             onChange={(e) => setLocation(e.target.value)}
             required
           />
-          <label htmlFor="datetime">날짜 및 시간:</label>
+          <label htmlFor="datetime">시간:</label>
           <input
             id="datetime"
-            type="datetime-local"
-            value={datetime}
+            type="time"
+            value={time}
             onChange={(e) => setDatetime(e.target.value)}
             required
           />

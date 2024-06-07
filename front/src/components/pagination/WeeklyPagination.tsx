@@ -1,14 +1,48 @@
 import styled from "styled-components";
+import { useState } from "react";
 
-const WeeklyPagination = () => {
+interface WeeklyPaginationProps {
+  handleDateChange: (date: Date) => void;
+}
+
+const WeeklyPagination = ({ handleDateChange }: WeeklyPaginationProps) => {
+  const [currentDate, setCurrentDate] = useState(new Date());
+
+  const handleWeekChange = (direction: "previous" | "next") => {
+    const newDate = new Date(currentDate);
+    if (direction === "previous") {
+      newDate.setDate(newDate.getDate() - 7);
+    } else if (direction === "next") {
+      newDate.setDate(newDate.getDate() + 7);
+    }
+    setCurrentDate(newDate);
+    handleDateChange(newDate);
+  };
+
+  const startOfWeek = new Date(currentDate);
+  const diff =
+    startOfWeek.getDate() -
+    startOfWeek.getDay() +
+    (startOfWeek.getDay() === 0 ? -6 : 1);
+  startOfWeek.setDate(diff);
+
+  const weekNumber = Math.floor(startOfWeek.getDate() / 7 + 1);
+
   return (
     <WeeklyPaginationLayout>
-      <NextBtn>〈</NextBtn>
+      <NextBtn onClick={() => handleWeekChange("previous")}>〈</NextBtn>
       <WeekTitleBox>
-        <WeekTitle>5월 3번째 주</WeekTitle>
-        <WeekDetail>05.19 ~ 05.25 (2024)</WeekDetail>
+        <WeekTitle>{`${
+          currentDate.getMonth() + 1
+        }월 ${weekNumber}번째 주`}</WeekTitle>
+        <WeekDetail>{`${
+          startOfWeek.getMonth() + 1
+        }.${startOfWeek.getDate()} ~ ${
+          startOfWeek.setDate(startOfWeek.getDate() + 6) &&
+          startOfWeek.getMonth() + 1
+        }.${startOfWeek.getDate()} (${startOfWeek.getFullYear()})`}</WeekDetail>
       </WeekTitleBox>
-      <NextBtn>〉</NextBtn>
+      <NextBtn onClick={() => handleWeekChange("next")}>〉</NextBtn>
     </WeeklyPaginationLayout>
   );
 };

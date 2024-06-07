@@ -1,19 +1,12 @@
 import { useState } from "react";
 import styled from "styled-components";
-
-interface UserInfo {
-  age: number;
-  birthday: string;
-  gender: string;
-  medicalCondition: string;
-  interests: string;
-}
+import { SeniorInfoDto, SeniorPostInfo } from "@/dto/dto";
 
 interface UserInfoModalProps {
   isOpen: boolean;
   onClose: () => void;
-  userInfo: UserInfo;
-  onSave: (userInfo: UserInfo) => void;
+  userInfo: SeniorInfoDto;
+  onSave: (userInfo: SeniorPostInfo) => void;
 }
 
 const UserInfoModal = ({
@@ -33,7 +26,7 @@ const UserInfoModal = ({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSave(formData);
+    if (formData) onSave(formData);
     onClose();
   };
 
@@ -44,41 +37,32 @@ const UserInfoModal = ({
       <ModalContent>
         <form onSubmit={handleSubmit}>
           <InputBox>
-            <FormLabel>나이 :</FormLabel>
-            <Input
-              type="number"
-              name="age"
-              value={formData.age}
-              onChange={handleChange}
-            />
-          </InputBox>
-          <InputBox>
             <FormLabel>생일 :</FormLabel>
             <Input
               type="date"
-              name="birthday"
-              value={formData.birthday}
+              name="senior_birth"
+              value={formData.senior_birth}
               onChange={handleChange}
             />
           </InputBox>
           <InputBox>
             <FormLabel>성별 :</FormLabel>
             <Select
-              name="gender"
-              value={formData.gender}
+              name="senior_gender"
+              value={formData.senior_gender}
               onChange={handleChange}
             >
-              <option value="male">남성</option>
-              <option value="female">여성</option>
-              <option value="other">기타</option>
+              <option value="2">남성</option>
+              <option value="1">여성</option>
+              <option value="0">기타</option>
             </Select>
           </InputBox>
           <InputBox>
             <FormLabel>질병 :</FormLabel>
             <Input
               type="text"
-              name="medicalCondition"
-              value={formData.medicalCondition}
+              name="senior_diseases"
+              value={formData.senior_diseases}
               onChange={handleChange}
             />
           </InputBox>
@@ -86,8 +70,8 @@ const UserInfoModal = ({
             <FormLabel>관심사 :</FormLabel>
             <Input
               type="text"
-              name="interests"
-              value={formData.interests}
+              name="senior_interests"
+              value={formData.senior_interests}
               onChange={handleChange}
             />
           </InputBox>
