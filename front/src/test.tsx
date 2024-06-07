@@ -278,6 +278,7 @@ const Chatbot: React.FC<Props> = ({
   const [return_audioUrl, set_return_AudioUrl] = useState<string>("");
   const [count, setCount] = useState<number>(0);
   const [timerId, setTimerId] = useState<number | null>(null); // 타이머 아이디를 상태로 관리
+  const [postId, setPostId] = useState<number | null>(null);
 
   const startRecording = () => {
     SpeechRecognition.startListening({ language: "ko-KR", continuous: true });
@@ -311,12 +312,14 @@ const Chatbot: React.FC<Props> = ({
     startRecording();
     try {
       const response = await localInstance.get(
-        "http://127.0.0.1:8000/api/startConversation/"
+        "http://127.0.0.1:8000/conv/posts/create/"
       );
-      const message = response.data.message;
-      console.log(message);
+      // const response = await axios.get('http://127.0.0.1:8000/api/startConversation/');
+      // const message = response.data.message;
+      setPostId(response.data.id);
+      // console.log(message); 
     } catch (error) {
-      console.error("Error starting conversation:", error);
+      console.error('Error starting conversation:', error);
     }
   };
 
@@ -325,18 +328,16 @@ const Chatbot: React.FC<Props> = ({
     setList([]);
     resetTranscript();
     setCount(0);
-    if (timerId) {
-      // timerId가 존재할 때만 clearInterval 호출
+    if (timerId) { // timerId가 존재할 때만 clearInterval 호출
       clearInterval(timerId);
     }
     try {
-      const response = await localInstance.get(
-        "http://127.0.0.1:8000/api/endConversation/"
-      );
+      const url = 'http://127.0.0.1:8000/conv/posts/update/'
+      const response = await localInstance.put(url + postId + '/', null, {});
       const message = response.data.message;
       console.log(message);
     } catch (error) {
-      console.error("Error ending conversation:", error);
+      console.error('Error ending conversation:', error);
     }
   }, [resetTranscript, setList, stopRecording, timerId]);
 
@@ -369,19 +370,16 @@ const Chatbot: React.FC<Props> = ({
   }, [listening, transcript, endConversation, stopRecording, timerId]);
 
   useEffect(() => {
-    setCount(0);
-  }, [transcript]);
+    setCount(0)
+  }, [transcript])
 
   useEffect(() => {
     const sendMessage = async () => {
       try {
-        if (audioUrl && transcript && transcript.trim() !== "") {
-          setList((prevList) => [
-            ...prevList,
-            { prompt: transcript, bot: null },
-          ]);
+        if (audioUrl && transcript && transcript.trim() !== '') {
+          setList(prevList => [...prevList, { prompt: transcript, bot: null }]);
           const formData = new FormData();
-          formData.append("text", transcript);
+          formData.append('text', transcript);
           formData.append("audio", audioUrl);
           const response = await localInstance.post(
             "http://127.0.0.1:8000/api/chatbot/",
@@ -391,12 +389,12 @@ const Chatbot: React.FC<Props> = ({
           if (response.status === 200) {
             set_return_AudioUrl(response.data);
           } else {
-            console.error("Failed to get audio file:", response.statusText);
+            console.error('Failed to get audio file:', response.statusText);
           }
           resetTranscript();
         }
       } catch (error) {
-        console.error("Error sending data:", error);
+        console.error('Error sending data:', error);
       }
     };
 
@@ -415,31 +413,27 @@ const Chatbot: React.FC<Props> = ({
 
   useEffect(() => {
     if (return_audioUrl) {
-      const audioBlob = new Blob([return_audioUrl], { type: "audio/wav" });
+      const audioBlob = new Blob([return_audioUrl], { type: 'audio/wav' });
       const url = URL.createObjectURL(audioBlob);
       const audioElement = new Audio(url);
-      audioElement.setAttribute("crossorigin", "anonymous");
-      audioElement.addEventListener("canplaythrough", () => {
-        audioElement
-          .play()
-          .then(() => {
-            // Playback started successfully
-          })
-          .catch((error) => {
-            console.error("Error playing audio:", error);
-          });
+      audioElement.setAttribute('crossorigin', 'anonymous');
+      audioElement.addEventListener('canplaythrough', () => {
+        audioElement.play().then(() => {
+          // Playback started successfully
+        }).catch((error) => {
+          console.error('Error playing audio:', error);
+        });
       });
-      audioElement.addEventListener("error", (error) => {
-        console.error("Error loading audio:", error);
+      audioElement.addEventListener('error', (error) => {
+        console.error('Error loading audio:', error);
       });
-      audioElement.addEventListener("ended", () => {
+      audioElement.addEventListener('ended', () => {
         setTimeout(() => {
           startRecording();
         }, 3000);
       });
     }
   }, [return_audioUrl]);
-
   useEffect(() => {
     if (isChatActive) {
       startConversation();
