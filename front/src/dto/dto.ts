@@ -69,6 +69,8 @@ export interface SeniorInfoDto {
   senior_diseases: string;
   senior_interests: string;
   senior_id: number;
+  last_nane: string;
+  first_name: string;
 }
 
 export interface SeniorPostInfo {

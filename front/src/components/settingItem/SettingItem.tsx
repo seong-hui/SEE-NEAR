@@ -47,7 +47,7 @@ const SettingItem = ({ seniorInfo }: SettingItemProps) => {
       <SettingBox>
         <EditButton onClick={handleOpenModal} />
         <ProfileImg src={ProfileSvg} />
-        <UserName>홍길동</UserName>
+        <UserName>{`${seniorInfo?.last_nane}${seniorInfo?.first_name}`}</UserName>
         <UserInfoForm onClick={handleOpenModal}>
           <UserInfoItem>
             <Label>나이 :</Label> {age}
