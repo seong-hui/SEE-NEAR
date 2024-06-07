@@ -4,47 +4,44 @@ from rest_framework.decorators import api_view
 from django.http import JsonResponse
 from django.http import FileResponse
 from django.conf import settings
-from .chatbotFunc.chatbotFunc import *
-from .chatbotFunc.keyword_extraction import *
-from .chatbotFunc.emotion_classification import *
-from os import remove
 from pydub import AudioSegment
-
-
+from .functions.chatbot import *
+from constant.chatbot import *
+from prompt.prompt import *
+from os import remove
 import os
 
-@api_view(['GET'])
-def startConversation(request):
-    print("대화 시작")
+# @api_view(['GET'])
+# def startConversation(request):
+#     print("대화 시작") # 주석 처리
     
-    return Response({'message': '대화가 시작되었습니다.'})
+#     return Response({'message': CONVERSATION_START_MESSAGE})
 
-@api_view(['GET'])
-def endConversation(request):
-    print("대화 종료")
+# @api_view(['GET'])
+# def endConversation(request):
+#     print("대화 종료") # 주석 처리
     
-    with open('media/text.txt', "r", encoding='utf-8') as f:
-        text = f.readlines()
+#     with open(TEXT_PATH, "r", encoding=ENCODING) as f:
+#         text = f.readlines()
+        
+#     keyword = keyword_extraction(text)
+#     print("keyword:", keyword[0]) # 주석 처리
+#     emotion = emotion_classification(AUDIO_INPUT_WAV_PATH)
+#     print("Predicted emotion:", emotion) # 주석 처리
     
-    print(text)
-    keyword = keyword_extraction(text)
-    print("keyword:", keyword[0])
-    emotion = emotion_classification('media/input.wav')
-    print("Predicted emotion:", emotion)
     
-    
-    text_path = 'media/text.txt'
-    audio_path = 'media/input.wav'
-    audio_path2 = 'media/input.webm'
-    audio_path3 = 'media/output.wav'
+#     # text_path = TEXT_PATH
+#     # audio_path = AUDIO_INPUT_WAV_PATH
+#     # audio_path2 = AUDIO_INPUT_WEBM_PATH
+#     # audio_path3 = AUDIO_OUTPUT_PATH
 
-    remove(text_path)
-    remove(audio_path)
-    remove(audio_path2)
-    remove(audio_path3)
-    print('파일 삭제')
+#     remove(TEXT_PATH)
+#     remove(AUDIO_INPUT_WAV_PATH)
+#     remove(AUDIO_INPUT_WEBM_PATH)
+#     remove(AUDIO_OUTPUT_PATH)
+#     print('파일 삭제') # 주석 처리
     
-    return Response({'message': '대화가 종료되었습니다.'})
+#     return Response({'message': CONVERSATION_END_MESSAGE})
 
 # @api_view(['GET'])
 # def getSummary(request):
@@ -84,75 +81,96 @@ def endConversation(request):
             
 #     return Response({'message': '대화가 요약 완료.'})
 
-
-name = '김숙자'
-sex = 'female'
-age = 60
-interest = '임영웅', '봄', '강아지'
-diasease = '당뇨'
-prompt_list = [
-                '너는 혼자계신 시니어분의 말동무 역할을 수행하게 될거야. 사용자의 정보를 알려줄게',
-                f'시니어 분의 성별은 {sex}이고 나이는 {age}세 이시며 {diasease}와 같은 질병을 앓고 계셔',
-                '위 정보를 참고해서 이 분이 심심하지 않으시게 일상생활의 간단한 질문이나 대답을 해주면 되',
-                '너무 자세하게 질문과 대답을 하기보단 호응해주고 맞춰주는 식으로 대화를 해줘',
-                '무조건 존댓말로 대답해줘','대답은 짧고 간결하게 한두문장으로 해줘',
-                '대화가 이어갈수 있도록 질문을 해줘도 좋아'
-                ]
-
 @api_view(['POST'])
 def chatbot(request):
     if request.method == 'POST':
         # GET speech-recognition user_input text from frontend and print
+        audio = request.FILES.get('audio')
         user_input = request.POST.get('text', '')
         print(f'Input: {user_input}')
-        
-        audio = request.FILES.get('audio')
-        print(audio)
 
         # Append new user_input text data, if not exits, create new file and append
-        audio_path = os.path.join(settings.MEDIA_ROOT, 'input.webm')
-        input_audio_path = os.path.join(settings.MEDIA_ROOT, 'input.wav')
-        text_path = os.path.join(settings.MEDIA_ROOT, 'text.txt')
-        if not os.path.exists(text_path):
-            open(text_path, 'w', encoding='utf-8').close()
-
-        with open(text_path, 'a', encoding='utf-8') as f:
-            f.write(user_input + '\n')
+        # text_path = os.path.join(settings.MEDIA_ROOT, TEXT_PATH_2)
+        # audio_path = os.path.join(settings.MEDIA_ROOT, 'input.webm')
+        # input_audio_path = os.path.join(settings.MEDIA_ROOT, 'input.wav')
+        
+        if not os.path.exists(AUDIO_INPUT_WEBM_PATH):
+            open(AUDIO_INPUT_WEBM_PATH, 'wb').close()
             
-        with open(audio_path, 'ab') as f:
+        with open(AUDIO_INPUT_WEBM_PATH, 'ab') as f:
             for chunk in audio.chunks():
                 f.write(chunk)
-                
-        sound = AudioSegment.from_file(audio_path, format="webm")
         
-        if sound.frame_rate != 44100:
-            sound = sound.set_frame_rate(44100)
+        sound = AudioSegment.from_file(AUDIO_INPUT_WEBM_PATH, format=AUDIO_INPUT_WEBM_FORMAT)
+        if sound.frame_rate != FRAME_RATE:
+            sound = sound.set_frame_rate(FRAME_RATE)
+        sound.export(AUDIO_INPUT_WAV_PATH, format=AUDIO_INPUT_WAV_FORMAT)
+        
+        if not os.path.exists(TEXT_PATH):
+            open(TEXT_PATH, 'w').close()
 
-        sound.export(input_audio_path, format="wav")
+        with open(TEXT_PATH, 'a', encoding=ENCODING) as f:
+            f.write(user_input + '.\n')
         
         # Create prompt & Get response
-        prompt = create_prompt(user_input, prompt_list)
+        prompt = create_prompt(user_input, PROMPT_DEFAULT)
         response = get_ai_response(prompt)
 
-        # print(f'Response data: {response}')
+        # print(f'Response data: {response}') 
 
         # If response exist update_list & Get response reply
         if response:
-            update_list(response, prompt_list)
-            pos = response.find("\nAI: ")
-            response = response[pos + 4:]
+            update_list(response, PROMPT_DEFAULT)
+            # pos = response.find("\nAI: ")
+            # response = response[pos + 4:]
         else:
-            response = "response message not exist"
+            response = NONE_RESPONSE_MESSAGE
         print(f'Reply: {response}')
         
         # Create output.wav file with response reply through text_to_speech func
         text_to_speech(response)
 
         # Set output.wav to FileResponse format
-        f = open('media/output.wav', "rb")
+        f = open(AUDIO_OUTPUT_PATH, "rb")
         audio_response = FileResponse(f)
         audio_response.set_headers(f)
 
         return audio_response
     else:
-        return JsonResponse({'error': 'POST request required'})
+        return JsonResponse({'error': POST_REQUEST_ERROR_MESSAGE})
+    
+# 프론트에서 routine text 주면 프롬프트 생성해서 답변 받아와 읽어줌
+# 그 답변 재생 이후 chatbot api 실행되게 함(conversation start 자동)
+@api_view(['POST'])
+def routine(request):
+    if request.method == 'POST':
+        routine = request.POST.get('text', '')
+        print(f'Input: {routine}') # 주석처리
+        
+        # Create prompt & Get response
+        prompt = routine.append(PROMPT_ROUTINE)
+        response = get_ai_response(prompt)
+
+        # print(f'Response data: {response}')
+
+        # If response exist update_list & Get response reply
+        if response:
+            update_list(response, PROMPT_ROUTINE)
+            # pos = response.find("\nAI: ")
+            # response = response[pos + 4:]
+        else:
+            response = NONE_RESPONSE_MESSAGE
+        print(f'Reply: {response}')
+        
+        # Create output.wav file with response reply through text_to_speech func
+        text_to_speech(response)
+
+        # Set output.wav to FileResponse format
+        f = open(AUDIO_OUTPUT_PATH, "rb")
+        audio_response = FileResponse(f)
+        audio_response.set_headers(f)
+
+        return audio_response
+    else:
+        return JsonResponse({'error': POST_REQUEST_ERROR_MESSAGE})
+    

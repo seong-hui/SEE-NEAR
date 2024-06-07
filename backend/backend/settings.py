@@ -28,7 +28,7 @@ OPENAI_API_KEY = env('OPENAI_API_KEY')
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("SECRET_KEY")
+SECRET_KEY = 'django-insecure-xxt-r88@ilf=paszpx-cc=#qm6@go4ps13(7!b*srx(&16iil!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
