@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User, Family
+from .models import User, Family, Routine
 from events.models import Event
 
 @admin.register(User)
@@ -21,6 +21,14 @@ class UserInLine(admin.TabularInline):
         (None, {"fields": ["username", "role", "first_name", "last_name"]})
     ]
 
+class RoutineInLine(admin.TabularInline):
+    model = Routine
+    extra = 0
+
+    fieldsets = [
+        (None, {"fields": ["name", "time"]})
+    ]
+
 class EventInLine(admin.TabularInline):
     model = Event
     extra = 0
@@ -31,16 +39,15 @@ class EventInLine(admin.TabularInline):
 
 
 class FamilyAdmin(admin.ModelAdmin):
-    list_display = ["id", "family_name"]
+    list_display = ["id", "senior_id"]
     inlines = [
         UserInLine,
         EventInLine,
+        RoutineInLine
     ]
     fieldsets = [
-        (None, {"fields": ("family_name",)}),
-        ("정보", {"fields": ("senior_id", "senior_birth", "senior_gender", "senior_diseases", "senior_interests")}),
-        ("루틴", {"fields": ("morning", "evening", "breakfast", "lunch", "dinner")}),
+        (None, {"fields": ("senior_id",)}),
+        ("정보", {"fields": ("senior_birth", "senior_gender", "senior_diseases", "senior_interests")}),
     ]
-    
 
 admin.site.register(Family, FamilyAdmin)
