@@ -174,3 +174,26 @@ def routine(request):
     else:
         return JsonResponse({'error': POST_REQUEST_ERROR_MESSAGE})
     
+@api_view(['POST'])
+def events(request):
+    if request.method == 'POST':
+        events_input = request.POST.get('text', '')
+        print(f'Events: {events_input}') # 주석 처리
+        
+        # Create prompt & Get response
+        PROMPT_EVENTS.append(events_input)
+        response = get_ai_response(PROMPT_EVENTS)
+        
+        if response:
+            text_to_speech(response)
+        else:
+            response = NONE_RESPONSE_MESSAGE
+        print(f'Reply: {response}')
+        
+        f = open(AUDIO_OUTPUT_PATH, "rb")
+        audio_response = FileResponse(f)
+        audio_response.set_headers(f)
+
+        return audio_response
+    else:
+        return JsonResponse({'error': POST_REQUEST_ERROR_MESSAGE})
