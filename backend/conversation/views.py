@@ -39,13 +39,12 @@ def update_post(request, pk):
     try:
         postSerializer = PostSerializer()
         post = Post.objects.get(pk=pk)
-
+        if not os.path.exists(AUDIO_INPUT_WAV_PATH):
+            post.delete()
+            raise FileNotFoundError()
         keyword = keyword_extraction()
-        print(keyword)
         emotion = emotion_classification(AUDIO_INPUT_WAV_PATH)
-        print(emotion)
         content = conversation_summary()
-        print(content)
         os.remove(TEXT_PATH)
         os.remove(AUDIO_INPUT_WAV_PATH)
         os.remove(AUDIO_INPUT_WEBM_PATH)
@@ -56,8 +55,6 @@ def update_post(request, pk):
             "emotion": emotion,
             "keyword": keyword
         }
-        
-        print(data)
         
         postSerializer.update(post=post, data=data)
         reportSerializer = DayReportSerializer()
@@ -207,7 +204,6 @@ def get_word_cloud(request, start):
             except DayReport.DoesNotExist:
                 continue
         createWordCloud(keywords)
-        # 이미지 통신
         f = open(WORDCLOUD_PATH, "rb")
         image_response = FileResponse(f)
         image_response.set_headers(f)
