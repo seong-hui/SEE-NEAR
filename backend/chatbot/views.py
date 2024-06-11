@@ -182,7 +182,8 @@ def events(request):
         
         # Create prompt & Get response
         PROMPT_EVENTS.append(events_input)
-        response = get_ai_response(PROMPT_EVENTS)
+        prompts = ''.join(PROMPT_EVENTS)
+        response = get_ai_response(prompts)
         
         if response:
             text_to_speech(response)
