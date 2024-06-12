@@ -52,7 +52,13 @@ export interface VarianceData {
   variance: number;
 }
 
+export interface KeywordData {
+  id: number;
+  keyword: string;
+}
+
 export interface WeeklyData {
+  keywords: KeywordData[];
   counts: CountData[];
   averages: AverageData[];
   variances: VarianceData[];

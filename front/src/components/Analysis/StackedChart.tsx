@@ -19,7 +19,7 @@ const options: ApexOptions = {
       borderRadius: 3,
     },
   },
-  colors: ["#FE9FAB", "#FEE471", "#39D4C0", "#01AFDA"],
+  colors: ["#FE9FAB", "#FFA949", "#39D4C0", "#01AFDA"],
   yaxis: {
     title: {
       text: undefined,
@@ -36,35 +36,18 @@ const options: ApexOptions = {
   },
 };
 
-const series = [
-  {
-    name: "emotion_0_count",
-    data: [44, 55, 41, 37, 22, 43, 21],
-  },
-  {
-    name: "emotion_1_count",
-    data: [53, 32, 33, 52, 13, 43, 32],
-  },
-  {
-    name: "emotion_2_count",
-    data: [12, 17, 11, 9, 15, 11, 20],
-  },
-  {
-    name: "emotion_3_count",
-    data: [9, 7, 5, 8, 6, 9, 4],
-  },
-];
-
 type EmotionKeys = keyof CountData;
 
 const transformData = (countsData: CountData[]): TransformedData[] => {
   const transformedData: TransformedData[] = [];
+  const emotionNames = ["화남", "슬픔", "평온", "행복"];
 
   for (let i = 0; i < 4; i++) {
-    const emotionName = `emotion_${i}_count` as EmotionKeys;
+    const emotionKey = `emotion_${i}_count` as EmotionKeys;
+    const emotionName = emotionNames[i];
     const emotionData = {
       name: emotionName,
-      data: countsData.map((item) => item[emotionName]),
+      data: countsData.map((item) => item[emotionKey]),
     };
     transformedData.push(emotionData);
   }

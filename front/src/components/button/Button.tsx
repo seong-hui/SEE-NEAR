@@ -4,29 +4,32 @@ interface ButtonInterface {
   onClick: () => void;
   text: string;
   color: string;
-  isClicked?: boolean;
 }
 
-const Button = ({ onClick, text, color, isClicked }: ButtonInterface) => {
+const Button = ({ onClick, text, color }: ButtonInterface) => {
   return (
-    <ButtonStyled onClick={onClick} color={color} $isClicked={isClicked}>
+    <ButtonStyled onClick={onClick} color={color}>
       {text}
     </ButtonStyled>
   );
 };
 
-const ButtonStyled = styled.button<{ color: string; $isClicked?: boolean }>`
-  width: 7rem;
-  height: 3rem;
-  border-radius: 0.5rem;
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 10px;
-  background-color: ${(props) =>
-    props.$isClicked ? "var(--point-color)" : props.color};
+const ButtonStyled = styled.button<{ color: string }>`
+  width: 100px;
+  height: 40px;
+  border-radius: 20px;
+  background-color: ${(props) => props.color};
   color: white;
-  font-size: 1rem;
-  font-weight: bold;
+  font-weight: 500;
   letter-spacing: 0.2rem;
+  padding: 10px 20px;
   border: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #0056b3;
+    transition: all 0.2s;
+  }
 `;
 
 export default Button;

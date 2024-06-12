@@ -1,6 +1,8 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { SeniorInfoDto, SeniorPostInfo } from "@/dto/dto";
+import LogoImg from "@/assets/images/seenearIcon.svg";
+import CloseBtn from "../button/CloseBtn";
 
 interface UserInfoModalProps {
   isOpen: boolean;
@@ -33,9 +35,11 @@ const UserInfoModal = ({
   if (!isOpen) return null;
 
   return (
-    <ModalOverlay>
-      <ModalContent>
-        <form onSubmit={handleSubmit}>
+    <ModalOverlay onClick={onClose}>
+      <ModalContent onClick={(e) => e.stopPropagation()}>
+        <CloseBtn onClick={onClose} />
+        <StyledForm onSubmit={handleSubmit}>
+          <ModalLogoImg src={LogoImg} />
           <InputBox>
             <FormLabel>생일 :</FormLabel>
             <Input
@@ -77,9 +81,8 @@ const UserInfoModal = ({
           </InputBox>
           <ButtonWrapper>
             <Button type="submit">저장</Button>
-            <Button onClick={onClose}>닫기</Button>
           </ButtonWrapper>
-        </form>
+        </StyledForm>
       </ModalContent>
     </ModalOverlay>
   );
@@ -99,15 +102,13 @@ const ModalOverlay = styled.div`
 `;
 
 const ModalContent = styled.div`
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 350px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   padding: 30px;
+  width: 24rem;
+  padding: 1.2rem;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
 `;
 
 const FormLabel = styled.label`
@@ -157,6 +158,18 @@ const InputBox = styled.div`
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
+`;
+
+const ModalLogoImg = styled.img`
+  width: 120px;
+  margin-top: -85px;
+`;
+
+const StyledForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
 `;
 
 export default UserInfoModal;

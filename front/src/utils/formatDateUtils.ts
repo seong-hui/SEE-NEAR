@@ -49,3 +49,8 @@ export function formatDateToYYYYMM(date: Date): string {
 
   return `${year}-${formattedMonth}`;
 }
+
+export function formatTimestampToString(timestamp: string) {
+  const date = new Date(timestamp);
+  return date.toLocaleDateString("ko-KR", { month: "long", day: "numeric" });
+}

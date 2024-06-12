@@ -2,12 +2,15 @@ import { styled } from "styled-components";
 import TodoContainer from "@/components/Todo/Todo.container";
 import KeywordContainer from "@/components/Keyword/Keyword.container";
 import { formatDate2, formatDate } from "@/utils/formatDateUtils";
+// import BasicModal from "../modal/BasicModal";
 
 interface DailySectionProps {
   currentDate: Date;
 }
 
 const DailySection = ({ currentDate }: DailySectionProps) => {
+  const onClose = () => {};
+  const onSave = () => {};
   return (
     <DailySectionStyled>
       <TodayDateStyled>{formatDate2(currentDate)}</TodayDateStyled>
@@ -18,6 +21,7 @@ const DailySection = ({ currentDate }: DailySectionProps) => {
       <KeywordBoxStyled>
         <BoxTitleStyled>오늘의 키워드</BoxTitleStyled>
         <KeywordContainer selectedDate={formatDate(currentDate)} />
+        {/* <BasicModal onSave={onSave} onClose={onClose} modalTitle="테스트" /> */}
       </KeywordBoxStyled>
     </DailySectionStyled>
   );
@@ -41,7 +45,5 @@ const BoxTitleStyled = styled.div`
   margin: 30px 0 15px;
 `;
 
-const KeywordBoxStyled = styled.div`
-
-`;
+const KeywordBoxStyled = styled.div``;
 export default DailySection;

@@ -17,7 +17,7 @@ const options: ApexOptions = {
   dataLabels: {
     enabled: false,
   },
-  colors: ["#FE9FAB"],
+  colors: ["var(--main-color)"],
   xaxis: {
     categories: ["월", "화", "수", "목", "금", "토", "일"],
   },

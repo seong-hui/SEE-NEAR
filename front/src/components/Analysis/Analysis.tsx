@@ -15,23 +15,16 @@ const Analysis = ({ weeklyData }: AnalysisProps) => {
         <DataBoxWrapper>
           <DateTitle>주간 키워드</DateTitle>
           <DataBox>
-            <KeywordBox>
-              {/* <KeywordImg src={keywordImg} /> */}
-              <NumBox>1</NumBox>
-              <KeywordText>저녁 식사</KeywordText>
-            </KeywordBox>
-            <KeywordBox>
-              <NumBox>2</NumBox>
-              <KeywordText>꽃놀이</KeywordText>
-            </KeywordBox>
-            <KeywordBox>
-              <NumBox>3</NumBox>
-              <KeywordText>임영웅</KeywordText>
-            </KeywordBox>
+            {weeklyData.keywords.map((keyword, index) => (
+              <KeywordBox key={index}>
+                <NumBox>{keyword.id + 1}</NumBox>
+                <KeywordText>{keyword.keyword}</KeywordText>
+              </KeywordBox>
+            ))}
           </DataBox>
         </DataBoxWrapper>
         <DataBoxWrapper>
-          <DateTitle>주간 감정</DateTitle>
+          <DateTitle>누적 감정 개수</DateTitle>
           <DataBox>
             <StackedChart data={weeklyData.counts} />
           </DataBox>
@@ -39,13 +32,13 @@ const Analysis = ({ weeklyData }: AnalysisProps) => {
       </AnalysisColBox>
       <AnalysisColBox>
         <DataBoxWrapper>
-          <DateTitle>감정 추이</DateTitle>
+          <DateTitle>감정별 평균 추이</DateTitle>
           <DataBox>
             <LineChart data={weeklyData.averages} />
           </DataBox>
         </DataBoxWrapper>
         <DataBoxWrapper>
-          <DateTitle>감정 기록</DateTitle>
+          <DateTitle>감정 기복</DateTitle>
           <DataBox>
             <ColumnChart data={weeklyData.variances} />
           </DataBox>
@@ -121,7 +114,4 @@ const KeywordText = styled.p`
   width: 120px;
 `;
 
-const KeywordImg = styled.img`
-  width: 200px;
-`;
 export default Analysis;
