@@ -6,13 +6,13 @@ import Emotion5Img from "@/assets/images/emoji5.svg";
 export const getEmotionImage = (emotion: number) => {
   switch (emotion) {
     case 0:
-      return Emotion4Img;
-    case 1:
       return Emotion5Img;
+    case 1:
+      return Emotion4Img;
     case 2:
-      return Emotion1Img;
-    case 3:
       return Emotion3Img;
+    case 3:
+      return Emotion1Img;
     default:
       return;
   }

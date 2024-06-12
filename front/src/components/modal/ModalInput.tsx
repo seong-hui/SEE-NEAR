@@ -3,14 +3,12 @@ import styled from "styled-components";
 interface ModalInputProps<T> {
   lableText: string;
   labelType: string;
-  // value: T;
   onSetValue: React.Dispatch<React.SetStateAction<T>>;
 }
 
 const ModalInput = <T,>({
   lableText,
   labelType,
-  // value,
   onSetValue,
 }: ModalInputProps<T>) => {
   return (
@@ -18,7 +16,6 @@ const ModalInput = <T,>({
       {lableText}
       <StyledInput
         type={labelType}
-        // value={value}
         onChange={(e) => onSetValue(e.target.value as unknown as T)}
       />
     </StyledLabel>
