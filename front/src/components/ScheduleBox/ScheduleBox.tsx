@@ -9,34 +9,38 @@ import { localInstance } from "@/api/axios/axiosInstance";
 interface Props {
   setIsChatActive: React.Dispatch<React.SetStateAction<boolean>>;
   setIsViewActive: React.Dispatch<React.SetStateAction<boolean>>;
+  setReturnText : React.Dispatch<React.SetStateAction<string>>;
 }
 
-const ScheduleBox: React.FC<Props> = ({ setIsChatActive, setIsViewActive }) => {
+const ScheduleBox: React.FC<Props> = ({ 
+    setIsChatActive, 
+    setIsViewActive, 
+    setReturnText,
+  }) => {
   const today = new Date();
   const [audioUrl, setAudioUrl] = useState<string>("");
-
   const { data: todos = [], error, isError } = useGetEvents(formatDate(today));
   if (isError) {
     console.error(error);
   }
-
   const { mutate: updateEvent } = useEventsUpdate();
-
   const chatbot = async (todo: EventDto) => {
     const formData = new FormData();
     formData.append('text', todo.title + " " + extractTime(todo.datetime));
-    const response = await localInstance.post(
+    const responseText = await localInstance.post(
       "http://127.0.0.1:8000/chat/events/",
-      formData,
+      formData
+    );
+    setReturnText(responseText.data.text);
+    const responseAudio = await localInstance.get(
+      "http://127.0.0.1:8000/chat/chataudio",
       { responseType: "blob" }
     );
-    console.log(response);
-    setAudioUrl(response.data);
+    setAudioUrl(responseAudio.data);
   }
 
   useEffect(() => {
     if (audioUrl) {
-      console.log("오디오 재생");
       setIsViewActive(true);
       const audioBlob = new Blob([audioUrl], { type: 'audio/wav' });
       const url = URL.createObjectURL(audioBlob);
@@ -54,7 +58,6 @@ const ScheduleBox: React.FC<Props> = ({ setIsChatActive, setIsViewActive }) => {
       });
       audioElement.addEventListener('ended', () => {
         setTimeout(() => {
-          console.log("챗봇 실행!")
           setIsChatActive(true);
         }, 1000);
       });

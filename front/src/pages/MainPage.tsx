@@ -8,15 +8,12 @@ import TimeBox from "@/components/TimeBox/TimeBox";
 import ScheduleBox from "@/components/ScheduleBox/ScheduleBox";
 import { useGetRoutine } from "@/api/query/reactQuery";
 import AletModal from "@/components/modal/AletModal";
-interface PromptData {
-  prompt: string | null;
-  bot: any;
-}
 
 const MainPage = () => {
   const [isChatActive, setIsChatActive] = useState(false);
   const [isViewActive, setIsViewActive] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
+  const [returnText, setReturnText] = useState<string>("");
 
   const onClickChatBtn = () => {
     setIsChatActive(!isChatActive);
@@ -26,10 +23,6 @@ const MainPage = () => {
       setIsViewActive(false);
     }
   };
-
-  //챗봇
-  const [list, setList] = useState<PromptData[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   return (
     <MainPageStyled>
@@ -48,17 +41,23 @@ const MainPage = () => {
             {isViewActive ? "대화 종료" : "대화 시작"}
           </ContentTitle>}
           <Chatbot
-            setList={setList}
-            list={list}
+            // setList={setList}
+            // list={list}
             isChatActive={isChatActive}
             setIsChatActive={setIsChatActive}
             isViewActive={isViewActive}
             setIsViewActive={setIsViewActive}
             isRecording={isRecording}
             setIsRecording={setIsRecording}
+            returnText={returnText}
+            setReturnText={setReturnText}
           />
         </ContentBoxStyled>
-        {!isViewActive && <ScheduleBox setIsChatActive={setIsChatActive} setIsViewActive={setIsViewActive} />}
+        {!isViewActive && <ScheduleBox 
+          setIsChatActive={setIsChatActive} 
+          setIsViewActive={setIsViewActive} 
+          setReturnText={setReturnText}
+          />}
       </ConstantBoxWapped>
       {/* <AletModal /> */}
     </MainPageStyled>

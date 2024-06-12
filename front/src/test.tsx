@@ -4,27 +4,25 @@ import { localInstance } from "./api/axios/axiosInstance";
 import styled from "styled-components";
 
 interface Props {
-  setList: React.Dispatch<
-    React.SetStateAction<{ prompt: string | null; bot: any }[]>
-  >;
-  list: { prompt: string | null; bot: any }[];
   isChatActive: boolean;
   setIsChatActive: React.Dispatch<React.SetStateAction<boolean>>;
   isViewActive: boolean;
   setIsViewActive: React.Dispatch<React.SetStateAction<boolean>>;
   isRecording: boolean;
   setIsRecording : React.Dispatch<React.SetStateAction<boolean>>;
+  returnText: string;
+  setReturnText : React.Dispatch<React.SetStateAction<string>>;
 }
 
 const Chatbot: React.FC<Props> = ({
-  setList,
-  list,
   isChatActive,
   setIsChatActive,
   isViewActive,
   setIsViewActive,
   isRecording,
   setIsRecording,
+  returnText,
+  setReturnText,
 }) => {
   const { transcript, resetTranscript, listening } = useSpeechRecognition();
   const [stream, setStream] = useState<MediaStream | null>(null);
@@ -34,7 +32,6 @@ const Chatbot: React.FC<Props> = ({
   const [count, setCount] = useState<number>(0);
   const [timerId, setTimerId] = useState<number | null>(null); // 타이머 아이디를 상태로 관리
   const [postId, setPostId] = useState<number | null>(null);
-  const [response, setResponse] = useState(null);
 
   const startRecording = () => {
     SpeechRecognition.startListening({ language: "ko-KR", continuous: true });
@@ -49,7 +46,7 @@ const Chatbot: React.FC<Props> = ({
         setAudioUrl(null); // Reset audio URL
       })
       .catch((error) => {
-        console.error("Error accessing microphone:", error);
+        console.error(error);
       });
   };
 
@@ -69,13 +66,12 @@ const Chatbot: React.FC<Props> = ({
     try {
       const response = await localInstance.get("http://127.0.0.1:8000/conv/posts/create/");
       setPostId(response.data.id);
-    } catch (error:any) {
-      console.log(error.response.data.error);
+    } catch (error) {
+      console.error(error);
     }
   }, [setPostId]);
 
   const endConversation = useCallback(async () => {
-    setList([]);
     resetTranscript();
     if (timerId) { // timerId가 존재할 때만 clearInterval 호출
       clearInterval(timerId);
@@ -87,31 +83,34 @@ const Chatbot: React.FC<Props> = ({
         setPostId(null);
         console.log(response.data.message);
       }
-    } catch (error:any) {
-      console.log(error);
+    } catch (error) {
+      console.error(error);
     }
-  }, [postId, resetTranscript, setList, timerId]);
+  }, [postId, resetTranscript, timerId]);
 
   const sendMessage = useCallback(async () => {
     try {
       if (audioUrl && transcript && transcript.trim() !== '') {
-        setList(prevList => [...prevList, { prompt: transcript, bot: null }]);
         const formData = new FormData();
         formData.append('text', transcript);
         formData.append("audio", audioUrl);
-        const response = await localInstance.post(
+        const responseText = await localInstance.post(
           "http://127.0.0.1:8000/chat/chatbot/",
-          formData,
+          formData
+        );
+        setReturnText(responseText.data.text);
+        const responseAudio = await localInstance.get(
+          "http://127.0.0.1:8000/chat/chataudio",
           { responseType: "blob" }
         );
-        console.log(response.data);
-        set_return_AudioUrl(response.data);
+        
+        set_return_AudioUrl(responseAudio.data);
         resetTranscript();
       }
-    } catch (error:any) {
-      console.log(error);
+    } catch (error) {
+      console.error(error);
     }
-  }, [resetTranscript, setList, transcript, audioUrl]);
+  }, [resetTranscript, transcript, audioUrl]);
 
   useEffect(() => {
     if (listening) {
@@ -199,7 +198,7 @@ const Chatbot: React.FC<Props> = ({
     <>
       {isViewActive && (
         <TranscriptStyled>
-          {isRecording ? (<p>{transcript}</p>) : (<p>{}</p>)}
+          {isRecording ? (<p>{transcript}</p>) : (<p>{returnText}</p>)}
         </TranscriptStyled>
       )}
     </>

@@ -83,7 +83,7 @@ import os
 
 @api_view(['POST'])
 def chatbot(request):
-    if request.method == 'POST':
+    try:
         # GET speech-recognition user_input text from frontend and print
         audio = request.FILES.get('audio')
         user_input = request.POST.get('text', '')
@@ -134,11 +134,23 @@ def chatbot(request):
         # f = open(AUDIO_OUTPUT_PATH, "rb")
         # audio_response = FileResponse(f)
         # audio_response.set_headers(f)
-        audio_url = request.build_absolute_uri(settings.MEDIA_URL + 'output.wav')
-        return JsonResponse({'reply': response, 'audio_url': audio_url})
+        response_data = {"text": response}
+        return Response(response_data)
         # return audio_response
-    else:
-        return JsonResponse({'error': POST_REQUEST_ERROR_MESSAGE})
+    except Exception as e:
+        response_data = {'error': str(e)}
+        return Response(response_data)
+    
+@api_view(['GET'])
+def chatbot_audio(request):
+    try:
+        f = open(AUDIO_OUTPUT_PATH, "rb")
+        audio_response = FileResponse(f)
+        audio_response.set_headers(f)
+        return audio_response
+    except Exception as e:
+        response_data = {'error': str(e)}
+        return Response(response_data)
     
 # 프론트에서 routine text 주면 프롬프트 생성해서 답변 받아와 읽어줌
 # 그 답변 재생 이후 chatbot api 실행되게 함(conversation start 자동)
@@ -177,7 +189,7 @@ def routine(request):
     
 @api_view(['POST'])
 def events(request):
-    if request.method == 'POST':
+    try:
         events_input = request.POST.get('text', '')
         print(f'Events: {events_input}') # 주석 처리
         
@@ -195,7 +207,10 @@ def events(request):
         # f = open(AUDIO_OUTPUT_PATH, "rb")
         # audio_response = FileResponse(f)
         # audio_response.set_headers(f)
-        audio_url = request.build_absolute_uri(settings.MEDIA_URL + 'output.wav')
-        return JsonResponse({'reply': response, 'audio_url': audio_url})
-    else:
-        return JsonResponse({'error': POST_REQUEST_ERROR_MESSAGE})
+        
+        response_data = {"text": response}
+        return Response(response_data)
+        # return audio_response
+    except Exception as e:
+        response_data = {'error': str(e)}
+        return Response(response_data)
