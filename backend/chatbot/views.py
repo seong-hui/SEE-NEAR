@@ -131,11 +131,12 @@ def chatbot(request):
         text_to_speech(response)
 
         # Set output.wav to FileResponse format
-        f = open(AUDIO_OUTPUT_PATH, "rb")
-        audio_response = FileResponse(f)
-        audio_response.set_headers(f)
-
-        return audio_response
+        # f = open(AUDIO_OUTPUT_PATH, "rb")
+        # audio_response = FileResponse(f)
+        # audio_response.set_headers(f)
+        audio_url = request.build_absolute_uri(settings.MEDIA_URL + 'output.wav')
+        return JsonResponse({'reply': response, 'audio_url': audio_url})
+        # return audio_response
     else:
         return JsonResponse({'error': POST_REQUEST_ERROR_MESSAGE})
     
