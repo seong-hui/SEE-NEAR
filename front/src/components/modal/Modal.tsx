@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { useEventsCreate } from "@/api/query/reactQuery";
-import LogoImg from "@/assets/images/seenearIcon.svg";
+import LogoImg from "@/assets/images/seenearIcon4.svg";
 import CloseBtn from "../button/CloseBtn";
 import Button from "../button/Button";
 

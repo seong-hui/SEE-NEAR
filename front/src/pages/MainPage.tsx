@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import LogoImg from "@/assets/images/seenearIcon.svg";
+import LogoImg1 from "@/assets/images/seenearIcon5.svg";
+import LogoImg2 from "@/assets/images/seenearIcon.svg";
 import { useState } from "react";
 import Chatbot from "@/test";
 import TimeBox from "@/components/TimeBox/TimeBox";
@@ -27,7 +28,11 @@ const MainPage = () => {
       <TimeBox />
       <ConstantBoxWapped>
         <ContentBoxStyled onClick={onClickChatBtn} active={isChatActive}>
-          <LogoImgStyled src={LogoImg} />
+          {isChatActive ? (
+            <LogoImgStyled src={LogoImg1} />
+          ) : (
+            <LogoImgStyled src={LogoImg2} />
+          )}
           <ContentTitle>
             {isChatActive ? "대화 종료" : "대화 시작"}
           </ContentTitle>

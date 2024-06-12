@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { SeniorInfoDto, SeniorPostInfo } from "@/dto/dto";
-import LogoImg from "@/assets/images/seenearIcon.svg";
+import LogoImg from "@/assets/images/seenearIcon3.svg";
 import CloseBtn from "../button/CloseBtn";
 
 interface UserInfoModalProps {

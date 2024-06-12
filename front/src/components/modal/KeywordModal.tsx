@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { formatTime } from "@/utils/formatTime";
 
 import CloseBtn from "../button/CloseBtn";
-import LogoImg from "@/assets/images/seenearIcon.svg";
+import LogoImg from "@/assets/images/seenearIcon6.svg";
 
 interface DetailModalProps {
   show: boolean;
