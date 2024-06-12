@@ -95,7 +95,7 @@ const Chatbot: React.FC<Props> = ({
         formData.append('text', transcript);
         formData.append("audio", audioUrl);
         const response = await localInstance.post(
-          "http://127.0.0.1:8000/api/chatbot/",
+          "http://127.0.0.1:8000/chat/chatbot/",
           formData,
           { responseType: "blob" }
         );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useGetEvents, useEventsUpdate } from "@/api/query/reactQuery";
 import { formatDate } from "@/utils/formatDateUtils";
@@ -21,16 +21,25 @@ const ScheduleBox: React.FC<Props> = ({setIsChatActive}) => {
 
   const { mutate: updateEvent } = useEventsUpdate();
 
-  const chatbot = async () => {
+  const chatbot = async (todo: EventDto) => {
+    const formData = new FormData();
+    formData.append('text', todo.title + " " + extractTime(todo.datetime));
     const response = await localInstance.post(
-      "http://127.0.0.1:8000/api/chatbot/",
+      "http://127.0.0.1:8000/chat/events/",
+      formData,
+      { responseType: "blob" }
     );
+    console.log(response);
     if (response.status === 200) {
       setAudioUrl(response.data);
     } else {
       console.error('Failed to get audio file:', response.statusText);
     }
+  }
+
+  useEffect(() => {
     if (audioUrl) {
+      console.log("오디오 재생");
       const audioBlob = new Blob([audioUrl], { type: 'audio/wav' });
       const url = URL.createObjectURL(audioBlob);
       const audioElement = new Audio(url);
@@ -47,15 +56,18 @@ const ScheduleBox: React.FC<Props> = ({setIsChatActive}) => {
       });
       audioElement.addEventListener('ended', () => {
         setTimeout(() => {
+          console.log("챗봇 실행!")
           setIsChatActive(true);
         }, 1000);
       });
     }
-  }
+  }, [audioUrl])
 
   const handleCheckboxChange = (todo: EventDto) => {
     updateEvent({ ...todo, is_checked: !todo.is_checked });
-    if (todo.is_checked){ chatbot() }
+    if (!todo.is_checked){ 
+      chatbot(todo);
+    }
   };
 
   const sortedTodos = todos.sort((a, b) => {
