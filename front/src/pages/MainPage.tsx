@@ -37,9 +37,10 @@ const MainPage = () => {
             setList={setList}
             list={list}
             isChatActive={isChatActive}
+            setIsChatActive={setIsChatActive}
           />
         </ContentBoxStyled>
-        {!isChatActive && <ScheduleBox />}
+        {!isChatActive && <ScheduleBox setIsChatActive={setIsChatActive} />}
       </ConstantBoxWapped>
       {/* <AletModal /> */}
     </MainPageStyled>
