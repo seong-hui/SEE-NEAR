@@ -74,7 +74,7 @@ const ContentBoxStyled = styled.div.withConfig({
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: width 0.4s ease;
+  tion: width 0.4s ease;
   ${(props) =>
     props.active &&
     `
