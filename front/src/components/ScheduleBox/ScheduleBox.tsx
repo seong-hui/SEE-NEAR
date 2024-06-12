@@ -8,9 +8,10 @@ import { localInstance } from "@/api/axios/axiosInstance";
 
 interface Props {
   setIsChatActive: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsViewActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ScheduleBox: React.FC<Props> = ({setIsChatActive}) => {
+const ScheduleBox: React.FC<Props> = ({ setIsChatActive, setIsViewActive }) => {
   const today = new Date();
   const [audioUrl, setAudioUrl] = useState<string>("");
 
@@ -30,16 +31,13 @@ const ScheduleBox: React.FC<Props> = ({setIsChatActive}) => {
       { responseType: "blob" }
     );
     console.log(response);
-    if (response.status === 200) {
-      setAudioUrl(response.data);
-    } else {
-      console.error('Failed to get audio file:', response.statusText);
-    }
+    setAudioUrl(response.data);
   }
 
   useEffect(() => {
     if (audioUrl) {
       console.log("오디오 재생");
+      setIsViewActive(true);
       const audioBlob = new Blob([audioUrl], { type: 'audio/wav' });
       const url = URL.createObjectURL(audioBlob);
       const audioElement = new Audio(url);
