@@ -28,13 +28,15 @@ const KeywordModal = ({ show, onClose, keyword }: DetailModalProps) => {
         <CloseBtn onClick={onClose} />
         <StyledForm>
           <ModalLogoImg src={LogoImg} />
-          <ModalTitle>{keyword.keyword}</ModalTitle>
-          <div>
-            {formatTime(keyword.start)} - {formatTime(keyword.end)}
-          </div>
+          <ModalTitle>키워드 : {keyword.keyword}</ModalTitle>
           <StyledLabel>
-            대화 내용 요약 :
-            <StyledInput type="textarea" value={keyword.content} readOnly />
+            대화 시간 :
+            <StyledInput>
+              {formatTime(keyword.start)} - {formatTime(keyword.end)}
+            </StyledInput>
+          </StyledLabel>
+          <StyledLabel>
+            대화 내용 요약 :<StyledInput>{keyword.content} </StyledInput>
           </StyledLabel>
         </StyledForm>
       </ModalContent>
@@ -56,7 +58,7 @@ const ModalBackdrop = styled.div`
 
 const ModalContent = styled.div`
   width: 20rem;
-  padding: 1.2rem;
+  padding: 20px;
   background: white;
   border-radius: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -76,16 +78,21 @@ const StyledLabel = styled.label`
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  gap: 10px;
+  gap: 5px;
 `;
 
-const StyledInput = styled.input`
+const StyledInput = styled.div`
   padding: 8px;
   margin-top: 4px;
   border: 1px solid #ccc;
   border-radius: 4px;
   width: 200px;
-  pointer-events: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  flex-wrap: wrap;
+  font-weight: lighter;
+  margin-bottom: 10px;
 `;
 
 const ModalLogoImg = styled.img`
