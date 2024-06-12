@@ -1,6 +1,8 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { RoutineDto } from "@/dto/dto";
+import LogoImg from "@/assets/images/seenearIcon.svg";
+import CloseBtn from "../button/CloseBtn";
 
 interface RoutineEditModalProps {
   onClose: () => void;
@@ -24,9 +26,12 @@ const RoutineEditModal = ({
     onSave({ id, name, time });
   };
   return (
-    <ModalOverlay>
-      <ModalContent>
+    <ModalBackdrop onClick={onClose}>
+      <ModalContent onClick={(e) => e.stopPropagation()}>
+        <CloseBtn onClick={onClose} />
         <StyledForm onSubmit={handleSubmit}>
+          <ModalLogoImg src={LogoImg} />
+          <ModalTitle>대화 루틴 수정</ModalTitle>
           <StyledLabel>
             루틴명:
             <StyledInput
@@ -50,17 +55,14 @@ const RoutineEditModal = ({
             <StyledButton type="button" onClick={onDelete}>
               삭제
             </StyledButton>
-            <StyledButton type="button" onClick={onClose}>
-              닫기
-            </StyledButton>
           </ButtonWrapper>
         </StyledForm>
       </ModalContent>
-    </ModalOverlay>
+    </ModalBackdrop>
   );
 };
 
-const ModalOverlay = styled.div`
+const ModalBackdrop = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -73,18 +75,19 @@ const ModalOverlay = styled.div`
 `;
 
 const ModalContent = styled.div`
+  width: 20rem;
+  padding: 1.2rem;
   background: white;
-  padding: 30px;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  max-width: 350px;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
 `;
 
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 20px;
+  align-items: center;
 `;
 
 const StyledLabel = styled.label`
@@ -123,5 +126,16 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
   gap: 10px;
+`;
+
+const ModalLogoImg = styled.img`
+  width: 120px;
+  margin-top: -85px;
+`;
+
+const ModalTitle = styled.div`
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: -15px;
 `;
 export default RoutineEditModal;
