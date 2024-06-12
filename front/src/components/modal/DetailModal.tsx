@@ -2,6 +2,9 @@ import styled from "styled-components";
 import { extractTime } from "@/utils/extractTime";
 import { EventDto } from "@/dto/dto";
 import { formatTimestampToString } from "@/utils/formatDateUtils";
+import CloseBtn from "../button/CloseBtn";
+import LogoImg from "@/assets/images/seenearIcon.svg";
+import Button from "../button/Button";
 interface EventsCheckResponse {
   id: number;
   title: string;
@@ -29,23 +32,35 @@ const DetailModal = ({
   return (
     <ModalBackdrop onClick={onClose}>
       <ModalContent onClick={(e) => e.stopPropagation()}>
-        <h2>{formatTimestampToString(todo.datetime)}의 일정</h2>
-        <ModalTextWrapper>
-          <ModalText>
-            <strong>일정 제목 :</strong> {todo.title}
-          </ModalText>
-          <ModalText>
-            <strong>장소 :</strong> {todo.location}
-          </ModalText>
-          <ModalText>
-            <strong>시간 : </strong> {extractTime(todo.datetime)}
-          </ModalText>
-        </ModalTextWrapper>
+        <CloseBtn onClick={onClose} />
+        <StyledForm>
+          <ModalLogoImg src={LogoImg} />
+          <ModalTitle>
+            {formatTimestampToString(todo.datetime)}의 일정
+          </ModalTitle>
+          <StyledLabel>
+            제목
+            <StyledInput type="text" value={todo.title} readOnly />
+          </StyledLabel>
+          <StyledLabel>
+            위치
+            <StyledInput type="text" value={todo.location} readOnly />
+          </StyledLabel>
+          <StyledLabel>
+            시간
+            <StyledInput
+              type="text"
+              value={extractTime(todo.datetime)}
+              readOnly
+            />
+          </StyledLabel>
+        </StyledForm>
         <ButtonWrapper>
-          <StyledButton onClick={() => handleDeleteEvent(todo)}>
-            삭제
-          </StyledButton>
-          <StyledButton onClick={onClose}>닫기</StyledButton>
+          <Button
+            onClick={() => handleDeleteEvent(todo)}
+            text="삭제"
+            color="var(--main-color)"
+          />
         </ButtonWrapper>
       </ModalContent>
     </ModalBackdrop>
@@ -56,57 +71,64 @@ const ModalBackdrop = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
 `;
 
 const ModalContent = styled.div`
-  position: relative;
-  width: 300px;
-  padding: 20px;
+  width: 20rem;
+  padding: 1.2rem;
   background: white;
-  border-radius: 10px;
+  border-radius: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+`;
+
+const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
+  gap: 20px;
+  align-items: center;
+`;
+
+const StyledLabel = styled.label`
+  color: #333;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+`;
+
+const StyledInput = styled.input`
+  padding: 8px;
+  margin-top: 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 200px;
+  pointer-events: none;
 `;
 
 const ButtonWrapper = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
+  margin: 20px;
+  gap: 20px;
 `;
 
-const StyledButton = styled.button`
-  width: 100px;
-  padding: 10px 20px;
-  margin-top: 10px;
-  color: white;
-  background-color: #007bff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-
-  &:first-of-type {
-    margin-right: 10px;
-  }
-
-  &:hover {
-    background-color: #0056b3;
-  }
+const ModalLogoImg = styled.img`
+  width: 120px;
+  margin-top: -85px;
 `;
 
-const ModalText = styled.div`
-  font-size: 18px;
+const ModalTitle = styled.div`
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: -15px;
 `;
-const ModalTextWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin: 10px 0 20px 10px;
-`;
+
 export default DetailModal;
