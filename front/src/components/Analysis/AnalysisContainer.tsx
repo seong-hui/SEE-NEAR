@@ -1,7 +1,6 @@
 import Analysis from "./Analysis";
-import { useGetWeeklyData, useGetKeywordImg } from "@/api/query/reactQuery";
+import { useGetWeeklyData } from "@/api/query/reactQuery";
 import { formatDate } from "@/utils/formatDateUtils";
-import { dummyData } from "./dummy";
 import { WeeklyData } from "@/dto/dto";
 import { useMemo } from "react";
 interface AnalysisContainerProps {
@@ -16,6 +15,7 @@ const AnalysisContainer = ({ selectedDate }: AnalysisContainerProps) => {
     console.error(error);
   }
   const weeklyDataTyped: WeeklyData = weeklyData || {
+    keywords: [],
     counts: [],
     averages: [],
     variances: [],
@@ -23,7 +23,7 @@ const AnalysisContainer = ({ selectedDate }: AnalysisContainerProps) => {
 
   // const { data: keywordImg } = useGetKeywordImg(formattedDate);
 
-  return <Analysis weeklyData={weeklyDataTyped}/>;
+  return <Analysis weeklyData={weeklyDataTyped} />;
 };
 
 export default AnalysisContainer;

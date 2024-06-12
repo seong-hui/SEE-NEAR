@@ -2,6 +2,7 @@ import { styled } from "styled-components";
 import TodoContainer from "@/components/Todo/Todo.container";
 import KeywordContainer from "@/components/Keyword/Keyword.container";
 import { formatDate2, formatDate } from "@/utils/formatDateUtils";
+// import BasicModal from "../modal/BasicModal";
 
 interface DailySectionProps {
   currentDate: Date;
@@ -41,7 +42,5 @@ const BoxTitleStyled = styled.div`
   margin: 30px 0 15px;
 `;
 
-const KeywordBoxStyled = styled.div`
-
-`;
+const KeywordBoxStyled = styled.div``;
 export default DailySection;

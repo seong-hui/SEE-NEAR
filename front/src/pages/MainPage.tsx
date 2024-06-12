@@ -1,5 +1,7 @@
 import styled from "styled-components";
-import LogoImg from "@/assets/images/seenearIcon.svg";
+import LogoImg1 from "@/assets/images/seenearIcon5.svg";
+import LogoImg2 from "@/assets/images/seenearIcon.svg";
+import LogoImg3 from "@/assets/images/seenearIcon6.svg";
 import { useState } from "react";
 import Chatbot from "@/test";
 import TimeBox from "@/components/TimeBox/TimeBox";
@@ -13,9 +15,16 @@ interface PromptData {
 
 const MainPage = () => {
   const [isChatActive, setIsChatActive] = useState(false);
+  const [isViewActive, setIsViewActive] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
 
   const onClickChatBtn = () => {
     setIsChatActive(!isChatActive);
+    if (!isChatActive){
+      setIsViewActive(true);
+    } else{
+      setIsViewActive(false);
+    }
   };
 
   //챗봇
@@ -26,20 +35,30 @@ const MainPage = () => {
     <MainPageStyled>
       <TimeBox />
       <ConstantBoxWapped>
-        <ContentBoxStyled onClick={onClickChatBtn} active={isChatActive}>
-          <LogoImgStyled src={LogoImg} />
-          <ContentTitle>
-            {isChatActive ? "대화 종료" : "대화 시작"}
-          </ContentTitle>
+        <ContentBoxStyled onClick={onClickChatBtn} active={isViewActive}>
+          {isViewActive ? (
+            isRecording ? (
+              <LogoImgStyled src={LogoImg3} /> // 사용자가 말할때
+            ) : (
+              <LogoImgStyled src={LogoImg1} /> // 챗봇이 말할때
+            )) : (
+            <LogoImgStyled src={LogoImg2} /> // 기본화면
+          )}
+          {(!isViewActive || isRecording) && <ContentTitle>
+            {isViewActive ? "대화 종료" : "대화 시작"}
+          </ContentTitle>}
           <Chatbot
-            isLoading={isLoading}
-            setIsLoading={setIsLoading}
             setList={setList}
             list={list}
             isChatActive={isChatActive}
+            setIsChatActive={setIsChatActive}
+            isViewActive={isViewActive}
+            setIsViewActive={setIsViewActive}
+            isRecording={isRecording}
+            setIsRecording={setIsRecording}
           />
         </ContentBoxStyled>
-        {!isChatActive && <ScheduleBox />}
+        {!isViewActive && <ScheduleBox setIsChatActive={setIsChatActive} setIsViewActive={setIsViewActive} />}
       </ConstantBoxWapped>
       {/* <AletModal /> */}
     </MainPageStyled>
@@ -74,7 +93,8 @@ const ContentBoxStyled = styled.div.withConfig({
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: width 0.4s ease;
+  animation: width 0.4s ease;
+  position : relative;
   ${(props) =>
     props.active &&
     `
@@ -92,6 +112,7 @@ const ContentBoxStyled = styled.div.withConfig({
 const LogoImgStyled = styled.img`
   width: 80%;
   height: 80%;
+  top:20px;
 `;
 
 const ContentTitle = styled.div`

@@ -1,11 +1,19 @@
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useGetEvents, useEventsUpdate } from "@/api/query/reactQuery";
 import { formatDate } from "@/utils/formatDateUtils";
 import { extractTime } from "@/utils/extractTime";
 import { EventDto } from "@/dto/dto";
+import { localInstance } from "@/api/axios/axiosInstance";
 
-const ScheduleBox = () => {
+interface Props {
+  setIsChatActive: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsViewActive: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const ScheduleBox: React.FC<Props> = ({ setIsChatActive, setIsViewActive }) => {
   const today = new Date();
+  const [audioUrl, setAudioUrl] = useState<string>("");
 
   const { data: todos = [], error, isError } = useGetEvents(formatDate(today));
   if (isError) {
@@ -14,8 +22,50 @@ const ScheduleBox = () => {
 
   const { mutate: updateEvent } = useEventsUpdate();
 
+  const chatbot = async (todo: EventDto) => {
+    const formData = new FormData();
+    formData.append('text', todo.title + " " + extractTime(todo.datetime));
+    const response = await localInstance.post(
+      "http://127.0.0.1:8000/chat/events/",
+      formData,
+      { responseType: "blob" }
+    );
+    console.log(response);
+    setAudioUrl(response.data);
+  }
+
+  useEffect(() => {
+    if (audioUrl) {
+      console.log("오디오 재생");
+      setIsViewActive(true);
+      const audioBlob = new Blob([audioUrl], { type: 'audio/wav' });
+      const url = URL.createObjectURL(audioBlob);
+      const audioElement = new Audio(url);
+      audioElement.setAttribute('crossorigin', 'anonymous');
+      audioElement.addEventListener('canplaythrough', () => {
+        audioElement.play().then(() => {
+          // Playback started successfully
+        }).catch((error) => {
+          console.error('Error playing audio:', error);
+        });
+      });
+      audioElement.addEventListener('error', (error) => {
+        console.error('Error loading audio:', error);
+      });
+      audioElement.addEventListener('ended', () => {
+        setTimeout(() => {
+          console.log("챗봇 실행!")
+          setIsChatActive(true);
+        }, 1000);
+      });
+    }
+  }, [audioUrl])
+
   const handleCheckboxChange = (todo: EventDto) => {
     updateEvent({ ...todo, is_checked: !todo.is_checked });
+    if (!todo.is_checked){ 
+      chatbot(todo);
+    }
   };
 
   const sortedTodos = todos.sort((a, b) => {

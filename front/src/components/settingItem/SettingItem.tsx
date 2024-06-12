@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import ProfileSvg from "@/assets/images/seenearIcon.svg";
+import ProfileSvg from "@/assets/images/seenearIcon3.svg";
 import UserInfoModal from "../modal/UserInfoModal";
 import { useState } from "react";
 import EditButtonImg from "@/assets/images/edit.svg";

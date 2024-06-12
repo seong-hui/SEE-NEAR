@@ -26,13 +26,16 @@ class PostSerializer(serializers.ModelSerializer):
         return new_post
     
     def update(self, post, data):
-        post.content = data.get("content", post.content)
+        post.content = data.get("content", "")
         post.emotion = np.argmax(data.get("emotion", [[0]]))
-        post.emotion_0 = data.get("emotion", [[0]])[0][0]
-        post.emotion_1 = data.get("emotion", [[0]])[0][1]
-        post.emotion_2 = data.get("emotion", [[0]])[0][2]
-        post.emotion_3 = data.get("emotion", [[0]])[0][3]
-        post.keyword = data.get("keyword", [[""]])[0][0] + " " + data.get("keyword", [[""]])[1][0] + " " + data.get("keyword", [[""]])[2][0]
+        post.emotion_0 = data.get("emotion", [[0, 0, 0, 0]])[0][0]
+        post.emotion_1 = data.get("emotion", [[0, 0, 0, 0]])[0][1]
+        post.emotion_2 = data.get("emotion", [[0, 0, 0, 0]])[0][2]
+        post.emotion_3 = data.get("emotion", [[0, 0, 0, 0]])[0][3]
+        post_keyword = ""
+        for keyword in data.get("keyword", [("",0)]):
+            post_keyword += keyword[0] + " "
+        post.keyword = post_keyword
         post.save()
         return post
     
@@ -72,7 +75,7 @@ class DayReportSerializer(serializers.ModelSerializer):
         setattr(report, "post_count", post_count + 1)
 
         keywords = getattr(report, "keywords", "")
-        keywords += data["keyword"][0][0] + " " + data["keyword"][1][0] + " " + data["keyword"][2][0] + " "
+        keywords += post.keyword
         setattr(report, "keywords", keywords)
 
         emotion_count_label = f"emotion_{post.emotion}_count"

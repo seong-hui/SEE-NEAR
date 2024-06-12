@@ -1,6 +1,7 @@
 import { WeeklyData } from "@/dto/dto";
 
 export const dummyData: WeeklyData = {
+  keywords: [],
   counts: [
     {
       id: 1,

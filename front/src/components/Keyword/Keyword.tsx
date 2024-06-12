@@ -95,7 +95,7 @@ const WordTextStyled = styled.div`
 
 const TimeTextStyled = styled.div`
   font-size: 12px;
-  color: #bdbdbd;
+  color: #646363;
 `;
 
 const SetImgStyled = styled.img`
