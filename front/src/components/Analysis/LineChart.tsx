@@ -14,7 +14,7 @@ const options: ApexOptions = {
       borderRadius: 3,
     },
   },
-  colors: ["#FE9FAB", "#FEE471", "#39D4C0", "#01AFDA"],
+  colors: ["#FE9FAB", "#FFA949", "#39D4C0", "#01AFDA"],
   xaxis: {
     categories: ["월", "화", "수", "목", "금", "토", "일"],
   },
@@ -25,35 +25,18 @@ const options: ApexOptions = {
   },
 };
 
-// const series = [
-//   {
-//     name: "부정",
-//     data: [45, 52, 38, 24, 33, 26, 21],
-//   },
-//   {
-//     name: "행복",
-//     data: [35, 41, 62, 42, 13, 18, 29],
-//   },
-//   {
-//     name: "보통",
-//     data: [87, 57, 74, 99, 75, 38, 62],
-//   },
-//   {
-//     name: "슬픔",
-//     data: [38, 62, 47, 82, 56, 45, 47],
-//   },
-// ];
-
 type EmotionKeys = keyof AverageData;
 
 const transformData = (countsData: AverageData[]): TransformedData[] => {
   const transformedData: TransformedData[] = [];
+  const emotionNames = ["화남", "슬픔", "평온", "행복"];
 
   for (let i = 0; i < 4; i++) {
-    const emotionName = `emotion_${i}_mean` as EmotionKeys;
+    const emotionName = emotionNames[i];
+    const emotionKey = `emotion_${i}_mean` as EmotionKeys;
     const emotionData = {
       name: emotionName,
-      data: countsData.map((item) => item[emotionName]),
+      data: countsData.map((item) => item[emotionKey]),
     };
     transformedData.push(emotionData);
   }
