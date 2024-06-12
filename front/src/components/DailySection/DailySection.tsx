@@ -9,8 +9,6 @@ interface DailySectionProps {
 }
 
 const DailySection = ({ currentDate }: DailySectionProps) => {
-  const onClose = () => {};
-  const onSave = () => {};
   return (
     <DailySectionStyled>
       <TodayDateStyled>{formatDate2(currentDate)}</TodayDateStyled>
@@ -21,7 +19,6 @@ const DailySection = ({ currentDate }: DailySectionProps) => {
       <KeywordBoxStyled>
         <BoxTitleStyled>오늘의 키워드</BoxTitleStyled>
         <KeywordContainer selectedDate={formatDate(currentDate)} />
-        {/* <BasicModal onSave={onSave} onClose={onClose} modalTitle="테스트" /> */}
       </KeywordBoxStyled>
     </DailySectionStyled>
   );
