@@ -88,13 +88,6 @@ const StyledInput = styled.input`
   pointer-events: none;
 `;
 
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  margin: 20px;
-  gap: 20px;
-`;
-
 const ModalLogoImg = styled.img`
   width: 120px;
   margin-top: -85px;
