@@ -40,6 +40,7 @@ const UserInfoModal = ({
         <CloseBtn onClick={onClose} />
         <StyledForm onSubmit={handleSubmit}>
           <ModalLogoImg src={LogoImg} />
+          <ModalTitle>시니어 정보 수정</ModalTitle>
           <InputBox>
             <FormLabel>생일 :</FormLabel>
             <Input
@@ -172,4 +173,9 @@ const StyledForm = styled.form`
   align-items: center;
 `;
 
+const ModalTitle = styled.div`
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: -15px;
+`;
 export default UserInfoModal;
