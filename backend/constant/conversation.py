@@ -47,3 +47,5 @@ AUDIO_INPUT_WAV_PATH = 'media/input.wav'
 AUDIO_INPUT_WEBM_PATH = 'media/input.webm'
 AUDIO_OUTPUT_PATH = 'media/output.wav'
 UPDATE_POST_MESSAGE = "update was successful"
+ERROR_END = "conversation ended unexpectedly"
+ERROR_SHORT = "conversation is too short"
