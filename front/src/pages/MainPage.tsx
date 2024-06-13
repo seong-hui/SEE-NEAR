@@ -4,6 +4,7 @@ import LogoImg2 from "@/assets/images/seenearIcon.svg";
 import LogoImg3 from "@/assets/images/seenearIcon6.svg";
 import { useState } from "react";
 import Chatbot from "@/test";
+import ChatbotDev from "@/testDev";
 import TimeBox from "@/components/TimeBox/TimeBox";
 import ScheduleBox from "@/components/ScheduleBox/ScheduleBox";
 import { useGetRoutine } from "@/api/query/reactQuery";
@@ -41,8 +42,6 @@ const MainPage = () => {
             {isViewActive ? "대화 종료" : "대화 시작"}
           </ContentTitle>}
           <Chatbot
-            // setList={setList}
-            // list={list}
             isChatActive={isChatActive}
             setIsChatActive={setIsChatActive}
             isViewActive={isViewActive}
@@ -52,6 +51,16 @@ const MainPage = () => {
             returnText={returnText}
             setReturnText={setReturnText}
           />
+          {/* <ChatbotDev
+            isChatActive={isChatActive}
+            setIsChatActive={setIsChatActive}
+            isViewActive={isViewActive}
+            setIsViewActive={setIsViewActive}
+            isRecording={isRecording}
+            setIsRecording={setIsRecording}
+            returnText={returnText}
+            setReturnText={setReturnText}
+          /> */}
         </ContentBoxStyled>
         {!isViewActive && <ScheduleBox 
           setIsChatActive={setIsChatActive} 
