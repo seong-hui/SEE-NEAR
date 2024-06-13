@@ -43,11 +43,8 @@ def update_post(request, pk):
             post.delete()
             raise FileNotFoundError()
         keyword = keyword_extraction()
-        print(keyword)
         emotion = emotion_classification(AUDIO_INPUT_WAV_PATH)
-        print(emotion)
         content = conversation_summary()
-        print(content)
         os.remove(TEXT_PATH)
         os.remove(AUDIO_INPUT_WAV_PATH)
         os.remove(AUDIO_INPUT_WEBM_PATH)
@@ -58,7 +55,6 @@ def update_post(request, pk):
             "emotion": emotion,
             "keyword": keyword
         }
-        print(data)
         
         postSerializer.update(post=post, data=data)
         reportSerializer = DayReportSerializer()
@@ -130,6 +126,13 @@ def createResponseData(option, id, values):
             value = values[i]
             data[key] = value
     return data
+
+def createResponseKeywords(keywords):
+    data = []
+    counter = Counter(keywords.split()).most_common(3)
+    for i in range(3):
+        data.append({"id": i, "keyword": counter[i][0]})
+    return data
     
 @api_view(["GET"])
 @authentication_classes([TokenAuthentication])
@@ -137,6 +140,7 @@ def createResponseData(option, id, values):
 def get_week(request, start):
     try:
         counts_data, means_data, variances_data = [], [], []
+        keywords = ""
         for i in range(7):
             date = start + datetime.timedelta(days=i)
             posts = Post.objects.filter(Q(family_id=request.user.family_id) & Q(date=date))
@@ -144,6 +148,7 @@ def get_week(request, start):
                 report = DayReport.objects.get(family_id=request.user.family_id, date=date)
                 count_data = createResponseData("count", i + 1, [report.emotion_0_count, report.emotion_1_count, report.emotion_2_count, report.emotion_3_count])
                 mean_data = createResponseData("mean", i + 1, [report.emotion_0_mean, report.emotion_1_mean, report.emotion_2_mean, report.emotion_3_mean])
+                keywords += report.keywords
                 deviation = [0, 0, 0, 0]
                 for post in posts:
                     deviation[0] += (post.emotion_0 - report.emotion_0_mean) ** 2
@@ -159,7 +164,8 @@ def get_week(request, start):
             counts_data.append(count_data)
             means_data.append(mean_data)
             variances_data.append(variance_data)
-            response_data = {"counts": counts_data, "averages": means_data, "variances": variances_data}
+            keywords_data = createResponseKeywords(keywords)
+            response_data = {"keywords": keywords_data, "counts": counts_data, "averages": means_data, "variances": variances_data}
         return Response(response_data, status=status.HTTP_200_OK)
     except Exception as e:
         response_data = {'error': str(e)}
@@ -177,13 +183,14 @@ def create_dummy_data(request, date):
         for day in range(1, days + 1):
             temp_date = f"{date.year}-{date.month}-{day}"
             report = reportSerializer.get_or_create(family=request.user.family_id, date=temp_date)
-            for i in range(3):
-                random_numbers = np.random.dirichlet(np.ones(4), size=1)
-                random_keywords = np.random.choice(keywords, 3, replace=False)
+            random_number = np.random.randint(3, 7)
+            for i in range(random_number):
+                random_emotion = np.random.dirichlet(np.ones(4), size=1)
+                random_keyword = np.random.choice(keywords, 3, replace=False)
                 data = {
                     "date": temp_date,
-                    "emotion": random_numbers,
-                    "keyword": [(random_keywords[0], ), (random_keywords[1], ), (random_keywords[2], )],
+                    "emotion": random_emotion,
+                    "keyword": [(random_keyword[0], ), (random_keyword[1], ), (random_keyword[2], )],
                     "content": "content",
                 }
                 post = postSerializer.createDummy(request.user.family_id, data)
