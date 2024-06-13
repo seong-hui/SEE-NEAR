@@ -11,7 +11,6 @@ from rest_framework.permissions import IsAuthenticated
 from django.http import FileResponse
 from .models import Post, DayReport
 from .serializers import PostSerializer, DayReportSerializer
-
 from .functions.keyword_extraction import *
 from .functions.emotion_classification import *
 from .functions.conversation_summary import *
@@ -43,12 +42,9 @@ def update_post(request, pk):
         if not os.path.exists(AUDIO_INPUT_WAV_PATH):
             post.delete()
             raise FileNotFoundError(ERROR_END)
-        keyword = keyword_extraction()
-        print(keyword)
+        keyword = " ".join([k for k, _ in keyword_extraction()])
         emotion = emotion_classification(AUDIO_INPUT_WAV_PATH)
-        print(emotion)
         content = conversation_summary()
-        print(content)
         os.remove(TEXT_PATH)
         os.remove(AUDIO_INPUT_WAV_PATH)
         os.remove(AUDIO_INPUT_WEBM_PATH)
@@ -56,12 +52,7 @@ def update_post(request, pk):
         if not content or not keyword:
             post.delete()
             raise FileNotFoundError(ERROR_SHORT)
-        data = {
-            "content": content,
-            "emotion": emotion,
-            "keyword": keyword
-        }
-        print(data)
+        data = { "content": content, "emotion": emotion, "keyword": keyword }
         
         postSerializer.update(post=post, data=data)
         reportSerializer = DayReportSerializer()
@@ -122,9 +113,8 @@ def get_reports(request, date):
         response_data = {'error': str(e)}
         return Response(response_data, status=status.HTTP_400_BAD_REQUEST)
     
-def createResponseData(option, id, values):
-    data = {}
-    data["id"] = id
+def createResponseData(option: str, id: int, values: list):
+    data = {"id": id}
     if option == "variance":
         data["variance"] = values
     elif option == "count" or option == "mean":
@@ -132,9 +122,10 @@ def createResponseData(option, id, values):
             key = f"emotion_{i}_{option}"
             value = values[i]
             data[key] = value
+
     return data
 
-def createResponseKeywords(keywords):
+def createResponseKeywords(keywords: str):
     data = []
     counter = Counter(keywords.split()).most_common(3)
     for i in range(3):
@@ -186,18 +177,20 @@ def create_dummy_datas(request, date):
         _, days = calendar.monthrange(date.year, date.month)
         postSerializer = PostSerializer()
         reportSerializer = DayReportSerializer()
-        keywords = request.data["keyword"].split(" ")
+        keywords = DUMMY_KEYWORD.split(" ")
         for day in range(1, days + 1):
             temp_date = f"{date.year}-{date.month}-{day}"
             report = reportSerializer.get_or_create(family=request.user.family_id, date=temp_date)
-            for i in range(3):
-                random_numbers = np.random.dirichlet(np.ones(4), size=1)
-                random_keywords = np.random.choice(keywords, 3, replace=False)
+            random_number = np.random.randint(3, 7)
+            for i in range(random_number):
+                emotion = np.random.dirichlet(np.ones(4), size=1)
+                keyword = " ".join(np.random.choice(keywords, 3, replace=False))
+                content = DUMMY_CONTENT.format(*[k for k in keyword.split()])
                 data = {
                     "date": temp_date,
-                    "emotion": random_numbers,
-                    "keyword": [(random_keywords[0], ), (random_keywords[1], ), (random_keywords[2], )],
-                    "content": "content",
+                    "emotion": emotion,
+                    "keyword": keyword,
+                    "content": content,
                 }
                 post = postSerializer.createDummy(request.user.family_id, data)
                 report = reportSerializer.update(report=report, data=data, post=post)
@@ -214,14 +207,15 @@ def create_dummy_data(request, date):
     try:
         postSerializer = PostSerializer()
         reportSerializer = DayReportSerializer()
-        keyword = [[k] for k in request.data.get("keyword", "키워드").split(" ")]
+        emotion = np.random.dirichlet(np.ones(4), size=1)
+        keyword = " ".join(np.random.choice(DUMMY_KEYWORD.split(), 3, replace=False))
+        content = DUMMY_CONTENT.format(*[k for k in keyword.split()])
         report = reportSerializer.get_or_create(family=request.user.family_id, date=date)
-        random_numbers = np.random.dirichlet(np.ones(4), size=1)
         data = {
             "date": date,
-            "emotion": random_numbers,
+            "emotion": emotion,
             "keyword": keyword,
-            "content": request.data.get("content", "기본 요약")
+            "content": content
         }
         post = postSerializer.createDummy(request.user.family_id, data)
         report = reportSerializer.update(report=report, data=data, post=post)
