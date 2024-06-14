@@ -1,7 +1,7 @@
 import CalendarFunc from "@/components/Calendar/CalenderFunc";
 import { formatDateToYYYYMM } from "@/utils/formatDateUtils";
 import { useState } from "react";
-import { useGeEmotions } from "@/api/query/reactQuery";
+import { useGetEmotions } from "@/api/query/reactQuery";
 
 interface CalendarFuncContainerProps {
   selectedDate: Date;
@@ -19,7 +19,7 @@ const CalendarFuncContainer = ({
     setActiveMonth(formatDateToYYYYMM(startDate));
   };
 
-  const { data: emotionData = [], error, isError } = useGeEmotions(activeMonth);
+  const { data: emotionData = [], error, isError } = useGetEmotions(activeMonth);
   if (isError) {
     console.error(error);
   }

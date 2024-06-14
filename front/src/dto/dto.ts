@@ -1,3 +1,11 @@
+export interface PostDto {
+  id: number;
+}
+
+export interface ChatbotDto {
+  text: string;
+}
+
 export interface EventDto {
   id: number;
   title: string;

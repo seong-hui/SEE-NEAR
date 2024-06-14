@@ -1,4 +1,3 @@
-import os
 import calendar
 import datetime
 from django.db.models import Q
@@ -10,11 +9,8 @@ from rest_framework.permissions import IsAuthenticated
 from django.http import FileResponse
 from .models import Post, DayReport
 from .serializers import PostSerializer, DayReportSerializer
-
-from .functions.keyword_extraction import *
-from .functions.emotion_classification import *
-from .functions.conversation_summary import *
 from .functions.create_wordcloud import *
+from .functions.create_data import *
 from constant.conversation import *
 
 @api_view(["GET"])
@@ -24,10 +20,8 @@ def create_post(request):
     try:
         serializer = PostSerializer()
         post = serializer.create(request.user.family_id)
-
         response_data = {"id": post.id}
         return Response(response_data, status=status.HTTP_201_CREATED)
-    
     except Exception as e:
         response_data = {'error': str(e)}
         return Response(response_data, status=status.HTTP_400_BAD_REQUEST)
@@ -39,29 +33,17 @@ def update_post(request, pk):
     try:
         postSerializer = PostSerializer()
         post = Post.objects.get(pk=pk)
-        if not os.path.exists(AUDIO_INPUT_WAV_PATH):
-            post.delete()
-            raise FileNotFoundError()
-        keyword = keyword_extraction()
-        emotion = emotion_classification(AUDIO_INPUT_WAV_PATH)
-        content = conversation_summary()
-        os.remove(TEXT_PATH)
-        os.remove(AUDIO_INPUT_WAV_PATH)
-        os.remove(AUDIO_INPUT_WEBM_PATH)
-        os.remove(AUDIO_OUTPUT_PATH)
-
-        data = {
-            "content": content,
-            "emotion": emotion,
-            "keyword": keyword
-        }
-        
+        data = createModelData(str(request.user.family_id))
         postSerializer.update(post=post, data=data)
         reportSerializer = DayReportSerializer()
         report = reportSerializer.get_or_create(family=request.user.family_id, date=post.date)
         report = reportSerializer.update(report=report, data=data, post=post)
         response_data = {"message": UPDATE_POST_MESSAGE}
         return Response(response_data, status=status.HTTP_200_OK)
+    except (FileNotFoundError, ValueError) as e:
+        post.delete()
+        response_data = {'error': str(e)}
+        return Response(response_data, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         response_data = {'error': str(e)}
         return Response(response_data, status=status.HTTP_400_BAD_REQUEST)
@@ -115,25 +97,6 @@ def get_reports(request, date):
         response_data = {'error': str(e)}
         return Response(response_data, status=status.HTTP_400_BAD_REQUEST)
     
-def createResponseData(option, id, values):
-    data = {}
-    data["id"] = id
-    if option == "variance":
-        data["variance"] = values
-    elif option == "count" or option == "mean":
-        for i in range(len(values)):
-            key = f"emotion_{i}_{option}"
-            value = values[i]
-            data[key] = value
-    return data
-
-def createResponseKeywords(keywords):
-    data = []
-    counter = Counter(keywords.split()).most_common(3)
-    for i in range(3):
-        data.append({"id": i, "keyword": counter[i][0]})
-    return data
-    
 @api_view(["GET"])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -164,8 +127,8 @@ def get_week(request, start):
             counts_data.append(count_data)
             means_data.append(mean_data)
             variances_data.append(variance_data)
-            keywords_data = createResponseKeywords(keywords)
-            response_data = {"keywords": keywords_data, "counts": counts_data, "averages": means_data, "variances": variances_data}
+        keywords_data = createResponseKeywords(keywords)
+        response_data = {"keywords": keywords_data, "counts": counts_data, "averages": means_data, "variances": variances_data}
         return Response(response_data, status=status.HTTP_200_OK)
     except Exception as e:
         response_data = {'error': str(e)}
@@ -174,27 +137,38 @@ def get_week(request, start):
 @api_view(["POST"])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
-def create_dummy_data(request, date):
+def create_dummy_datas(request, date):
     try:
         _, days = calendar.monthrange(date.year, date.month)
         postSerializer = PostSerializer()
         reportSerializer = DayReportSerializer()
-        keywords = request.data["keyword"].split(" ")
+        keywords = DUMMY_KEYWORD.split(" ")
         for day in range(1, days + 1):
             temp_date = f"{date.year}-{date.month}-{day}"
             report = reportSerializer.get_or_create(family=request.user.family_id, date=temp_date)
             random_number = np.random.randint(3, 7)
             for i in range(random_number):
-                random_emotion = np.random.dirichlet(np.ones(4), size=1)
-                random_keyword = np.random.choice(keywords, 3, replace=False)
-                data = {
-                    "date": temp_date,
-                    "emotion": random_emotion,
-                    "keyword": [(random_keyword[0], ), (random_keyword[1], ), (random_keyword[2], )],
-                    "content": "content",
-                }
-                post = postSerializer.createDummy(request.user.family_id, data)
+                data = createDummyData(temp_date)
+                post = postSerializer.createDummy(family=request.user.family_id, data=data)
                 report = reportSerializer.update(report=report, data=data, post=post)
+        response_data = {"message": UPDATE_POST_MESSAGE}
+        return Response(response_data, status=status.HTTP_200_OK)
+    except Exception as e:
+        response_data = {'error': str(e)}
+        return Response(response_data, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(["POST"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def create_dummy_data(request, date):
+    try:
+        postSerializer = PostSerializer()
+        reportSerializer = DayReportSerializer()
+        report = reportSerializer.get_or_create(family=request.user.family_id, date=date)
+
+        data = createDummyData(date)
+        post = postSerializer.createDummy(family=request.user.family_id, data=data)
+        report = reportSerializer.update(report=report, data=data, post=post)
         response_data = {"message": UPDATE_POST_MESSAGE}
         return Response(response_data, status=status.HTTP_200_OK)
     except Exception as e:

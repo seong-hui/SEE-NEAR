@@ -1,11 +1,13 @@
 from django.urls import path
-from . import views
+from .views import *
 
 urlpatterns = [
-    path('chatbot/', views.chatbot, name='text-chatbot'),
-    path('chataudio/', views.chatbot_audio, name='voice-chatbot'),
-    path('events/', views.events, name='events-chatbot'),
-    # path('endConversation/', views.endConversation, name='endConversation'),
-    # path('startConversation/', views.startConversation, name='startConversation'),
-    # path('getSummary/', views.getSummary, name='getSummary'),
+    path('default', chatbot_default, name='chatbot-default'),
+    path('default/', chatbot_default, name='chatbot-default'),
+
+    path('event', chatbot_event, name='chatbot-events'),
+    path('event/', chatbot_event, name='chatbot-events'),
+
+    path('audio', chatbot_audio, name='chatbot-audio'),
+    path('audio/', chatbot_audio, name='chatbot-audio'),
 ]

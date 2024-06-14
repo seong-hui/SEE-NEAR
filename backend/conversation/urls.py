@@ -30,6 +30,8 @@ urlpatterns = [
     path("week/keyword/<date:start>", get_word_cloud, name="get-word-cloud"),
     path("week/keyword/<date:start>/", get_word_cloud, name="get-word-cloud"),
 
-    path("dummy/<year-month:date>", create_dummy_data),
-    path("dummy/<year-month:date>/", create_dummy_data),
+    path("dummy/<year-month:date>", create_dummy_datas),
+    path("dummy/<year-month:date>/", create_dummy_datas),
+    path("dummy/<date:date>", create_dummy_data),
+    path("dummy/<date:date>/", create_dummy_data),
 ]

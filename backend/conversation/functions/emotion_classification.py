@@ -12,8 +12,5 @@ def emotion_classification(input_path):
     mfccs = mfccs.T
     data = tf.keras.preprocessing.sequence.pad_sequences([mfccs], maxlen=MAX_LENGTH, padding='post', truncating='post')
     predicted_probabilities = model.predict(data)
-    # predicted_class = np.argmax(predicted_probabilities)
-    # print("Predicted emotion class:", predicted_class)
-    return predicted_probabilities
 
-# print(emotion_classification('backend/media/input.wav'))
+    return predicted_probabilities

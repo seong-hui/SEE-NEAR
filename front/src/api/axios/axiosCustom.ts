@@ -1,5 +1,7 @@
 import { instance, signupInstance } from "@/api/axios/axiosInstance";
 import {
+  PostDto,
+  ChatbotDto,
   EventDto,
   ConversationDto,
   UsetInfoDto,
@@ -11,17 +13,85 @@ import {
   MemberDto,
 } from "@/dto/dto";
 
+export const axiosPostCreate = async (): Promise<PostDto> => {
+  try {
+    const response = await instance.get<PostDto>("/conv/posts/create");
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const axiosPostUpdate = async (id: number) => {
+  try {
+    const response = await instance.put(`/conv/posts/update/${id}`, {});
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const axiosChatbotDefault = async (
+  text: string,
+  audio: Blob
+): Promise<ChatbotDto> => {
+  try {
+    const formData = new FormData();
+    formData.append("text", text);
+    formData.append("audio", audio);
+    const response = await instance.post<ChatbotDto>(
+      "/chat/default",
+      formData
+    );
+    return response.data
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const axiosChatbotEvent = async (
+  text: string,
+): Promise<ChatbotDto> => {
+  try {
+    const formData = new FormData();
+    formData.append("text", text)
+    const response = await instance.post<ChatbotDto>(
+      "/chat/event",
+      formData
+    );
+    return response.data
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const axiosChatbotAudio = async (): Promise<any> => {
+  try{
+    const response = await instance.get<any>(
+      "/chat/audio", 
+      { responseType: "blob" }
+    )
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export const axiosEventsCreate = async (
   title: string,
   location: string,
   datetime: string
 ): Promise<EventDto> => {
-  const response = await instance.post<EventDto>("/events/create", {
-    title,
-    location,
-    datetime,
-  });
-  return response.data;
+  try {
+    const response = await instance.post<EventDto>("/events/create", {
+      title,
+      location,
+      datetime,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const axiosEventsCheck = async (date: string): Promise<EventDto[]> => {

@@ -4,7 +4,7 @@ import { useGetEvents, useEventsUpdate } from "@/api/query/reactQuery";
 import { formatDate } from "@/utils/formatDateUtils";
 import { extractTime } from "@/utils/extractTime";
 import { EventDto } from "@/dto/dto";
-import { localInstance } from "@/api/axios/axiosInstance";
+import { axiosChatbotAudio, axiosChatbotEvent } from "@/api/axios/axiosCustom";
 
 interface Props {
   setIsChatActive: React.Dispatch<React.SetStateAction<boolean>>;
@@ -25,18 +25,10 @@ const ScheduleBox: React.FC<Props> = ({
   }
   const { mutate: updateEvent } = useEventsUpdate();
   const chatbot = async (todo: EventDto) => {
-    const formData = new FormData();
-    formData.append('text', todo.title + " " + extractTime(todo.datetime));
-    const responseText = await localInstance.post(
-      "http://127.0.0.1:8000/chat/events/",
-      formData
-    );
-    setReturnText(responseText.data.text);
-    const responseAudio = await localInstance.get(
-      "http://127.0.0.1:8000/chat/chataudio",
-      { responseType: "blob" }
-    );
-    setAudioUrl(responseAudio.data);
+    const textData = await axiosChatbotEvent(todo.title + " " + extractTime(todo.datetime))
+    const audioData = await axiosChatbotAudio()
+    setReturnText(textData.text);
+    setAudioUrl(audioData);
   }
 
   useEffect(() => {
@@ -50,11 +42,11 @@ const ScheduleBox: React.FC<Props> = ({
         audioElement.play().then(() => {
           // Playback started successfully
         }).catch((error) => {
-          console.error('Error playing audio:', error);
+          console.error(error);
         });
       });
       audioElement.addEventListener('error', (error) => {
-        console.error('Error loading audio:', error);
+        console.error(error);
       });
       audioElement.addEventListener('ended', () => {
         setTimeout(() => {

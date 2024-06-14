@@ -33,15 +33,16 @@ def get_ai_response(prompt):
     except Exception as e:
         print('error', e)
 
-def text_to_speech(response):
+def text_to_speech(id, response):
     try:
+        audio_output_path = AUDIO_OUTPUT_PATH.format(id)
         response = client.audio.speech.create(
-        model=TTS_MODEL,
-        voice=TTS_VOICE,
-        input=response,
-        speed=TTS_SPEED,
-        response_format = AUDIO_RESPONSE_FORMAT
+            model=TTS_MODEL,
+            voice=TTS_VOICE,
+            input=response,
+            speed=TTS_SPEED,
+            response_format = AUDIO_RESPONSE_FORMAT
         )
-        return response.stream_to_file(AUDIO_OUTPUT_PATH)
+        return response.stream_to_file(audio_output_path)
     except Exception as e:
-        print('error', e)
+        print('error', str(e))

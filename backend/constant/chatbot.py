@@ -9,12 +9,12 @@ TTS_SPEED = 1
 AUDIO_RESPONSE_FORMAT = 'wav'
 
 # views.py constant
-TEXT_PATH = 'media/text.txt'
-AUDIO_INPUT_WAV_PATH = 'media/input.wav'
+TEXT_PATH = 'media/{}_text.txt'
+AUDIO_INPUT_WAV_PATH = 'media/{}_input.wav'
 AUDIO_INPUT_WAV_FORMAT = 'wav'
-AUDIO_INPUT_WEBM_PATH = 'media/input.webm'
+AUDIO_INPUT_WEBM_PATH = 'media/{}_input.webm'
 AUDIO_INPUT_WEBM_FORMAT = 'webm'
-AUDIO_OUTPUT_PATH = 'media/output.wav'
+AUDIO_OUTPUT_PATH = 'media/{}_output.wav'
 ENCODING = 'utf-8'
 FRAME_RATE = 44100
 

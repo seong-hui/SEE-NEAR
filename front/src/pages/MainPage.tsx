@@ -32,11 +32,11 @@ const MainPage = () => {
         <ContentBoxStyled onClick={onClickChatBtn} active={isViewActive}>
           {isViewActive ? (
             isRecording ? (
-              <LogoImgStyled src={LogoImg3} /> // 사용자가 말할때
+              <LogoImgStyled src={LogoImg3} />
             ) : (
-              <LogoImgStyled src={LogoImg1} /> // 챗봇이 말할때
+              <LogoImgStyled src={LogoImg1} />
             )) : (
-            <LogoImgStyled src={LogoImg2} /> // 기본화면
+            <LogoImgStyled src={LogoImg2} />
           )}
           {(!isViewActive || isRecording) && <ContentTitle>
             {isViewActive ? "대화 종료" : "대화 시작"}

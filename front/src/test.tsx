@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
-import { localInstance } from "./api/axios/axiosInstance";
 import styled from "styled-components";
+import { axiosChatbotAudio, axiosChatbotDefault, axiosPostCreate, axiosPostUpdate } from "./api/axios/axiosCustom";
+
 
 interface Props {
   isChatActive: boolean;
@@ -30,7 +31,7 @@ const Chatbot: React.FC<Props> = ({
   const [audioUrl, setAudioUrl] = useState<Blob | null>(null);
   const [return_audioUrl, set_return_AudioUrl] = useState<string>("");
   const [count, setCount] = useState<number>(0);
-  const [timerId, setTimerId] = useState<number | null>(null); // 타이머 아이디를 상태로 관리
+  const [timerId, setTimerId] = useState<number | null>(null);
   const [postId, setPostId] = useState<number | null>(null);
 
   const startRecording = () => {
@@ -43,7 +44,7 @@ const Chatbot: React.FC<Props> = ({
         setCount(0);
         setStream(stream);
         setMediaRecorder(recorder);
-        setAudioUrl(null); // Reset audio URL
+        setAudioUrl(null);
       })
       .catch((error) => {
         console.error(error);
@@ -63,25 +64,20 @@ const Chatbot: React.FC<Props> = ({
   }, [mediaRecorder, stream]);
 
   const startConversation = useCallback(async () => {
-    try {
-      const response = await localInstance.get("http://127.0.0.1:8000/conv/posts/create/");
-      setPostId(response.data.id);
-    } catch (error) {
-      console.error(error);
-    }
+    const data = await axiosPostCreate()
+    setPostId(data.id);
   }, [setPostId]);
 
   const endConversation = useCallback(async () => {
     resetTranscript();
-    if (timerId) { // timerId가 존재할 때만 clearInterval 호출
+    if (timerId) {
       clearInterval(timerId);
     }
     try {
       if (postId){
-        const url = `http://127.0.0.1:8000/conv/posts/update/${postId}`
-        const response = await localInstance.put(url, {});
+        const data = await axiosPostUpdate(postId);
         setPostId(null);
-        console.log(response.data.message);
+        console.log(data.message);
       }
     } catch (error) {
       console.error(error);
@@ -91,20 +87,10 @@ const Chatbot: React.FC<Props> = ({
   const sendMessage = useCallback(async () => {
     try {
       if (audioUrl && transcript && transcript.trim() !== '') {
-        const formData = new FormData();
-        formData.append('text', transcript);
-        formData.append("audio", audioUrl);
-        const responseText = await localInstance.post(
-          "http://127.0.0.1:8000/chat/chatbot/",
-          formData
-        );
-        setReturnText(responseText.data.text);
-        const responseAudio = await localInstance.get(
-          "http://127.0.0.1:8000/chat/chataudio",
-          { responseType: "blob" }
-        );
-        
-        set_return_AudioUrl(responseAudio.data);
+        const textData = await axiosChatbotDefault(transcript, audioUrl);
+        const audioData = await axiosChatbotAudio()
+        setReturnText(textData.text);
+        set_return_AudioUrl(audioData);
         resetTranscript();
       }
     } catch (error) {
@@ -167,11 +153,11 @@ const Chatbot: React.FC<Props> = ({
         audioElement.play().then(() => {
           // Playback started successfully
         }).catch((error) => {
-          console.error('Error playing audio:', error);
+          console.error(error);
         });
       });
       audioElement.addEventListener('error', (error) => {
-        console.error('Error loading audio:', error);
+        console.error(error);
       });
       audioElement.addEventListener('ended', () => {
         setTimeout(() => {

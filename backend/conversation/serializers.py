@@ -26,16 +26,13 @@ class PostSerializer(serializers.ModelSerializer):
         return new_post
     
     def update(self, post, data):
-        post.content = data.get("content", "")
-        post.emotion = np.argmax(data.get("emotion", [[0]]))
-        post.emotion_0 = data.get("emotion", [[0, 0, 0, 0]])[0][0]
-        post.emotion_1 = data.get("emotion", [[0, 0, 0, 0]])[0][1]
-        post.emotion_2 = data.get("emotion", [[0, 0, 0, 0]])[0][2]
-        post.emotion_3 = data.get("emotion", [[0, 0, 0, 0]])[0][3]
-        post_keyword = ""
-        for keyword in data.get("keyword", [("",0)]):
-            post_keyword += keyword[0] + " "
-        post.keyword = post_keyword
+        post.keyword = data["keyword"]
+        post.emotion = np.argmax(data["emotion"])
+        post.emotion_0 = data["emotion"][0][0]
+        post.emotion_1 = data["emotion"][0][1]
+        post.emotion_2 = data["emotion"][0][2]
+        post.emotion_3 = data["emotion"][0][3]
+        post.content = data["emotion"]
         post.save()
         return post
     
@@ -44,13 +41,13 @@ class PostSerializer(serializers.ModelSerializer):
         new_post = Post.objects.create(
             family_id = family,
             date = data["date"],
-            content = data["content"],
-            keyword = data["keyword"][0][0] + " " + data["keyword"][1][0] + " " + data["keyword"][2][0],
+            keyword = data["keyword"],
             emotion = np.argmax(data["emotion"]),
             emotion_0 = data["emotion"][0][0],
             emotion_1 = data["emotion"][0][1],
             emotion_2 = data["emotion"][0][2],
             emotion_3 = data["emotion"][0][3],
+            content = data["content"],
         )
         new_post.save()
         return new_post
@@ -82,7 +79,7 @@ class DayReportSerializer(serializers.ModelSerializer):
         emotion_count = getattr(report, emotion_count_label, 0)
         setattr(report, emotion_count_label, emotion_count + 1)
 
-        emotion = [[0, 0, 0, 0]]
+        emotion = [np.zeros(4)]
         for i in range(EMOTION_COUNT):
             emotion_mean_label = f"emotion_{i}_mean"
             emotion_mean = getattr(report, emotion_mean_label, 0)

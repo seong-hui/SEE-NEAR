@@ -49,7 +49,7 @@ export const useGetConv = (date: string) => {
   return { data, error, isError };
 };
 
-export const useGeEmotions = (date: string) => {
+export const useGetEmotions = (date: string) => {
   const { data, error, isError } = useQuery<EmotionDto[], Error>({
     queryKey: ["emotions", date],
     queryFn: () => axiosGetEmotion(date),
