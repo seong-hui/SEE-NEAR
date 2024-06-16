@@ -107,10 +107,21 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+SQL_ENGINE=env("SQL_ENGINE", default='django.db.backends.sqlite3')
+SQL_NAME=env("SQL_NAME", default=BASE_DIR / 'db.sqlite3')
+SQL_USER=env("SQL_USER", default='')
+SQL_PASSWORD=env("SQL_PASSWORD", default='')
+SQL_HOST=env("SQL_HOST", default='')
+SQL_PORT=env("SQL_PORT", default='')
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': SQL_ENGINE,
+        'NAME': SQL_NAME,
+        'USER': SQL_USER,
+        'PASSWORD': SQL_PASSWORD,
+        'HOST': SQL_HOST,
+        'PORT': SQL_PORT,
     }
 }
 
@@ -154,6 +165,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
