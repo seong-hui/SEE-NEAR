@@ -1,23 +1,27 @@
-# SEE-NEAR
+## STACKS
 
-- 처음 개발 시작
-    1. git pull
-    2. git branch (현재 branch 확인)
-    3. git chechout <branch_name> (branch 이동)
-    4. 
-        - git branch <branch_name> (brach 생성) -> git branch checkout <branch_name> (branch 이동)
-        - git checkout -b <branch_name> (brach 생성 후 이동)
-    - 항상 새로운 branch를 생성 후 작업
+### Cooperation
+![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
+![Notion](https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white)
+![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)
 
-- 개발 완료
-    1. git add . (파일 스테이징)
-    2. git commit -m "commit_message" (파일 커밋)
-    3. git push --set-upstream origin <branch_name> (파일 원격저장소로 올림, 현재 branch로)
-    4. 
-        - 개발 완료 (github)
-            1. pull request
-            2. 피드백 받고
-            3. merge
-        - 개발 완료 (local)
-            1. git checkout dev (dev branch로 이동)
-            2. git branch -d <branch_name> (생성한 브랜치 삭제)
+### AI
+![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-%23FF6F00.svg?style=for-the-badge&logo=TensorFlow&logoColor=white)
+![ChatGPT](https://img.shields.io/badge/chatGPT-74aa9c?style=for-the-badge&logo=openai&logoColor=white)
+![Google Cloud](https://img.shields.io/badge/GoogleCloud-%234285F4.svg?style=for-the-badge&logo=google-cloud&logoColor=white)
+![Kaggle](https://img.shields.io/badge/Kaggle-035a7d?style=for-the-badge&logo=kaggle&logoColor=white)
+
+### Development
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white)
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+
+### Database
+![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white)
+![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)
+
+### Production
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
