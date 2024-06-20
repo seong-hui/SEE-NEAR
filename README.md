@@ -41,6 +41,10 @@
 
 <br />
 
+## 📹 구현 발표 영상
+[프로젝트 최종 발표 영상](https://drive.google.com/file/d/1lDpCUjImZpxmMrGk8ejNC_iPXsVHGbJf/view?usp=sharing)
+
+<br />
 
 ## 💙 구현 페이지
 ### 🧓🏻 시니어 메인 페이지
