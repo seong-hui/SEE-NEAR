@@ -42,7 +42,6 @@
 <br />
 
 
-
 ## 💙 구현 페이지
 ### 🧓🏻 시니어 메인 페이지
 
@@ -54,20 +53,20 @@
 
 ### 👪 가족 메인 페이지
 
-| <img width="400" height="255" alt="image" src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/f30bf5f0-9c11-4749-8af5-1fbbaf4fc6aa"> | <img width="400" height="255" alt="image" src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/ae8a6ff3-86fe-497a-8c03-777e53a6f3c8"> | 
+| <img width="400" height="255" alt="image" src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/f30bf5f0-9c11-4749-8af5-1fbbaf4fc6aa"> | <img width="400" height="255" alt="image" src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/139edbc5-7718-47b4-b8d4-5b71993474d1"> | 
 | :---: | :---: |
 
 
 ### 👪 가족 주간 분석 페이지
 
-| <img width="400" height="255" alt="image" src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/17ee4c0c-8168-41ce-8ede-ed36fc797674"> | |
+| <img width="400" height="255" alt="image" src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/17ee4c0c-8168-41ce-8ede-ed36fc797674"> | <img width="400" height="255" alt="image" src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/1a5f58ea-4ae2-44c1-90a8-fcb434abdc52"> |
 | :---: | :---: |
 
 
 
 ### 👪 가족 설정 페이지
 
-| <img width="400" height="255" alt="image" src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/b924d26c-ef64-4c90-bb9f-b465b7b902c4"> | <img width="400" height="255"  alt="image" src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/081a201d-d261-46b5-916c-c62a5898988d"> | 
+| <img width="400" height="255" alt="image" src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/b924d26c-ef64-4c90-bb9f-b465b7b902c4"> | <img width="400" height="255"  alt="image" src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/7eb31d82-a9db-4a86-8d1f-7da1a2507470"> | 
 | :---: | :---: |
 
 <br/>
