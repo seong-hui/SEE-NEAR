@@ -142,21 +142,21 @@
         </td>
         <td style="min-width: 150px;">
             <a href="https://github.com/JaeSeung-Park">
-              <img src="" width="200" height="150" style="object-fit :cover">
+              <img src="https://avatars.githubusercontent.com/u/114247033?v=4" width="200" height="150" style="object-fit :cover">
               <br />
               <b>박재승</b>
             </a>
         </td>
         <td style="min-width: 150px;" background-color="white">
             <a href="https://github.com/DAEUNLEEDA">
-              <img src="" width="200" height="150" style="object-fit :cover">
+              <img src="https://avatars.githubusercontent.com/u/106970883?v=4" width="200" height="150" style="object-fit :cover">
               <br />
               <b>이다은</b>
             </a> 
         </td>
         <td style="min-width: 150px;">
             <a href="https://github.com/sejongmin">
-              <img src="" width="200" height="150" style="object-fit :cover">
+              <img src="https://avatars.githubusercontent.com/u/113002267?v=4" width="200" height="150" style="object-fit :cover">
               <br />
               <b>오종민</b>
             </a>
