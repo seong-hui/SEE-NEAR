@@ -45,29 +45,87 @@
 ## 💙 구현 페이지
 ### 🧓🏻 시니어 메인 페이지
 
-|  <img width="400" height="255" alt="image" src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/47c22d79-c47b-4cca-a2ef-dc27494145dc"> | <img width="400" height="255" alt="image" src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/29673b4f-c6f4-4faa-b0a2-52f2959583ec"> | 
-| :---: | :---: |
-
-
-
+<table align="center">
+    <tr align="center"> 
+        <td width="450">
+           <img alt="image"  src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/47c22d79-c47b-4cca-a2ef-dc27494145dc"  width="400" height="255" >
+        </td>
+        <td width="450">
+           <img alt="image"  src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/29673b4f-c6f4-4faa-b0a2-52f2959583ec"  width="400" height="255" >
+        </td>
+    </tr>
+    <tr align="center">
+        <td width="450">
+            챗봇은 대화 시작 버튼, 설정된 루틴, 오늘의 일정 확인이라는 3가지 상황에 따라 실행됩니다.
+        </td>
+        <td width="450">
+          간단한 UI를 통해 시니어의 접근성을 높이고자 하였습니다.
+      </td>
+    </tr>
+</table>
 
 ### 👪 가족 메인 페이지
 
-| <img width="400" height="255" alt="image" src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/f30bf5f0-9c11-4749-8af5-1fbbaf4fc6aa"> | <img width="400" height="255" alt="image" src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/139edbc5-7718-47b4-b8d4-5b71993474d1"> | 
-| :---: | :---: |
-
+<table align="center">
+    <tr align="center"> 
+        <td width="450">
+           <img alt="image"  src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/f30bf5f0-9c11-4749-8af5-1fbbaf4fc6aa"  width="400" height="255" >
+        </td>
+        <td width="450">
+           <img alt="image"  src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/139edbc5-7718-47b4-b8d4-5b71993474d1"  width="400" height="255" >
+        </td>
+    </tr>
+    <tr align="center">
+        <td width="450">
+            감정 달력을 통해 한눈에 시니어의 상태를 파악할 수 있습니다.
+        </td>
+        <td width="450">
+          시니어의 하루 일정을 설정하고, 매일 대화 키워드 추출 및 요약 확인이 가능합니다. 
+      </td>
+    </tr>
+</table>
 
 ### 👪 가족 주간 분석 페이지
 
-| <img width="400" height="255" alt="image" src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/17ee4c0c-8168-41ce-8ede-ed36fc797674"> | <img width="400" height="255" alt="image" src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/1a5f58ea-4ae2-44c1-90a8-fcb434abdc52"> |
-| :---: | :---: |
-
-
+<table align="center">
+    <tr align="center"> 
+        <td width="450">
+           <img alt="image"  src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/17ee4c0c-8168-41ce-8ede-ed36fc797674"  width="400" height="255" >
+        </td>
+        <td width="450">
+           <img alt="image"  src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/1a5f58ea-4ae2-44c1-90a8-fcb434abdc52"  width="400" height="255" >
+        </td>
+    </tr>
+    <tr align="center">
+        <td width="450">
+            주간 상위 3개의 키워드, 누적 감정 개수, 감정별 평균 추이, 감정 분산 기록을 확인할 수 있습니다.
+        </td>
+        <td width="450">
+          주간으로 요약되는 분석을 통해 시니어의 상태, 감정의 변화를 쉽게 파악하고자 하였습니다.
+      </td>
+    </tr>
+</table>
 
 ### 👪 가족 설정 페이지
 
-| <img width="400" height="255" alt="image" src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/b924d26c-ef64-4c90-bb9f-b465b7b902c4"> | <img width="400" height="255"  alt="image" src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/7eb31d82-a9db-4a86-8d1f-7da1a2507470"> | 
-| :---: | :---: |
+<table align="center">
+    <tr align="center"> 
+        <td width="450">
+           <img alt="image"  src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/b924d26c-ef64-4c90-bb9f-b465b7b902c4"  width="400" height="255" >
+        </td>
+        <td width="450">
+           <img alt="image"  src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/7eb31d82-a9db-4a86-8d1f-7da1a2507470"  width="400" height="255" >
+        </td>
+    </tr>
+    <tr align="center">
+        <td width="450">
+            시니어의 정보, 하루 루틴 대화 변경이 가능하고, 가족 구성원을 확인할 수 있습니다.
+        </td>
+        <td width="450">
+          변경된 시니어의 정보, 대화 루틴에 맞게 말동무 챗봇이 실행됩니다.
+      </td>
+    </tr>
+</table>
 
 <br/>
 
@@ -118,6 +176,4 @@
             BE Developer
         </td>
     </tr>
-
 </table>
-
