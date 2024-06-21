@@ -49,6 +49,7 @@
 ## 💙 구현 페이지
 ### 🧓🏻 시니어 메인 페이지
 
+
 <table align="center">
     <tr align="center"> 
         <td width="450">
@@ -76,7 +77,7 @@
            <img alt="image"  src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/f30bf5f0-9c11-4749-8af5-1fbbaf4fc6aa"  width="400" height="255" >
         </td>
         <td width="450">
-           <img alt="image"  src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/139edbc5-7718-47b4-b8d4-5b71993474d1"  width="400" height="255" >
+           <img alt="image"  src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/b40e8f54-8318-4335-a031-c1852b0af8ff"  width="400" height="255" >
         </td>
     </tr>
     <tr align="center">
@@ -97,7 +98,7 @@
            <img alt="image"  src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/17ee4c0c-8168-41ce-8ede-ed36fc797674"  width="400" height="255" >
         </td>
         <td width="450">
-           <img alt="image"  src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/1a5f58ea-4ae2-44c1-90a8-fcb434abdc52"  width="400" height="255" >
+           <img alt="image"  src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/8ad18a28-7f11-4e51-be5d-ebc0da5f98b1"  width="400" height="255" >
         </td>
     </tr>
     <tr align="center">
@@ -118,7 +119,7 @@
            <img alt="image"  src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/b924d26c-ef64-4c90-bb9f-b465b7b902c4"  width="400" height="255" >
         </td>
         <td width="450">
-           <img alt="image"  src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/7eb31d82-a9db-4a86-8d1f-7da1a2507470"  width="400" height="255" >
+           <img alt="image"  src="https://github.com/seong-hui/SEE-NEAR/assets/52481403/8421acd3-4cee-4feb-a8f5-e27f3bb2cccc"  width="400" height="255" >
         </td>
     </tr>
     <tr align="center">
