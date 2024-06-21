@@ -160,7 +160,7 @@
         </td>
         <td style="min-width: 150px;">
             <a href="https://github.com/sejongmin">
-              <img src="https://avatars.githubusercontent.com/u/113002267?v=4" width="200" height="150" style="object-fit :cover">
+              <img src="https://github.com/seong-hui/SEE-NEAR/assets/113002267/69a51af4-a894-473a-99b5-54cf2355be3a" width="200" height="150" style="object-fit :cover">
               <br />
               <b>오종민</b>
             </a>
@@ -181,3 +181,4 @@
         </td>
     </tr>
 </table>
+
